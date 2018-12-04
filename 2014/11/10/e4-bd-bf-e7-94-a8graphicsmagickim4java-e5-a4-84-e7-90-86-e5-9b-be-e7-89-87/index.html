@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next mist use-motion" lang="">
+<html class="theme-next mist use-motion" lang="zh-CN">
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -86,10 +86,10 @@
 <meta property="og:url" content="http://yoursite.com/2014/11/10/e4-bd-bf-e7-94-a8graphicsmagickim4java-e5-a4-84-e7-90-86-e5-9b-be-e7-89-87/index.html">
 <meta property="og:site_name" content="magicwt的博客">
 <meta property="og:description" content="GraphicsMagick(http://www.graphicsmagick.org/)被称为图片处理的瑞士军刀，它的功能包括：  Convert an image from one format to another (e.g. TIFF to JPEG) Resize, rotate, sharpen, color reduce, or add special effects to an">
-<meta property="og:locale" content="default">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/11/old-300x200.png">
 <meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/11/new.jpg">
-<meta property="og:updated_time" content="2018-12-04T10:47:42.321Z">
+<meta property="og:updated_time" content="2018-12-04T12:38:18.362Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用GraphicsMagick+im4java处理图片">
 <meta name="twitter:description" content="GraphicsMagick(http://www.graphicsmagick.org/)被称为图片处理的瑞士军刀，它的功能包括：  Convert an image from one format to another (e.g. TIFF to JPEG) Resize, rotate, sharpen, color reduce, or add special effects to an">
@@ -141,7 +141,7 @@
 
 </head>
 
-<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
 
   
   
@@ -356,13 +356,33 @@
 <li>Create a composite image by combining several separate images</li>
 <li>Draw shapes or text on an image</li>
 <li>Decorate an image with a border or frame</li>
-<li>Describe the format and characteristics of an image</li>
+<li>Describe the format and characteristics of an image<a id="more"></a>
+<h2 id="Linux下安装GraphicsMagick"><a href="#Linux下安装GraphicsMagick" class="headerlink" title="Linux下安装GraphicsMagick"></a>Linux下安装GraphicsMagick</h2></li>
 </ul>
-<h2 id="Linux下安装GraphicsMagick"><a href="#Linux下安装GraphicsMagick" class="headerlink" title="Linux下安装GraphicsMagick"></a>Linux下安装GraphicsMagick</h2><p>1）安装libpng(<a href="http://libmng.com/pub/png/libpng.html)：" target="_blank" rel="noopener">http://libmng.com/pub/png/libpng.html)：</a><br>[blockquote]tar -zxvf libpng-1.6.14.tar.gz<br>cd libpng-1.6.14<br>./configure<br>make<br>make install[/blockquote]<br>2）安装jpeg-9a(<a href="http://www.ijg.org/)" target="_blank" rel="noopener">http://www.ijg.org/)</a>:<br>[blockquote]tar -zxvf jpegsrc.v9a.tar.gz<br>cd jpeg-9a<br>./configure<br>make<br>make install[/blockquote]<br>3）安装GraphicsMagick：<br>[blockquote]tar -zxvf GraphicsMagick-1.3.20.tar.gz<br>cd GraphicsMagick-1.3.20<br>./configure<br>make<br>make install[/blockquote]</p>
-<h2 id="使用GraphicsMagick"><a href="#使用GraphicsMagick" class="headerlink" title="使用GraphicsMagick"></a>使用GraphicsMagick</h2><p>输入gm可以得到该命令的使用说明，例如对以下490<em>326的图片先缩放到原来的50%至245</em>164再居中裁剪出164<em>164的正方形图片的命令是：<br>[blockquote]gm convert -quality 100 -resize 245x164 -crop 164x164+40+0 +profile “</em>“ old.jpg new.jpg[/blockquote]<br>其中，“-quality 100”表示图片质量，“-resize 245x164”表示将图片尺寸调整至245<em>164，“-crop 164x164+40+0”表示从坐标（40，0）开始裁剪出164</em>164的图片，+profile “*”表示不保留exif信息。</p>
-<p><a href="http://magicwt.com/wp-content/uploads/2015/11/old.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/11/old-300x200.png" alt="old"></a><br>old.jpg<br><a href="http://magicwt.com/wp-content/uploads/2015/11/new.jpg" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/11/new.jpg" alt="new"></a><br>new.jpg</p>
-<h2 id="在Java中处理图片"><a href="#在Java中处理图片" class="headerlink" title="在Java中处理图片"></a>在Java中处理图片</h2><p>在Java中可以通过im4java调用gm命令处理图片，上述对图片进行缩放再裁剪的操作在Java中可以通过以下代码实现：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">IMOperation op = new IMOperation();</span><br><span class="line">op.quality(100d);</span><br><span class="line">op.resize(245, 164);</span><br><span class="line">op.crop(164, 164, 40, 0);</span><br><span class="line">op.p_profile(&quot;*&quot;);</span><br><span class="line">op.addImage(&quot;old.jpg&quot;);</span><br><span class="line">op.addImage(&quot;new.jpg&quot;);     </span><br><span class="line">ConvertCmd convert = new ConvertCmd(true);</span><br><span class="line">convert.run(op);</span><br></pre></td></tr></table></figure>
+<ol>
+<li><p>安装libpng(<a href="http://libmng.com/pub/png/libpng.html)：" target="_blank" rel="noopener">http://libmng.com/pub/png/libpng.html)：</a></p>
+<blockquote>
+<p>tar -zxvf libpng-1.6.14.tar.gz<br>cd libpng-1.6.14<br>./configure<br>make<br>make install</p>
+</blockquote>
+</li>
+<li><p>安装jpeg-9a(<a href="http://www.ijg.org/)" target="_blank" rel="noopener">http://www.ijg.org/)</a>:</p>
+<blockquote>
+<p>tar -zxvf jpegsrc.v9a.tar.gz<br>cd jpeg-9a<br>./configure<br>make<br>make install</p>
+</blockquote>
+</li>
+<li><p>安装GraphicsMagick：</p>
+<blockquote>
+<p>tar -zxvf GraphicsMagick-1.3.20.tar.gz<br>cd GraphicsMagick-1.3.20<br>./configure<br>make<br>make install</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="使用GraphicsMagick"><a href="#使用GraphicsMagick" class="headerlink" title="使用GraphicsMagick"></a>使用GraphicsMagick</h2><p>输入gm可以得到该命令的使用说明，例如对以下490<em>326的图片先缩放到原来的50%至245</em>164再居中裁剪出164*164的正方形图片的命令是：</p>
+<blockquote>
+<p>gm convert -quality 100 -resize 245x164 -crop 164x164+40+0 +profile “*” old.jpg new.jpg</p>
+</blockquote>
+<p>其中，“-quality 100”表示图片质量，“-resize 245x164”表示将图片尺寸调整至245*164，“-crop 164x164+40+0”表示从坐标（40，0）开始裁剪出164*164的图片，+profile “*“表示不保留exif信息。<br><a href="http://magicwt.com/wp-content/uploads/2015/11/old.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/11/old-300x200.png" alt="old.jpg"></a><br><a href="http://magicwt.com/wp-content/uploads/2015/11/new.jpg" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/11/new.jpg" alt="new.jpg"></a></p>
+<h2 id="在Java中处理图片"><a href="#在Java中处理图片" class="headerlink" title="在Java中处理图片"></a>在Java中处理图片</h2><p>在Java中可以通过im4java调用gm命令处理图片，上述对图片进行缩放再裁剪的操作在Java中可以通过以下代码实现：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">IMOperation op = <span class="keyword">new</span> IMOperation();</span><br><span class="line">op.quality(<span class="number">100</span>d);</span><br><span class="line">op.resize(<span class="number">245</span>, <span class="number">164</span>);</span><br><span class="line">op.crop(<span class="number">164</span>, <span class="number">164</span>, <span class="number">40</span>, <span class="number">0</span>);</span><br><span class="line">op.p_profile(<span class="string">"*"</span>);</span><br><span class="line">op.addImage(<span class="string">"old.jpg"</span>);</span><br><span class="line">op.addImage(<span class="string">"new.jpg"</span>);     </span><br><span class="line">ConvertCmd convert = <span class="keyword">new</span> ConvertCmd(<span class="keyword">true</span>);</span><br><span class="line">convert.run(op);</span><br></pre></td></tr></table></figure></p>
+
       
     </div>
     
@@ -483,7 +503,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">90</span>
+                  <span class="site-state-item-count">89</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -554,7 +574,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux下安装GraphicsMagick"><span class="nav-number">1.</span> <span class="nav-text">Linux下安装GraphicsMagick</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用GraphicsMagick"><span class="nav-number">2.</span> <span class="nav-text">使用GraphicsMagick</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在Java中处理图片"><span class="nav-number">3.</span> <span class="nav-text">在Java中处理图片</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux下安装GraphicsMagick"><span class="nav-number">1.</span> <span class="nav-text">Linux下安装GraphicsMagick</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用GraphicsMagick"><span class="nav-number">2.</span> <span class="nav-text">使用GraphicsMagick</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在Java中处理图片"><span class="nav-number">3.</span> <span class="nav-text">在Java中处理图片</span></a></li></ol></div>
             
 
           </div>

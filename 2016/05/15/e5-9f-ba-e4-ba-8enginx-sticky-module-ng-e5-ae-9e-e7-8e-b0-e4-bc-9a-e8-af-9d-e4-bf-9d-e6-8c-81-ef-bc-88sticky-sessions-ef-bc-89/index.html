@@ -5,11 +5,11 @@
   
 
 
-<html class="theme-next mist use-motion" lang="">
-<head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="theme-color" content="#222">
 
 
@@ -20,8 +20,8 @@
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
 
 
 
@@ -40,7 +40,7 @@
 
   
   
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
 
 
 
@@ -48,9 +48,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
 
-<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Nginx," />
+  <meta name="keywords" content="Nginx,">
 
 
 
@@ -79,23 +79,23 @@
 
 
 
-<meta name="description" content="对服务进行集群部署，前端进行负载均衡时，需要实现会话保持，对于同一会话的多个请求，通过集群中的一个节点来提供服务。系统的部署结构如图所示，通过Resin部署Web应用提供服务，通过Nginx进行负载均衡。基于nginx-sticky-module-ng实现会话保持。 安装Nginx已安装（版本为1.7.9），此处介绍如何添加nginx-sticky-module-ng。1）从https://bit">
+<meta name="description" content="对服务进行集群部署，前端进行负载均衡时，需要实现会话保持，对于同一会话的多个请求，通过集群中的一个节点来提供服务。系统的部署结构如图所示，通过Resin部署Web应用提供服务，通过Nginx进行负载均衡。基于nginx-sticky-module-ng实现会话保持。">
 <meta name="keywords" content="Nginx">
 <meta property="og:type" content="article">
 <meta property="og:title" content="基于nginx-sticky-module-ng实现会话保持（Sticky Sessions）">
 <meta property="og:url" content="http://yoursite.com/2016/05/15/e5-9f-ba-e4-ba-8enginx-sticky-module-ng-e5-ae-9e-e7-8e-b0-e4-bc-9a-e8-af-9d-e4-bf-9d-e6-8c-81-ef-bc-88sticky-sessions-ef-bc-89/index.html">
 <meta property="og:site_name" content="magicwt的博客">
-<meta property="og:description" content="对服务进行集群部署，前端进行负载均衡时，需要实现会话保持，对于同一会话的多个请求，通过集群中的一个节点来提供服务。系统的部署结构如图所示，通过Resin部署Web应用提供服务，通过Nginx进行负载均衡。基于nginx-sticky-module-ng实现会话保持。 安装Nginx已安装（版本为1.7.9），此处介绍如何添加nginx-sticky-module-ng。1）从https://bit">
-<meta property="og:locale" content="default">
+<meta property="og:description" content="对服务进行集群部署，前端进行负载均衡时，需要实现会话保持，对于同一会话的多个请求，通过集群中的一个节点来提供服务。系统的部署结构如图所示，通过Resin部署Web应用提供服务，通过Nginx进行负载均衡。基于nginx-sticky-module-ng实现会话保持。">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://magicwt.com/wp-content/uploads/2016/05/未命名.png">
 <meta property="og:image" content="http://magicwt.com/wp-content/uploads/2016/05/1-300x142.png">
 <meta property="og:image" content="http://magicwt.com/wp-content/uploads/2016/05/2-300x142.png">
 <meta property="og:image" content="http://magicwt.com/wp-content/uploads/2016/05/1-300x142.png">
 <meta property="og:image" content="http://magicwt.com/wp-content/uploads/2016/05/2-300x142.png">
-<meta property="og:updated_time" content="2018-12-04T10:47:42.327Z">
+<meta property="og:updated_time" content="2018-12-04T13:02:38.898Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于nginx-sticky-module-ng实现会话保持（Sticky Sessions）">
-<meta name="twitter:description" content="对服务进行集群部署，前端进行负载均衡时，需要实现会话保持，对于同一会话的多个请求，通过集群中的一个节点来提供服务。系统的部署结构如图所示，通过Resin部署Web应用提供服务，通过Nginx进行负载均衡。基于nginx-sticky-module-ng实现会话保持。 安装Nginx已安装（版本为1.7.9），此处介绍如何添加nginx-sticky-module-ng。1）从https://bit">
+<meta name="twitter:description" content="对服务进行集群部署，前端进行负载均衡时，需要实现会话保持，对于同一会话的多个请求，通过集群中的一个节点来提供服务。系统的部署结构如图所示，通过Resin部署Web应用提供服务，通过Nginx进行负载均衡。基于nginx-sticky-module-ng实现会话保持。">
 <meta name="twitter:image" content="http://magicwt.com/wp-content/uploads/2016/05/未命名.png">
 
 
@@ -126,7 +126,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/05/15/e5-9f-ba-e4-ba-8enginx-sticky-module-ng-e5-ae-9e-e7-8e-b0-e4-bc-9a-e8-af-9d-e4-bf-9d-e6-8c-81-ef-bc-88sticky-sessions-ef-bc-89/"/>
+  <link rel="canonical" href="http://yoursite.com/2016/05/15/e5-9f-ba-e4-ba-8enginx-sticky-module-ng-e5-ae-9e-e7-8e-b0-e4-bc-9a-e8-af-9d-e4-bf-9d-e6-8c-81-ef-bc-88sticky-sessions-ef-bc-89/">
 
 
 
@@ -144,7 +144,7 @@
 
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
 
   
   
@@ -154,13 +154,13 @@
   <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta ">
     
 
     <div class="custom-logo-site-title">
-      <a href="/"  class="brand" rel="start">
+      <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
         <span class="site-title">magicwt的博客</span>
         <span class="logo-line-after"><i></i></span>
@@ -190,7 +190,7 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
             
             Home
           </a>
@@ -200,7 +200,7 @@
         <li class="menu-item menu-item-tags">
           <a href="/tags/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
             
             Tags
           </a>
@@ -210,7 +210,7 @@
         <li class="menu-item menu-item-categories">
           <a href="/categories/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
             
             Categories
           </a>
@@ -220,7 +220,7 @@
         <li class="menu-item menu-item-archives">
           <a href="/archives/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
             
             Archives
           </a>
@@ -254,20 +254,20 @@
   
   
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
   
   
   
   <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/05/15/e5-9f-ba-e4-ba-8enginx-sticky-module-ng-e5-ae-9e-e7-8e-b0-e4-bc-9a-e8-af-9d-e4-bf-9d-e6-8c-81-ef-bc-88sticky-sessions-ef-bc-89/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="magicwt">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="magicwt的博客">
     </span>
 
@@ -299,7 +299,7 @@
           </span>
 
           
-            <span class="post-category" >
+            <span class="post-category">
             
               <span class="post-meta-divider">|</span>
             
@@ -310,7 +310,7 @@
                 <span class="post-meta-item-text">In</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
                   <a href="/categories/后端/" itemprop="url" rel="index">
                     <span itemprop="name">后端</span>
                   </a>
@@ -348,18 +348,28 @@
       
 
       
-        <p>对服务进行集群部署，前端进行负载均衡时，需要实现会话保持，对于同一会话的多个请求，通过集群中的一个节点来提供服务。系统的部署结构如图所示，通过Resin部署Web应用提供服务，通过Nginx进行负载均衡。基于nginx-sticky-module-ng实现会话保持。<br><a href="http://magicwt.com/wp-content/uploads/2016/05/未命名.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2016/05/未命名.png" alt="未命名"></a></p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>Nginx已安装（版本为1.7.9），此处介绍如何添加nginx-sticky-module-ng。<br>1）从<a href="https://bitbucket.org/nginx-goodies/nginx-sticky-module-ng下载源码压缩包并解压；" target="_blank" rel="noopener">https://bitbucket.org/nginx-goodies/nginx-sticky-module-ng下载源码压缩包并解压；</a><br>2）“nginx -V”查看原先安装Nginx时的配置信息：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># /usr/local/nginx/sbin/nginx -V</span><br><span class="line">nginx version: nginx/1.7.9</span><br><span class="line">built by gcc 4.8.2 20140120 (Red Hat 4.8.2-16) (GCC) </span><br><span class="line">configure arguments: --prefix=/usr/local/nginx --with-pcre=/opt/soft/pcre-8.36 --with-zlib=/opt/soft/zlib-1.2.8</span><br><span class="line">``` </span><br><span class="line">3）在Nginx源码目录下使用上述配置信息进行配置，并添加nginx-sticky-module-ng：</span><br></pre></td></tr></table></figure></p>
-<p>./configure –prefix=/usr/local/nginx –with-pcre=/opt/soft/pcre-8.36 –with-zlib=/opt/soft/zlib-1.2.8 –add-module=/opt/soft/nginx-sticky-module-1.1<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">4）“make”进行编译，若编译时报“src/core/ngx_sha1.h:19:17: fatal error: sha.h: No such file or directory”错误，则先执行“yum install openssl-devel”安装OpenSSL包再配置；</span><br><span class="line">5）编译成功后，备份/usr/local/nginx/sbin/nginx，并使用objs/nginx覆盖/usr/local/nginx/sbin/nginx：</span><br></pre></td></tr></table></figure></p>
-<p>mv /usr/local/nginx/sbin/nginx /usr/local/nginx/sbin/nginx.backup<br>cp objs/nginx /usr/local/nginx/sbin/<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## 配置</span><br><span class="line"></span><br><span class="line">使用Resin启动两个Web应用进程，端口分别是8082和8089，两个Web应用中都包含一个jsp页面session_sticky/test.jsp：</span><br></pre></td></tr></table></figure></p>
-<p>&lt;%@ page contentType=”text/html;charset=UTF-8” language=”java” %&gt;</p>
-<p><html></html></p>
-<p><head><meta name="generator" content="Hexo 3.8.0"><br>    <title>测试Session Sticky</title><br></head></p>
-<p><body><br>Service 1</body></p>
-<p>Session Id: &lt;%=request.getSession().getId()%&gt;<br><br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">test.jsp在两个Web应用中的不同在于一个输出“Service 1”，另一个输出“Service 2”。</span><br><span class="line">在Nginx中配置upstream和location，实现反向代理和会话保持：</span><br></pre></td></tr></table></figure></p>
-<p>upstream session_sticky-server {<br>    sticky;<br>    server xx.xx.xx.xx:8082;<br>    server xx.xx.xx.xx:8089;<br>}</p>
-<p>location ^~/session_sticky/ {<br>    proxy_pass <a href="http://session_sticky-server" target="_blank" rel="noopener">http://session_sticky-server</a>;<br>}<br><code>`</code> </p>
-<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>1）删除upstream中的“sticky”，使用默认的轮询方式进行反向代理，访问test.jsp，页面输出中交替出现“Service 1”和“Service 2”，说明请求交替发往两个Web应用，会话未保持：<br><a href="http://magicwt.com/wp-content/uploads/2016/05/1.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2016/05/1-300x142.png" alt="1"></a><br><a href="http://magicwt.com/wp-content/uploads/2016/05/2.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2016/05/2-300x142.png" alt="2"></a><br>2）在upstream中添加“sticky”，访问test.jsp，页面输出中一直出现“Service 1”，说明请求发往第一个应用，会话保持：<br><a href="http://magicwt.com/wp-content/uploads/2016/05/1.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2016/05/1-300x142.png" alt="1"></a><br>3）在2）的基础上，停掉第一个应用，继续访问test.jsp，页面仍有响应，输出中一直出现“Service 2”，说明请求在检测到失败后，会自动发往第二个应用，并在第二个应用会话保持：<br><a href="http://magicwt.com/wp-content/uploads/2016/05/2.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2016/05/2-300x142.png" alt="2"></a></p>
+        <p>对服务进行集群部署，前端进行负载均衡时，需要实现会话保持，对于同一会话的多个请求，通过集群中的一个节点来提供服务。系统的部署结构如图所示，通过Resin部署Web应用提供服务，通过Nginx进行负载均衡。基于nginx-sticky-module-ng实现会话保持。<br><a href="http://magicwt.com/wp-content/uploads/2016/05/未命名.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2016/05/未命名.png" alt="未命名"></a><br><a id="more"></a></p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>Nginx已安装（版本为1.7.9），此处介绍如何添加nginx-sticky-module-ng。</p>
+<ol>
+<li>从<a href="https://bitbucket.org/nginx-goodies/nginx-sticky-module-ng" target="_blank" rel="noopener">https://bitbucket.org/nginx-goodies/nginx-sticky-module-ng</a> 下载源码压缩包并解压；</li>
+<li><p>“nginx -V”查看原先安装Nginx时的配置信息： </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> /usr/local/nginx/sbin/nginx -V</span><br><span class="line">nginx version: nginx/1.7.9</span><br><span class="line">built by gcc 4.8.2 20140120 (Red Hat 4.8.2-16) (GCC) </span><br><span class="line">configure arguments: --prefix=/usr/local/nginx --with-pcre=/opt/soft/pcre-8.36 --with-zlib=/opt/soft/zlib-1.2.8</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在Nginx源码目录下使用上述配置信息进行配置，并添加nginx-sticky-module-ng：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix=/usr/local/nginx --with-pcre=/opt/soft/pcre-8.36 --with-zlib=/opt/soft/zlib-1.2.8 --add-module=/opt/soft/nginx-sticky-module-1.1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>“make”进行编译，若编译时报“src/core/ngx_sha1.h:19:17: fatal error: sha.h: No such file or directory”错误，则先执行“yum install openssl-devel”安装OpenSSL包再配置；</p>
+</li>
+<li>编译成功后，备份/usr/local/nginx/sbin/nginx，并使用objs/nginx覆盖/usr/local/nginx/sbin/nginx： <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mv /usr/local/nginx/sbin/nginx /usr/local/nginx/sbin/nginx.backup</span><br><span class="line">cp objs/nginx /usr/local/nginx/sbin/</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>使用Resin启动两个Web应用进程，端口分别是8082和8089，两个Web应用中都包含一个jsp页面session_sticky/test.jsp：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">%@</span> <span class="attr">page</span> <span class="attr">contentType</span>=<span class="string">"text/html;charset=UTF-8"</span> <span class="attr">language</span>=<span class="string">"java"</span> %&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>测试Session Sticky<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">Service 1</span><br><span class="line"></span><br><span class="line">Session Id: <span class="tag">&lt;<span class="name">%=request.getSession().getId()%</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>test.jsp在两个Web应用中的不同在于一个输出“Service 1”，另一个输出“Service 2”。<br>在Nginx中配置upstream和location，实现反向代理和会话保持：<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="attribute">upstream</span> session_sticky-server &#123;</span><br><span class="line">    sticky;</span><br><span class="line">    <span class="attribute">server</span> xx.xx.xx.xx:<span class="number">8082</span>;</span><br><span class="line">    <span class="attribute">server</span> xx.xx.xx.xx:<span class="number">8089</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="attribute">location</span><span class="regexp"> ^~/session_sticky/</span> &#123;</span><br><span class="line">    <span class="attribute">proxy_pass</span> http://session_sticky-server;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><ol>
+<li>删除upstream中的“sticky”，使用默认的轮询方式进行反向代理，访问test.jsp，页面输出中交替出现“Service 1”和“Service 2”，说明请求交替发往两个Web应用，会话未保持：<br><a href="http://magicwt.com/wp-content/uploads/2016/05/1.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2016/05/1-300x142.png" alt="1"></a><br><a href="http://magicwt.com/wp-content/uploads/2016/05/2.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2016/05/2-300x142.png" alt="2"></a></li>
+<li>在upstream中添加“sticky”，访问test.jsp，页面输出中一直出现“Service 1”，说明请求发往第一个应用，会话保持：<br><a href="http://magicwt.com/wp-content/uploads/2016/05/1.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2016/05/1-300x142.png" alt="1"></a></li>
+<li>在2的基础上，停掉第一个应用，继续访问test.jsp，页面仍有响应，输出中一直出现“Service 2”，说明请求在检测到失败后，会自动发往第二个应用，并在第二个应用会话保持：<br><a href="http://magicwt.com/wp-content/uploads/2016/05/2.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2016/05/2-300x142.png" alt="2"></a></li>
+</ol>
 
       
     </div>
@@ -466,7 +476,7 @@
 
       <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
               <p class="site-author-name" itemprop="name">magicwt</p>
               <p class="site-description motion-element" itemprop="description"></p>
@@ -479,7 +489,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">90</span>
+                  <span class="site-state-item-count">89</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -550,7 +560,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试"><span class="nav-number">2.</span> <span class="nav-text">测试</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置"><span class="nav-number">2.</span> <span class="nav-text">配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试"><span class="nav-number">3.</span> <span class="nav-text">测试</span></a></li></ol></div>
             
 
           </div>

@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next mist use-motion" lang="">
+<html class="theme-next mist use-motion" lang="zh-CN">
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -79,20 +79,20 @@
 
 
 
-<meta name="description" content="使用Python开发时，经常需要用到“pip install”安装依赖，但是“pip install”需要访问外网，并且默认源https://pypi.python.org/在国内访问并不是很稳定。为了便于在公司内网服务器上安装依赖，我们使用pypiserver搭建pypi服务器。 安装pypiserver从https://pypi.python.org/pypi/pypiserver下载pypi">
+<meta name="description" content="使用Python开发时，经常需要用到“pip install”安装依赖，但是“pip install”需要访问外网，并且默认源https://pypi.python.org/ 在国内访问并不是很稳定。为了便于在公司内网服务器上安装依赖，我们使用pypiserver搭建pypi服务器。">
 <meta name="keywords" content="pypiserver">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用pypiserver搭建pypi服务器">
 <meta property="og:url" content="http://yoursite.com/2015/12/03/e4-bd-bf-e7-94-a8pypiserver-e6-90-ad-e5-bb-bapypi-e6-9c-8d-e5-8a-a1-e5-99-a8/index.html">
 <meta property="og:site_name" content="magicwt的博客">
-<meta property="og:description" content="使用Python开发时，经常需要用到“pip install”安装依赖，但是“pip install”需要访问外网，并且默认源https://pypi.python.org/在国内访问并不是很稳定。为了便于在公司内网服务器上安装依赖，我们使用pypiserver搭建pypi服务器。 安装pypiserver从https://pypi.python.org/pypi/pypiserver下载pypi">
-<meta property="og:locale" content="default">
+<meta property="og:description" content="使用Python开发时，经常需要用到“pip install”安装依赖，但是“pip install”需要访问外网，并且默认源https://pypi.python.org/ 在国内访问并不是很稳定。为了便于在公司内网服务器上安装依赖，我们使用pypiserver搭建pypi服务器。">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/12/1-300x103.png">
 <meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/12/11-300x300.png">
-<meta property="og:updated_time" content="2018-12-04T10:47:42.326Z">
+<meta property="og:updated_time" content="2018-12-04T12:50:43.431Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用pypiserver搭建pypi服务器">
-<meta name="twitter:description" content="使用Python开发时，经常需要用到“pip install”安装依赖，但是“pip install”需要访问外网，并且默认源https://pypi.python.org/在国内访问并不是很稳定。为了便于在公司内网服务器上安装依赖，我们使用pypiserver搭建pypi服务器。 安装pypiserver从https://pypi.python.org/pypi/pypiserver下载pypi">
+<meta name="twitter:description" content="使用Python开发时，经常需要用到“pip install”安装依赖，但是“pip install”需要访问外网，并且默认源https://pypi.python.org/ 在国内访问并不是很稳定。为了便于在公司内网服务器上安装依赖，我们使用pypiserver搭建pypi服务器。">
 <meta name="twitter:image" content="http://magicwt.com/wp-content/uploads/2015/12/1-300x103.png">
 
 
@@ -141,7 +141,7 @@
 
 </head>
 
-<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
 
   
   
@@ -345,10 +345,24 @@
       
 
       
-        <p>使用Python开发时，经常需要用到“pip install”安装依赖，但是“pip install”需要访问外网，并且默认源<a href="https://pypi.python.org/在国内访问并不是很稳定。为了便于在公司内网服务器上安装依赖，我们使用pypiserver搭建pypi服务器。" target="_blank" rel="noopener">https://pypi.python.org/在国内访问并不是很稳定。为了便于在公司内网服务器上安装依赖，我们使用pypiserver搭建pypi服务器。</a></p>
-<h2 id="安装pypiserver"><a href="#安装pypiserver" class="headerlink" title="安装pypiserver"></a>安装pypiserver</h2><p>从<a href="https://pypi.python.org/pypi/pypiserver下载pypiserver-1.1.7.zip，解压后进入目录，执行：" target="_blank" rel="noopener">https://pypi.python.org/pypi/pypiserver下载pypiserver-1.1.7.zip，解压后进入目录，执行：</a><br>[blockquote]python setup.py install[/blockquote]<br>即可完成安装。</p>
-<h2 id="启动pypiserver"><a href="#启动pypiserver" class="headerlink" title="启动pypiserver"></a>启动pypiserver</h2><p>启动命令是：<br>[blockquote]/usr/bin/pypi-server -p 8082 /opt/python-packages[/blockquote]<br>其中：<br>1）“-p 8082”，表示使用端口8082；<br>2）“/opt/python-packages”，表示依赖包的存储目录。<br>/opt/python-packages目录下的依赖包如图所示：<br><a href="http://magicwt.com/wp-content/uploads/2015/12/1.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/12/1-300x103.png" alt="1"></a><br>在浏览器下访问如图所示：<br><a href="http://magicwt.com/wp-content/uploads/2015/12/11.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/12/11-300x300.png" alt="1"></a></p>
-<h2 id="使用pypiserver"><a href="#使用pypiserver" class="headerlink" title="使用pypiserver"></a>使用pypiserver</h2><p>若使用搭建的pypiserver作为源安装依赖BeautifulSoup，命令如下：<br>[blockquote]pip install BeautifulSoup -i http://ip:port/simple/[/blockquote]</p>
+        <p>使用Python开发时，经常需要用到“pip install”安装依赖，但是“pip install”需要访问外网，并且默认源<a href="https://pypi.python.org/" target="_blank" rel="noopener">https://pypi.python.org/</a> 在国内访问并不是很稳定。为了便于在公司内网服务器上安装依赖，我们使用pypiserver搭建pypi服务器。<br><a id="more"></a></p>
+<h2 id="安装pypiserver"><a href="#安装pypiserver" class="headerlink" title="安装pypiserver"></a>安装pypiserver</h2><p>从<a href="https://pypi.python.org/pypi/pypiserver" target="_blank" rel="noopener">https://pypi.python.org/pypi/pypiserver</a> 下载pypiserver-1.1.7.zip，解压后进入目录，执行：</p>
+<blockquote>
+<p>python setup.py install</p>
+</blockquote>
+<p>即可完成安装。</p>
+<h2 id="启动pypiserver"><a href="#启动pypiserver" class="headerlink" title="启动pypiserver"></a>启动pypiserver</h2><p>启动命令是：</p>
+<blockquote>
+<p>/usr/bin/pypi-server -p 8082 /opt/python-packages</p>
+</blockquote>
+<p>其中：</p>
+<ol>
+<li>“-p 8082”，表示使用端口8082；</li>
+<li>“/opt/python-packages”，表示依赖包的存储目录。<br>/opt/python-packages目录下的依赖包如图所示：<br><a href="http://magicwt.com/wp-content/uploads/2015/12/1.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/12/1-300x103.png" alt="1"></a><br>在浏览器下访问如图所示：<br><a href="http://magicwt.com/wp-content/uploads/2015/12/11.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/12/11-300x300.png" alt="1"></a><h2 id="使用pypiserver"><a href="#使用pypiserver" class="headerlink" title="使用pypiserver"></a>使用pypiserver</h2>若使用搭建的pypiserver作为源安装依赖BeautifulSoup，命令如下：<blockquote>
+<p>pip install BeautifulSoup -i <a href="http://ip:port/simple/" target="_blank" rel="noopener">http://ip:port/simple/</a></p>
+</blockquote>
+</li>
+</ol>
 
       
     </div>
@@ -468,7 +482,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">90</span>
+                  <span class="site-state-item-count">89</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

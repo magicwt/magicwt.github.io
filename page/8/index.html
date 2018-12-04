@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next mist use-motion" lang="">
+<html class="theme-next mist use-motion" lang="zh-CN">
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -83,7 +83,7 @@
 <meta property="og:title" content="magicwt的博客">
 <meta property="og:url" content="http://yoursite.com/page/8/index.html">
 <meta property="og:site_name" content="magicwt的博客">
-<meta property="og:locale" content="default">
+<meta property="og:locale" content="zh-CN">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="magicwt的博客">
 
@@ -133,7 +133,7 @@
 
 </head>
 
-<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
 
   
   
@@ -249,152 +249,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2012/06/09/lucene-e7-ae-80-e4-bb-8b/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="magicwt">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="magicwt的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2012/06/09/lucene-e7-ae-80-e4-bb-8b/" itemprop="url">Lucene简介</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2012-06-09T14:54:42+08:00">
-                2012-06-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/后端/" itemprop="url" rel="index">
-                    <span itemprop="name">后端</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Lucene是Apache基金会下的一个开源项目，提供能够实现全文索引和检索的Java API。Lucene包含索引引擎和检索引擎两部分。对于包含多个字段（Field）的文档（Document），可以通过Lucene的索引引擎对文档字段中的文本内容进行分词处理，构建关键字索引。当索引构建完成后，可以通过Lucene的检索引擎对特定字段进行基于关键字的查询。Lucene支持多种查询方式，包括模糊检索、分组查询等。对于查询结果，Lucene使用基于向量空间模型的排名算法计算得出查询结果的排名。</p>
-<h2 id="1-1-倒排索引"><a href="#1-1-倒排索引" class="headerlink" title="1.1 倒排索引"></a>1.1 倒排索引</h2><p>倒排索引（Inverted Index）是一种索引数据结构。在倒排索引中，词语被映射到包含该词语的文档。通过使用倒排索引，可以实现快速的全文搜索。一个简单的倒排索引及其构建过程如图1.1所示，其中文档d1和d2的内容分别是“home sales rise in July”和“increase in home sales in July”。<br>对于文档d1和d2，首先进行分词处理，将文本内容划分为词语集。因为在英文文本中，单词之间均有空格，所以使用空格作为分隔符进行分词处理，得到词语集，如图1.1中左侧一列。对于划分后的词语集，进行统计，统计词语及其出现的次数和位置，如图1.1中右侧一列，构成倒排索引。</p>
-<p><a href="http://magicwt.com/wp-content/uploads/2015/11/145058597.jpg" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/11/145058597-300x129.jpg" alt="145058597"></a><br>图1.1 倒排索引及其构建过程</p>
-<h2 id="1-2-Lucene工作原理"><a href="#1-2-Lucene工作原理" class="headerlink" title="1.2 Lucene工作原理"></a>1.2 Lucene工作原理</h2><p><a href="http://magicwt.com/wp-content/uploads/2012/06/145246460.jpg" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2012/06/145246460-300x187.jpg" alt="145246460"></a></p>
-<p>Lucene中包含了以下6个核心包：<br>1）org.apache.lucene.document包，包含了用于表示文档及其内容的类，如表示文档的Document类，表示文档中字段的Field类。<br>2）org.apache.lucene.index包，包含了用于构建、读取索引的类。<br>3）org.apache.lucene.analysis包，包含了用于对文档中的自然语言文本进行分词处理的类。<br>4）org.apache.lucene.store包，包含了用于存储索引的类。<br>5）org.apache.lucene.search包，包含了用于查询索引的类。<br>6）org.apache.lucene.queryParser包，包含了用于构建、解析查询条件的类。<br>在Lucene的倒排索引中，包含字段（Field）、文档（Document）、关键字（Term）这三个部分。每一个关键字均与一个集合相映射。集合中的每一个元素为一个二元组（Document，Field），表示该文档的该字段包含此关键字。Lucene的工作原理如图所示，主要分为以下6个步骤：<br>1）为每一个待检索的文件构建Document类对象，将文件中各部分内容作为Field类对象。<br>2）使用Analyzer类实现对文档中的自然语言文本进行分词处理，并使用IndexWriter类构建索引。<br>3）使用FSDirectory类设定索引存储的方式和位置，实现索引的存储。<br>4）使用IndexReader类读取索引。<br>5）使用Term类表示用户所查找的关键字以及关键字所在的字段，使用QueryParser类表示用户的查询条件。<br>6）使用IndexSearcher类检索索引，返回符合查询条件的Document类对象。</p>
-<h2 id="1-2-Lucene应用示例"><a href="#1-2-Lucene应用示例" class="headerlink" title="1.2 Lucene应用示例"></a>1.2 Lucene应用示例</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">package com.wt.testlucene.main; </span><br><span class="line"></span><br><span class="line">import java.io.File; </span><br><span class="line">import java.io.FileReader; </span><br><span class="line">import java.io.IOException; </span><br><span class="line"></span><br><span class="line">import org.apache.lucene.analysis.standard.StandardAnalyzer; </span><br><span class="line">import org.apache.lucene.document.Document; </span><br><span class="line">import org.apache.lucene.document.Field; </span><br><span class="line">import org.apache.lucene.index.CorruptIndexException; </span><br><span class="line">import org.apache.lucene.index.IndexWriter; </span><br><span class="line">import org.apache.lucene.index.IndexWriter.MaxFieldLength; </span><br><span class="line">import org.apache.lucene.queryParser.ParseException; </span><br><span class="line">import org.apache.lucene.queryParser.QueryParser; </span><br><span class="line">import org.apache.lucene.search.IndexSearcher; </span><br><span class="line">import org.apache.lucene.search.Query; </span><br><span class="line">import org.apache.lucene.search.ScoreDoc; </span><br><span class="line">import org.apache.lucene.search.TopDocs; </span><br><span class="line">import org.apache.lucene.store.FSDirectory; </span><br><span class="line">import org.apache.lucene.store.LockObtainFailedException; </span><br><span class="line">import org.apache.lucene.util.Version; </span><br><span class="line"></span><br><span class="line">public class TestLucene &#123; </span><br><span class="line"></span><br><span class="line">    private static final String indexDir = &quot;J:\\tempIndex&quot;; </span><br><span class="line">    private static final String dataDir = &quot;J:\\tempData&quot;; </span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) throws CorruptIndexException, </span><br><span class="line">            LockObtainFailedException, IOException, ParseException &#123; </span><br><span class="line">        /******************* 写入索引 *******************/ </span><br><span class="line">        // IndexWriter用于写入索引 </span><br><span class="line">        // FSDirectory表示索引存储于磁盘 </span><br><span class="line">        // StandardAnalyzer表示采用标准的词法分析器进行分词处理 </span><br><span class="line">        IndexWriter indexWriter = new IndexWriter(FSDirectory.open(new File( </span><br><span class="line">                indexDir)), new StandardAnalyzer(Version.LUCENE_CURRENT), true, </span><br><span class="line">                MaxFieldLength.UNLIMITED); </span><br><span class="line">        indexWriter.setUseCompoundFile(false); </span><br><span class="line"></span><br><span class="line">        File[] files = new File(dataDir).listFiles(); </span><br><span class="line">        for (int i = 0; i &lt; files.length; i++) &#123; </span><br><span class="line">            // Document表示索引中的文档 </span><br><span class="line">            Document document = new Document(); </span><br><span class="line">            // Field表示文档中的域，对于域有不同的处理方法 </span><br><span class="line">            // Field.Store用于设置存储属性 </span><br><span class="line">            // YES:存储 </span><br><span class="line">            // NO :不存储 </span><br><span class="line">            // Field.Index用于设置存储属性 </span><br><span class="line">            // NO :不索引 </span><br><span class="line">            // ANALYZED :索引且保存NORMS信息 </span><br><span class="line">            // ANALYZED_NO_NORMS :索引但不保存NORMS信息 </span><br><span class="line">            // NOT_ANALYZED :不索引但保存NORMS信息 </span><br><span class="line">            // NOT_ANALYZED_NO_NORMS:不索引且不保存NORMS信息 </span><br><span class="line">            // 存储name的域保存、索引但不分词 </span><br><span class="line">            document.add(new Field(&quot;name&quot;, files[i].getName(), Field.Store.YES, </span><br><span class="line">                    Field.Index.NOT_ANALYZED)); </span><br><span class="line">            // 存储content的域保存、索引且分词 </span><br><span class="line">            document.add(new Field(&quot;content&quot;, new FileReader(files[i]))); </span><br><span class="line">            // 存储path的域保存、不索引 </span><br><span class="line">            document.add(new Field(&quot;path&quot;, files[i].getAbsolutePath(), </span><br><span class="line">                    Field.Store.YES, Field.Index.NO)); </span><br><span class="line">            // 加入文档 </span><br><span class="line">            indexWriter.addDocument(document); </span><br><span class="line">        &#125; </span><br><span class="line">        // 优化 </span><br><span class="line">        indexWriter.optimize(); </span><br><span class="line">        // 提交 </span><br><span class="line">        indexWriter.commit(); </span><br><span class="line">        // 关闭 </span><br><span class="line">        indexWriter.close(); </span><br><span class="line"></span><br><span class="line">        /******************* 查询索引 *******************/ </span><br><span class="line">        // IndexSearcher用于查询索引 </span><br><span class="line">        IndexSearcher indexSearcher = new IndexSearcher(FSDirectory </span><br><span class="line">                .open(new File(indexDir))); </span><br><span class="line">        String queryString = &quot;TEST&quot;; </span><br><span class="line">        // QueryParser用于解析查询语句生成相应的查询 </span><br><span class="line">        QueryParser parser = new QueryParser(Version.LUCENE_CURRENT, &quot;content&quot;, </span><br><span class="line">                new StandardAnalyzer(Version.LUCENE_CURRENT)); </span><br><span class="line">        Query query = parser.parse(queryString); </span><br><span class="line">        // 返回最符合查询条件的前10个结果 </span><br><span class="line">        TopDocs topDocs = indexSearcher.search(query, 10); </span><br><span class="line">        ScoreDoc[] list = topDocs.scoreDocs; </span><br><span class="line">        for (int i = 0; i &lt; list.length; i++) &#123; </span><br><span class="line">            ScoreDoc scoreDoc = list[i]; </span><br><span class="line">            Document document = indexSearcher.doc(scoreDoc.doc); </span><br><span class="line">            // 输出文件序号、得分和名称 </span><br><span class="line">            System.out.println(scoreDoc.doc + &quot;\t&quot; + scoreDoc.score + &quot;\t&quot; </span><br><span class="line">                    + document.get(&quot;name&quot;)); </span><br><span class="line">        &#125; </span><br><span class="line">        indexSearcher.close(); </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2012/06/06/e6-b1-82-e8-a7-a3-e4-ba-8c-e5-8f-89-e6-a0-91-e7-9a-84-e6-b7-b1-e5-ba-a6/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -488,11 +342,16 @@
       
         
           
-            <p><strong>思路：</strong><br>采用递归求解，对于树tree的深度，其值为：<br>Depth(tree) =<br>max(Depth(tree的左子树),Depth(tree的右子树)),tree != NULL<br>0,tree == NULL<br><a href="http://magicwt.com/wp-content/uploads/2015/10/231913132.jpg" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/10/231913132.jpg" alt="231913132"></a><br><strong>代码：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#include &lt;stdlib.h&gt; </span><br><span class="line">#include &lt;stdio.h&gt; </span><br><span class="line"></span><br><span class="line">typedef struct TNode </span><br><span class="line">&#123; </span><br><span class="line">    int value; </span><br><span class="line">    TNode* lchild; </span><br><span class="line">    TNode* rchild; </span><br><span class="line">&#125;TNode,*BTree; </span><br><span class="line"></span><br><span class="line">//采用递归思想求解树的深度 </span><br><span class="line">int CalDepth(BTree tree) </span><br><span class="line">&#123; </span><br><span class="line">    //若树为空，则树的深度为0 </span><br><span class="line">    if (tree==NULL) return 0; </span><br><span class="line">    int left,right; </span><br><span class="line">    //仅考虑左子树，则树的深度等于左子树的深度加1 </span><br><span class="line">    left = CalDepth(tree-&gt;lchild)+1; </span><br><span class="line">    //仅考虑右子树，则树的深度等于右子树的深度加1 </span><br><span class="line">    right = CalDepth(tree-&gt;rchild)+1; </span><br><span class="line">    //树的深度取上述两个值中的较大值 </span><br><span class="line">    return (left&gt;right?left:right); </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">int main() </span><br><span class="line">&#123; </span><br><span class="line">    BTree tree = (BTree)malloc(sizeof(TNode)); </span><br><span class="line">    tree-&gt;lchild = (TNode*)malloc(sizeof(TNode)); </span><br><span class="line">    tree-&gt;lchild-&gt;lchild = NULL; </span><br><span class="line">    tree-&gt;lchild-&gt;rchild = NULL; </span><br><span class="line">    tree-&gt;rchild = (TNode*)malloc(sizeof(TNode)); </span><br><span class="line">    tree-&gt;rchild-&gt;lchild = (TNode*)malloc(sizeof(TNode)); </span><br><span class="line">    tree-&gt;rchild-&gt;rchild = NULL; </span><br><span class="line">    tree-&gt;rchild-&gt;lchild-&gt;lchild = NULL; </span><br><span class="line">    tree-&gt;rchild-&gt;lchild-&gt;rchild = NULL; </span><br><span class="line">    printf(&quot;the depth of the tree is:%d\n&quot;,CalDepth(tree)); </span><br><span class="line">    return 0; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><a href="http://magicwt.com/wp-content/uploads/2015/10/232126944.jpg" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/10/232126944.jpg" alt="232126944"></a></p>
-
-          
+          思路：采用递归求解，对于树tree的深度，其值为：Depth(tree) =max(Depth(tree的左子树),Depth(tree的右子树)),tree != NULL0,tree == NULL代码：
+123456789101112131415161718192021222324252627
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2012/06/06/e6-b1-82-e8-a7-a3-e4-ba-8c-e5-8f-89-e6-a0-91-e7-9a-84-e6-b7-b1-e5-ba-a6/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -632,13 +491,16 @@
       
         
           
-            <p>字典树，又名Trier树，可以用于单词的查找和统计。<br>字典树的示例如下图所示，其中，若根节点为第0层，则第k层节点表示字典中单词前k个字符，从根节点至树中标黄节点的路径表示以该节点字符为末尾的单词，例如，too、tooth、tea、two等。<br><a href="http://magicwt.com/wp-content/uploads/2015/10/172655272.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/10/172655272-300x250.png" alt="172655272"></a><br>字典树中的节点可用以下结构体表示:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">typedef struct TNode </span><br><span class="line">&#123; </span><br><span class="line">    char value;//表示该节点存储的字符 </span><br><span class="line">    int count;//表示以该节点字符为末尾的单词出现的次数 </span><br><span class="line">    bool endFlag;//表示该节点是否是单词的末尾 </span><br><span class="line">    TNode* childList[26];//表示下一个字符 </span><br><span class="line">&#125;TNode,*DTree;</span><br></pre></td></tr></table></figure>
-<p>字典树的初始化和插入单词操作:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">//初始化字典树 </span><br><span class="line">void Init(DTree &amp;tree) </span><br><span class="line">&#123; </span><br><span class="line">    int i; </span><br><span class="line">    tree=(DTree)malloc(sizeof(TNode)); </span><br><span class="line">    tree-&gt;value = &apos; &apos;;//根节点的字符为空 </span><br><span class="line">    tree-&gt;count = 0; </span><br><span class="line">    tree-&gt;endFlag = false; </span><br><span class="line">    for (i=0;i&lt;26;i++) tree-&gt;childList[i] = NULL; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">//将单词插入字典树中 </span><br><span class="line">//从根节点开始从上至下，将单词字符从左至右逐步插入到字典树中 </span><br><span class="line">void Insert(DTree tree,char string[],int len) </span><br><span class="line">&#123; </span><br><span class="line">    int i,j; </span><br><span class="line">    TNode* node = tree; </span><br><span class="line">    for (i=0;i&lt;len;i++)          </span><br><span class="line">    &#123;                   </span><br><span class="line">        //若节点存在，则直接访问下一个节点                   </span><br><span class="line">        //若该节点是单词最后一个字符，则将endFlag置为true，并将count加1                   </span><br><span class="line">        if (node-&gt;childList[string[i]-&apos;a&apos;]!=NULL) </span><br><span class="line">        &#123; </span><br><span class="line">            node = node-&gt;childList[string[i]-&apos;a&apos;]; </span><br><span class="line">            if (i==len-1)  </span><br><span class="line">            &#123; </span><br><span class="line">                node-&gt;endFlag = true; </span><br><span class="line">                node-&gt;count++; </span><br><span class="line">            &#125; </span><br><span class="line">        &#125; </span><br><span class="line">        //若节点不存在，则新建节点并初始化 </span><br><span class="line">        //若该节点是单词最后一个字符，则将endFlag置为true，否则置为false，并将count加1 </span><br><span class="line">        else </span><br><span class="line">        &#123; </span><br><span class="line">            node-&gt;childList[string[i]-&apos;a&apos;] = (TNode*)malloc(sizeof(TNode)); </span><br><span class="line">            node = node-&gt;childList[string[i]-&apos;a&apos;]; </span><br><span class="line">            node-&gt;value = string[i]; </span><br><span class="line">            for (j=0;j&lt;26;j++) node-&gt;childList[j] = NULL; </span><br><span class="line">            node-&gt;endFlag = false; </span><br><span class="line">            if (i==len-1)  </span><br><span class="line">            &#123; </span><br><span class="line">                node-&gt;endFlag = true; </span><br><span class="line">                node-&gt;count++; </span><br><span class="line">            &#125;            </span><br><span class="line">        &#125; </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>字典树可用于计算某个文本中出现次数最多的前k个单词：遍历文本中的单词，将每个单词插入到字典树中，重复的单词实际不再添加，而是将原有单词末尾节点中的count加1，最后，字典树中根节点到所有endFlag为true的节点的路径为文本中出现的所有单词，节点中的count值为这些单词出现的次数，通过排序可以得到出现次数最多的前k个单词。</p>
-
-          
+          字典树，又名Trier树，可以用于单词的查找和统计。字典树的示例如下图所示，其中，若根节点为第0层，则第k层节点表示字典中单词前k个字符，从根节点至树中标黄节点的路径表示以该节点字符为末尾的单词，例如，too、tooth、tea、two等。字典树中的节点可用以下结构体表示:
+12345678type
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2012/06/06/e5-ad-97-e5-85-b8-e6-a0-91/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -778,13 +640,15 @@
       
         
           
-            <p>求解最长递增子串可分为两种情况，即子串连续或非连续。<br>例如，对于整数串{1,3,5,1,-1,4,5,3,1,8,3,4,6,2,4,6,7,8,6,4}<br>其连续递增子串为{2,4,6,7,8}，非连续递增子串为{ {-1},{1},{2,4,6,7,8}}<br><strong>连续递增子串的求解思路：</strong><br>采用动态规划思想，令<br>lengthOfSubList[k]表示子串{list[0]…list[k]}中最长的连续递增子串长度<br>lengthOfSubListIncludeK[k]表示子串{list[0]…list[k]}中以list[k]结尾的最长连续递增子串长度<br>indexOfLastElement[k]表示子串{list[0]…list[k]}中最长的连续递增子串的最后一个元素的位置<br>则<br>lengthOfSubListIncludeK[k] =<br>lengthOfSubListIncludeK[k-1]+1,list[k]&gt;=list[k-1]<br>1,list[k]&lt;list[k-1]<br>lengthOfSubList[k] = max(lengthOfSubListIncludeK[k],lengthOfSubList[k-1])<br>indexOfLastElement[k] =<br>k,lengthOfSubListIncludeK[k]&gt;lengthOfSubList[k-1]<br>indexOfLastElement[k-1],lengthOfSubListIncludeK[k]&lt;=lengthOfSubList[k-1]<br><strong>代码：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#include &lt;stdlib.h&gt; </span><br><span class="line">#include &lt;stdio.h&gt; </span><br><span class="line"></span><br><span class="line">void MaxIncrementSubList(int list[],int length) </span><br><span class="line">&#123; </span><br><span class="line">    //lengthOfSubList[k]表示子串&#123;list[0]...list[k]&#125;中最长的连续递增子串长度 </span><br><span class="line">    //lengthOfSubListIncludeK[k]表示子串&#123;list[0]...list[k]&#125;中以list[k]结尾的最长连续递增子串长度 </span><br><span class="line">    int* lengthOfSubList = (int*)malloc(sizeof(int)*length); </span><br><span class="line">    int* lengthOfSubListIncludeK = (int*)malloc(sizeof(int)*length); </span><br><span class="line">    int* indexOfLastElement = (int*)malloc(sizeof(int)*length); </span><br><span class="line">    int i; </span><br><span class="line">    //初始化 </span><br><span class="line">    for (i=0;i&lt;length;i++) </span><br><span class="line">    &#123; </span><br><span class="line">        lengthOfSubList[i] = 1; </span><br><span class="line">        lengthOfSubListIncludeK[i] = 1;  </span><br><span class="line">        indexOfLastElement[i] = i;   </span><br><span class="line">    &#125; </span><br><span class="line">    //按照动态规划思想，计算lengthOfSubList[k]和lengthOfSubListIncludeK[k] </span><br><span class="line">    for (i=1;i&lt;length;i++) </span><br><span class="line">    &#123; </span><br><span class="line">        if (list[i]&gt;=list[i-1]) lengthOfSubListIncludeK[i] = lengthOfSubListIncludeK[i-1]+1; </span><br><span class="line">        else lengthOfSubListIncludeK[i] = 1; </span><br><span class="line">        if (lengthOfSubListIncludeK[i]&gt;lengthOfSubList[i-1]) </span><br><span class="line">        &#123; </span><br><span class="line">            lengthOfSubList[i] = lengthOfSubListIncludeK[i]; </span><br><span class="line">            indexOfLastElement[i] = i; </span><br><span class="line">        &#125; </span><br><span class="line">        else </span><br><span class="line">        &#123; </span><br><span class="line">            lengthOfSubList[i] = lengthOfSubList[i-1]; </span><br><span class="line">            indexOfLastElement[i] = indexOfLastElement[i-1]; </span><br><span class="line">        &#125; </span><br><span class="line">    &#125; </span><br><span class="line">    //逆序输出最长连续递增子串 </span><br><span class="line">    printf(&quot;longest sub list is:\n&quot;); </span><br><span class="line">    int idx = indexOfLastElement[length-1]; </span><br><span class="line">    while (list[idx]&gt;=list[idx-1]) </span><br><span class="line">    &#123; </span><br><span class="line">        printf(&quot;[%d]=%d &quot;,idx,list[idx]); </span><br><span class="line">        idx--; </span><br><span class="line">    &#125; </span><br><span class="line">    printf(&quot;[%d]=%d &quot;,idx,list[idx]); </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">int main() </span><br><span class="line">&#123; </span><br><span class="line">    int list[20] = &#123;1,3,5,1,-1,4,5,3,1,8,3,4,6,2,4,6,7,8,6,4&#125;; </span><br><span class="line">    MaxIncrementSubList(list,20); </span><br><span class="line">    int a; </span><br><span class="line">    scanf(&quot;%d&quot;,&amp;a); </span><br><span class="line">    return 0; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><a href="http://magicwt.com/wp-content/uploads/2015/10/214216131.jpg" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/10/214216131.jpg" alt="214216131"></a><br><strong>非连续递增子串的求解思路</strong>：<br>采用动态规划思想，令<br>lengthOfSubList[k]表示子串{list[0]…list[k]}中最长的非连续递增子串长度<br>lengthOfSubListIncludeK[k]表示子串{list[0]…list[k]}中以list[k]结尾的最长非连续递增子串长度<br>indexOfLastElement[k]表示子串{list[0]…list[k]}中最长的非连续递增子串的最后一个元素的位置<br>则<br>lengthOfSubListIncludeK[k] = max(lengthOfSubListIncludeK[i]+1, list[k]&gt;=list[i], i=0..k-1)<br>lengthOfSubList[k] = max(lengthOfSubListIncludeK[k],lengthOfSubList[k-1])<br>indexOfLastElement[k] =<br>k, lengthOfSubListIncludeK[k]&gt;lengthOfSubList[k-1]<br>indexOfLastElement[k-1],lengthOfSubListIncludeK[k]&lt;=lengthOfSubList[k-1]<br><strong>代码：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#include &lt;stdlib.h&gt; </span><br><span class="line">#include &lt;stdio.h&gt; </span><br><span class="line"></span><br><span class="line">void MaxIncrementSubList(int list[],int length) </span><br><span class="line">&#123; </span><br><span class="line">    //lengthOfSubList[k]表示子串&#123;list[0]...list[k]&#125;中最长的非连续递增子串长度  </span><br><span class="line">    //lengthOfSubListIncludeK[k]表示子串&#123;list[0]...list[k]&#125;中以list[k]结尾的最长非连续递增子串长度  </span><br><span class="line">    int* lengthOfSubList = (int*)malloc(sizeof(int)*length); </span><br><span class="line">    int* lengthOfSubListIncludeK = (int*)malloc(sizeof(int)*length); </span><br><span class="line">    int* indexOfLastElement = (int*)malloc(sizeof(int)*length); </span><br><span class="line">    int i,j,max; </span><br><span class="line">    //初始化 </span><br><span class="line">    for (i=0;i&lt;length;i++) </span><br><span class="line">    &#123; </span><br><span class="line">        lengthOfSubList[i] = 1; </span><br><span class="line">        lengthOfSubListIncludeK[i] = 1;  </span><br><span class="line">        indexOfLastElement[i] = i;   </span><br><span class="line">    &#125; </span><br><span class="line">    //按照动态规划思想，计算lengthOfSubList[k]和lengthOfSubListIncludeK[k] </span><br><span class="line">    for (i=1;i&lt;length;i++) </span><br><span class="line">    &#123; </span><br><span class="line">        max = lengthOfSubListIncludeK[i]; </span><br><span class="line">        for (j=0;j&lt;i;j++) </span><br><span class="line">        &#123; </span><br><span class="line">            if (list[i]&gt;list[j]) </span><br><span class="line">            &#123; </span><br><span class="line">                lengthOfSubListIncludeK[i] = lengthOfSubListIncludeK[j]+1; </span><br><span class="line">                if (max&lt;lengthOfSubListIncludeK[i]) max = lengthOfSubListIncludeK[i]; </span><br><span class="line">            &#125; </span><br><span class="line">        &#125; </span><br><span class="line">        lengthOfSubListIncludeK[i] = max; </span><br><span class="line">        if (lengthOfSubListIncludeK[i]&gt;lengthOfSubList[i-1]) </span><br><span class="line">        &#123; </span><br><span class="line">            lengthOfSubList[i] = lengthOfSubListIncludeK[i]; </span><br><span class="line">            indexOfLastElement[i] = i; </span><br><span class="line">        &#125; </span><br><span class="line">        else </span><br><span class="line">        &#123; </span><br><span class="line">            lengthOfSubList[i] = lengthOfSubList[i-1]; </span><br><span class="line">            indexOfLastElement[i] = indexOfLastElement[i-1]; </span><br><span class="line">        &#125; </span><br><span class="line">    &#125; </span><br><span class="line">    //逆序输出最长非连续递增子串  </span><br><span class="line">    printf(&quot;longest sub list is:\n&quot;); </span><br><span class="line">    int idx = indexOfLastElement[length-1]; </span><br><span class="line">    int tmp = list[idx]; </span><br><span class="line">    for (i=idx;i&gt;=0;i--) </span><br><span class="line">    &#123; </span><br><span class="line">        if (list[i]&lt;=tmp) </span><br><span class="line">        &#123; </span><br><span class="line">            printf(&quot;[%d]=%d &quot;,i,list[i]); </span><br><span class="line">            tmp = list[i]; </span><br><span class="line">        &#125; </span><br><span class="line">    &#125; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">int main() </span><br><span class="line">&#123; </span><br><span class="line">    int list[20] = &#123;1,3,5,1,-1,4,5,3,1,8,3,4,6,2,4,6,7,8,6,4&#125;; </span><br><span class="line">    MaxIncrementSubList(list,20); </span><br><span class="line">    int a; </span><br><span class="line">    scanf(&quot;%d&quot;,&amp;a); </span><br><span class="line">    return 0; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><a href="http://magicwt.com/wp-content/uploads/2015/10/214104722.jpg" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/10/214104722.jpg" alt="214104722"></a></p>
-
-          
+          求解最长递增子串可分为两种情况，即子串连续或非连续。例如，对于整数串{1,3,5,1,-1,4,5,3,1,8,3,4,6,2,4,6,7,8,6,4}其连续递增子串为{2,4,6,7,8}，非连续递增子串为{ {-1},{1},{2,4,6,7,8}}连续递增子串的求解思路：采用动态规划思想，令l
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2012/06/05/e6-b1-82-e8-a7-a3-e6-9c-80-e9-95-bf-e5-8d-95-e8-b0-83-e9-80-92-e5-a2-9e-e5-ad-90-e4-b8-b2/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -924,11 +788,15 @@
       
         
           
-            <p><strong>思路：</strong><br>采用动态规划进行求解，令：<br>maxSum[k]表示子串list{0,k}的最大连续子串和,<br>maxSumIncludeK[k]表示子串list{0,k}中末尾为k的最大连续子串和，<br>则<br>maxSumIncludeK[k] = max(list[k],list[k]+maxSumIncludeK[k-1]),<br>maxSum[k] = max(maxSumIncludeK[k],maxSum[k-1])。<br><strong>代码：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;stdio.h&gt; </span><br><span class="line"></span><br><span class="line">int MaxSubList(int list[],int length)</span><br><span class="line">&#123;</span><br><span class="line">    int i;</span><br><span class="line">    //maxSum[k]表示子串list&#123;0,k&#125;的最大连续子串和</span><br><span class="line">    //maxSumIncludeK[k]表示子串list&#123;0,k&#125;中末尾为k的最大连续子串和</span><br><span class="line">    int* maxSum = (int*)malloc(sizeof(int)*length);</span><br><span class="line">    int* maxSumIncludeK = (int*)malloc(sizeof(int)*length);</span><br><span class="line">    for (i=0;i&lt;length;i++)      </span><br><span class="line">    &#123;          </span><br><span class="line">        maxSum[i] = 0;          </span><br><span class="line">        maxSumIncludeK[i] = 0;      </span><br><span class="line">    &#125;      </span><br><span class="line">    if (list[0]&gt;0) maxSum[0] = list[0];</span><br><span class="line">    maxSumIncludeK[0] = list[0];</span><br><span class="line">    for (i=1;i&lt;length;i++)      </span><br><span class="line">    &#123;          </span><br><span class="line">        maxSumIncludeK[i] = list[i];          </span><br><span class="line">        if (maxSumIncludeK[i-1]&gt;0) maxSumIncludeK[i]+=maxSumIncludeK[i-1];</span><br><span class="line">        if (maxSumIncludeK[i]&gt;maxSum[i-1]) maxSum[i] = maxSumIncludeK[i];</span><br><span class="line">        else maxSum[i] = maxSum[i-1];</span><br><span class="line">    &#125;</span><br><span class="line">    return maxSum[length-1];</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    int list[20] = &#123;4,9,-4,3,2,-1,-6,7,2,-3,1,5,3,-2,7,-3,9,2,-4,2&#125;;</span><br><span class="line">    printf(&quot;max sum:%d \n&quot;,MaxSubList(list,20));</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><a href="http://magicwt.com/wp-content/uploads/2015/10/001000729.jpg" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/10/001000729.jpg" alt="001000729"></a></p>
-
-          
+          思路：采用动态规划进行求解，令：maxSum[k]表示子串list{0,k}的最大连续子串和,maxSumIncludeK[k]表示子串list{0,k}中末尾为k的最大连续子串和，则maxSumIncludeK[k] = max(list[k],list[k]+maxSumIncludeK[k-1
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2012/06/05/e6-b1-82-e5-92-8c-e6-9c-80-e5-a4-a7-e7-9a-84-e8-bf-9e-e7-bb-ad-e5-ad-90-e4-b8-b2/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1214,12 +1082,16 @@
       
         
           
-            <p>对于二叉搜索树，可以将其转换为双向链表，其中，节点的左子树指针在链表中指向前一个节点，右子树指针在链表中指向后一个节点。</p>
-<p><strong>思路：</strong><br>采用递归思想，对于二叉搜索树，将左、右子树分别转换为双向链表，左子树转换所得链表的头结点即整个树的头结点，左子树转换所得链表的尾节点与根节点相邻；右子树转换所得链表的尾节点即整个树的尾节点，右子树转换所得链表的头结点与根节点相邻。<br><a href="http://magicwt.com/wp-content/uploads/2015/10/152847403.jpg" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/10/152847403.jpg" alt="152847403"></a><br><strong>代码：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#include &lt;stdlib.h&gt; </span><br><span class="line">#include &lt;stdio.h&gt; </span><br><span class="line"></span><br><span class="line">typedef struct TNode </span><br><span class="line">&#123; </span><br><span class="line">    int value; </span><br><span class="line">    TNode* lchild; </span><br><span class="line">    TNode* rchild; </span><br><span class="line">&#125;TNode,*BTree; </span><br><span class="line"></span><br><span class="line">//二叉树转换为双向链表 </span><br><span class="line">TNode* TreeToList(BTree tree,TNode* &amp;lastNode) </span><br><span class="line">&#123; </span><br><span class="line">    TNode* head; </span><br><span class="line">    //若树为空，返回空 </span><br><span class="line">    if (tree == NULL)  </span><br><span class="line">    &#123; </span><br><span class="line">        lastNode = NULL; </span><br><span class="line">        return NULL; </span><br><span class="line">    &#125; </span><br><span class="line">    //若无左子树，则该根节点为链表的头结点 </span><br><span class="line">    if (tree-&gt;lchild==NULL) </span><br><span class="line">    &#123; </span><br><span class="line">        head = tree; </span><br><span class="line">    &#125; </span><br><span class="line">    //若有左子树，递归调用转换函数将左子树转换为双向链表 </span><br><span class="line">    //左子树转换所得链表的头结点是整个树的头结点 </span><br><span class="line">    //左子树链表的尾结点与根节点相邻 </span><br><span class="line">    else </span><br><span class="line">    &#123; </span><br><span class="line">        head = TreeToList(tree-&gt;lchild,lastNode); </span><br><span class="line">        tree-&gt;lchild = lastNode; </span><br><span class="line">        lastNode-&gt;rchild = tree; </span><br><span class="line">    &#125; </span><br><span class="line">    //若无右子树，则该根节点为链表的尾结点 </span><br><span class="line">    if (tree-&gt;rchild==NULL) </span><br><span class="line">    &#123; </span><br><span class="line">        lastNode = tree; </span><br><span class="line"></span><br><span class="line">    &#125; </span><br><span class="line">    //若有右子树，递归调用转换函数将左子树转换为双向链表 </span><br><span class="line">    //右子树转换所得链表的尾结点是整个树的尾结点 </span><br><span class="line">    //右子树链表的头结点与根节点相邻 </span><br><span class="line">    else </span><br><span class="line">    &#123; </span><br><span class="line">        tree-&gt;rchild = TreeToList(tree-&gt;rchild,lastNode); </span><br><span class="line">        tree-&gt;rchild-&gt;lchild = tree; </span><br><span class="line">    &#125; </span><br><span class="line">    return head; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">int main() </span><br><span class="line">&#123; </span><br><span class="line">    BTree tree = (BTree)malloc(sizeof(TNode)); </span><br><span class="line">    tree-&gt;value = 4; </span><br><span class="line">    tree-&gt;lchild = (TNode*)malloc(sizeof(TNode)); </span><br><span class="line">    tree-&gt;lchild-&gt;value = 2; </span><br><span class="line">    tree-&gt;lchild-&gt;lchild = (TNode*)malloc(sizeof(TNode)); </span><br><span class="line">    tree-&gt;lchild-&gt;lchild-&gt;value = 1; </span><br><span class="line">    tree-&gt;lchild-&gt;lchild-&gt;lchild = NULL; </span><br><span class="line">    tree-&gt;lchild-&gt;lchild-&gt;rchild = NULL; </span><br><span class="line">    tree-&gt;lchild-&gt;rchild = (TNode*)malloc(sizeof(TNode)); </span><br><span class="line">    tree-&gt;lchild-&gt;rchild-&gt;value = 3; </span><br><span class="line">    tree-&gt;lchild-&gt;rchild-&gt;lchild = NULL; </span><br><span class="line">    tree-&gt;lchild-&gt;rchild-&gt;rchild = NULL; </span><br><span class="line">    tree-&gt;rchild = (TNode*)malloc(sizeof(TNode)); </span><br><span class="line">    tree-&gt;rchild-&gt;value = 6; </span><br><span class="line">    tree-&gt;rchild-&gt;lchild = (TNode*)malloc(sizeof(TNode)); </span><br><span class="line">    tree-&gt;rchild-&gt;lchild-&gt;value = 5; </span><br><span class="line">    tree-&gt;rchild-&gt;lchild-&gt;lchild = NULL; </span><br><span class="line">    tree-&gt;rchild-&gt;lchild-&gt;rchild = NULL; </span><br><span class="line">    tree-&gt;rchild-&gt;rchild = NULL; </span><br><span class="line"></span><br><span class="line">    TNode* lastNode; </span><br><span class="line">    TNode* listHead = TreeToList(tree,lastNode); </span><br><span class="line">    TNode* node = listHead; </span><br><span class="line">    while(node) </span><br><span class="line">    &#123; </span><br><span class="line">        printf(&quot;%d &quot;,node-&gt;value); </span><br><span class="line">        node = node-&gt;rchild; </span><br><span class="line">    &#125; </span><br><span class="line">    printf(&quot;\n&quot;); </span><br><span class="line"></span><br><span class="line">    return 0; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><a href="http://magicwt.com/wp-content/uploads/2015/10/152735920.jpg" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/10/152735920.jpg" alt="152735920"></a></p>
-
-          
+          对于二叉搜索树，可以将其转换为双向链表，其中，节点的左子树指针在链表中指向前一个节点，右子树指针在链表中指向后一个节点。
+思路：采用递归思想，对于二叉搜索树，将左、右子树分别转换为双向链表，左子树转换所得链表的头结点即整个树的头结点，左子树转换所得链表的尾节点与根节点相邻；右子树转换所得链表的尾节点
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2012/06/03/e7-ba-bf-e7-b4-a2-e4-ba-8c-e5-8f-89-e6-a0-91-ef-bc-9a-e4-ba-8c-e5-8f-89-e6-90-9c-e7-b4-a2-e6-a0-91-e8-bd-ac-e6-8d-a2-e4-b8-ba-e5-8f-8c-e5-90-91-e9-93-be-e8-a1-a8/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1359,11 +1231,15 @@
       
         
           
-            <p><a href="http://magicwt.com/wp-content/uploads/2015/10/115527488.jpg" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/10/115527488.jpg" alt="115527488"></a><br>先序遍历为：1 2 4 5 3 6，中序遍历为：4 2 5 1 6 3<br><strong>思路：</strong><br>先序遍历的第一个元素为根节点，在中序遍历中找到这个根节点，从而可以将中序遍历分为左右两个部分，左边部分为左子树的中序遍历，右边部分为右子树的中序遍历，进而也可以将先序遍历除第一个元素以外的剩余部分分为两个部分，第一个部分为左子树的先序遍历，第二个部分为右子树的先序遍历。<br>由上述分析结果，可以递归调用构建函数，根据左子树、右子树的先序、中序遍历重建左、右子树。<br><strong>代码：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">typedef struct TNode</span><br><span class="line">&#123;</span><br><span class="line">    int value;</span><br><span class="line">    TNode* lchild;</span><br><span class="line">    TNode* rchild;</span><br><span class="line">&#125;TNode,*BTree;   </span><br><span class="line"></span><br><span class="line">//根据先序遍历、中序遍历构建二叉树</span><br><span class="line">BTree rebuild(int preOrder[],int startPre,int endPre,int inOrder[],int startIn,int endIn)</span><br><span class="line">&#123;</span><br><span class="line">    //先序遍历和中序遍历长度应相等</span><br><span class="line">    if (endPre - startPre != endIn - startIn) return NULL;</span><br><span class="line">    //起始位置不应大于末尾位置</span><br><span class="line">    if (startPre &gt; endPre) return NULL;</span><br><span class="line">    //先序遍历的第一个元素为根节点</span><br><span class="line">    BTree tree = (BTree)malloc(sizeof(TNode));</span><br><span class="line">    tree-&gt;value = preOrder[startPre];</span><br><span class="line">    tree-&gt;lchild = NULL;</span><br><span class="line">    tree-&gt;rchild = NULL;</span><br><span class="line">    //先序遍历和中序遍历只有一个元素时，返回该节点</span><br><span class="line">    if (startPre == endPre) return tree;</span><br><span class="line">    //在中序遍历中找到根节点</span><br><span class="line">    int index,length;</span><br><span class="line">    for (index=startIn;index&lt;=endIn;index++)          </span><br><span class="line">    &#123;                  </span><br><span class="line">        if (inOrder[index] == preOrder[startPre]) break;          </span><br><span class="line">    &#125;          </span><br><span class="line">    //若未找到，返回空          </span><br><span class="line">    if (index &gt; endIn) return NULL;</span><br><span class="line">    //有左子树，递归调用构建左子树</span><br><span class="line">    if (index &gt; startIn)</span><br><span class="line">    &#123;</span><br><span class="line">        length = index-startIn;</span><br><span class="line">        tree-&gt;lchild = rebuild(preOrder,startPre+1,startPre+1+length-1,inOrder,startIn,startIn+length-1);</span><br><span class="line">    &#125;</span><br><span class="line">    //有右子树，递归调用构建右子树</span><br><span class="line">    if (index &lt; endIn)           </span><br><span class="line">    &#123;                  </span><br><span class="line">        length = endIn - index;                  </span><br><span class="line">        tree-&gt;rchild = rebuild(preOrder,endPre-length+1,endPre,inOrder,endIn-length+1,endIn);</span><br><span class="line">    &#125;</span><br><span class="line">    return tree;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//后序遍历二叉树</span><br><span class="line">void postTraverse(BTree tree)</span><br><span class="line">&#123;</span><br><span class="line">    if (tree-&gt;lchild != NULL) postTraverse(tree-&gt;lchild);</span><br><span class="line">    if (tree-&gt;rchild != NULL) postTraverse(tree-&gt;rchild);</span><br><span class="line">    printf(&quot;%d &quot;,tree-&gt;value);</span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    int preOrder[] = &#123;1,2,4,5,3,6&#125;;</span><br><span class="line">    int inOrder[] = &#123;4,2,5,1,6,3&#125;;</span><br><span class="line">    BTree tree = rebuild(preOrder,0,5,inOrder,0,5);</span><br><span class="line">    postTraverse(tree);</span><br><span class="line">    printf(&quot;\n&quot;);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>重建二叉树后后序遍历的结果如下：<br><a href="http://magicwt.com/wp-content/uploads/2015/10/120240550.jpg" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/10/120240550.jpg" alt="120240550"></a></p>
-
-          
+          先序遍历为：1 2 4 5 3 6，中序遍历为：4 2 5 1 6 3思路：先序遍历的第一个元素为根节点，在中序遍历中找到这个根节点，从而可以将中序遍历分为左右两个部分，左边部分为左子树的中序遍历，右边部分为右子树的中序遍历，进而也可以将先序遍历除第一个元素以外的剩余部分分为两个部分，第一个部分为左
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2012/06/03/e6-a0-b9-e6-8d-ae-e4-ba-8c-e5-8f-89-e6-a0-91-e7-9a-84-e5-85-88-e5-ba-8f-e3-80-81-e4-b8-ad-e5-ba-8f-e9-81-8d-e5-8e-86-e7-bb-93-e6-9e-9c-e9-87-8d-e5-bb-ba-e4-ba-8c-e5-8f-89-e6-a0-91/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1503,11 +1379,16 @@
       
         
           
-            <p><strong>思路：</strong><br>遍历出栈序列，对于其中任一元素k，查看当前栈是否为空，若为空或栈顶元素不等于k，则根据入栈序列进行入栈，直至入栈序列中的元素k入栈。若直至入栈序列末尾仍无k，说明出栈序列错误。入栈完成后，将k出栈。<br>如上述操作，直至完成出栈序列遍历，说明出栈序列正确。<br><a href="http://magicwt.com/wp-content/uploads/2015/10/005203287.jpg" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/10/005203287.jpg" alt="005203287"></a><br><strong>代码：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#include &lt;stdlib.h&gt; </span><br><span class="line">#include &lt;stdio.h&gt; </span><br><span class="line"></span><br><span class="line">struct Stack </span><br><span class="line">&#123; </span><br><span class="line">    int* base; </span><br><span class="line">    int* top; </span><br><span class="line">    int size;    </span><br><span class="line">&#125;; </span><br><span class="line"></span><br><span class="line">//初始化栈 </span><br><span class="line">void Init(Stack &amp;s) </span><br><span class="line">&#123; </span><br><span class="line">    s.base = (int*)malloc(sizeof(int)*100); </span><br><span class="line">    s.top = s.base; </span><br><span class="line">    s.size = 100; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">//入栈 </span><br><span class="line">bool Push(Stack &amp;s,int n) </span><br><span class="line">&#123; </span><br><span class="line">    if (s.top-s.base &gt;= s.size) </span><br><span class="line">    &#123; </span><br><span class="line">        s.size = s.size + 10; </span><br><span class="line">        s.base = (int*)realloc(s.base,sizeof(int)*s.size); </span><br><span class="line">    &#125; </span><br><span class="line">    *s.top = n; </span><br><span class="line">    s.top++; </span><br><span class="line">    return true; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">//出栈 </span><br><span class="line">bool Pop(Stack &amp;s,int &amp;n) </span><br><span class="line">&#123; </span><br><span class="line">    if (s.top==s.base) return false; </span><br><span class="line">    s.top--; </span><br><span class="line">    n = *s.top; </span><br><span class="line">    return true; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">bool Top(Stack &amp;s,int &amp;n) </span><br><span class="line">&#123; </span><br><span class="line">    if (s.top==s.base) return false; </span><br><span class="line">    n = *(s.top-1); </span><br><span class="line">    return true; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">bool Empty(Stack s) </span><br><span class="line">&#123; </span><br><span class="line">    if (s.top == s.base) return true; </span><br><span class="line">    else return false; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">int main() </span><br><span class="line">&#123; </span><br><span class="line">    int i,number; </span><br><span class="line">    int* input; </span><br><span class="line">    int* output; </span><br><span class="line">    printf(&quot;input the number of the elements:\n&quot;); </span><br><span class="line">    scanf(&quot;%d&quot;,&amp;number); </span><br><span class="line">    input = (int*)malloc(sizeof(int)*number); </span><br><span class="line">    output = (int*)malloc(sizeof(int)*number); </span><br><span class="line">    printf(&quot;input the sequence of the elements:\n&quot;); </span><br><span class="line">    for (i=0;i&lt;number;i++) scanf(&quot;%d&quot;,&amp;output[i]); </span><br><span class="line">    for (i=0;i&lt;number;i++) input[i] = i+1; </span><br><span class="line"></span><br><span class="line">    Stack s; </span><br><span class="line">    Init(s); </span><br><span class="line">    int inIndex = 0; </span><br><span class="line">    int outIndex = 0; </span><br><span class="line">    //遍历出栈序列 </span><br><span class="line">    while (outIndex&lt;number) </span><br><span class="line">    &#123; </span><br><span class="line">        int temp; </span><br><span class="line">        if (!Empty(s)) Top(s,temp); </span><br><span class="line">        //若栈为空或栈顶元素不等于出栈序列中当前元素，执行入栈操作 </span><br><span class="line">        if (Empty(s)||temp!=output[outIndex]) </span><br><span class="line">        &#123; </span><br><span class="line">            while(inIndex&lt;number&amp;&amp;input[inIndex]!=output[outIndex])  </span><br><span class="line">            &#123; </span><br><span class="line">                Push(s,input[inIndex]); </span><br><span class="line">                inIndex++; </span><br><span class="line">            &#125; </span><br><span class="line">            if (inIndex == number)  </span><br><span class="line">            &#123; </span><br><span class="line">                printf(&quot;wrong output sequece\n&quot;); </span><br><span class="line">                return -1; </span><br><span class="line">            &#125; </span><br><span class="line">            Push(s,input[inIndex]); </span><br><span class="line">            inIndex++; </span><br><span class="line">        &#125; </span><br><span class="line">        Pop(s,temp); </span><br><span class="line">        if (temp!=output[outIndex]) </span><br><span class="line">        &#123;            </span><br><span class="line">            printf(&quot;wrong output sequece\n&quot;); </span><br><span class="line">            return -1; </span><br><span class="line">        &#125; </span><br><span class="line">        outIndex++; </span><br><span class="line">    &#125; </span><br><span class="line">    printf(&quot;rignt output sequece\n&quot;); </span><br><span class="line">    return 0; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><a href="http://magicwt.com/wp-content/uploads/2015/10/005521875.jpg" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/10/005521875.jpg" alt="005521875"></a></p>
-
-          
+          思路：遍历出栈序列，对于其中任一元素k，查看当前栈是否为空，若为空或栈顶元素不等于k，则根据入栈序列进行入栈，直至入栈序列中的元素k入栈。若直至入栈序列末尾仍无k，说明出栈序列错误。入栈完成后，将k出栈。如上述操作，直至完成出栈序列遍历，说明出栈序列正确。代码：
+123456789101112131
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2012/06/03/e9-aa-8c-e8-af-81-e6-a0-88-e7-9a-84-e5-87-ba-e6-a0-88-e5-ba-8f-e5-88-97-e6-98-af-e5-90-a6-e6-ad-a3-e7-a1-ae/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1647,9 +1528,164 @@
       
         
           
-            <p><strong>思路：</strong><br>采用递归的思想。对于根节点，若其左子树或右子树不为空，则互换左、右子树，然后对于左、右子树，分别递归上述处理方法，直至叶节点。<br>示例：<br><a href="http://magicwt.com/wp-content/uploads/2015/10/232134562.jpg" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/10/232134562.jpg" alt="232134562"></a><br><strong>代码：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">typedef struct TNode</span><br><span class="line">&#123;</span><br><span class="line">    int value;</span><br><span class="line">    TNode* lchild;</span><br><span class="line">    TNode* rchild;</span><br><span class="line">&#125;TNode,*BTree; </span><br><span class="line"></span><br><span class="line">//采用递归进行镜像转换</span><br><span class="line">void MirrorTree(BTree tree)</span><br><span class="line">&#123;</span><br><span class="line">    if (tree == NULL) return;</span><br><span class="line">    if (tree-&gt;lchild == NULL &amp;&amp; tree-&gt;rchild == NULL) return;</span><br><span class="line">    TNode* temp = tree-&gt;lchild;</span><br><span class="line">    tree-&gt;lchild = tree-&gt;rchild;</span><br><span class="line">    tree-&gt;rchild = temp;</span><br><span class="line">    MirrorTree(tree-&gt;lchild);</span><br><span class="line">    MirrorTree(tree-&gt;rchild);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          思路：采用递归的思想。对于根节点，若其左子树或右子树不为空，则互换左、右子树，然后对于左、右子树，分别递归上述处理方法，直至叶节点。示例：代码：
+12345678910111213141516171819typedef struct TNode&#123;    int value;    TNod
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2012/06/02/e6-b1-82-e4-ba-8c-e5-8f-89-e6-a0-91-e7-9a-84-e9-95-9c-e5-83-8f/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2012/06/01/e5-a4-9a-e5-8f-89-e6-a0-91-e7-9a-84-e5-ae-bd-e5-ba-a6-e4-bc-98-e5-85-88-e6-90-9c-e7-b4-a2bfs/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="magicwt">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="magicwt的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2012/06/01/e5-a4-9a-e5-8f-89-e6-a0-91-e7-9a-84-e5-ae-bd-e5-ba-a6-e4-bc-98-e5-85-88-e6-90-9c-e7-b4-a2bfs/" itemprop="url">多叉树的宽度优先搜索BFS</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2012-06-01T20:18:07+08:00">
+                2012-06-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据结构与算法/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构与算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          首先，选择一个合适的数据结构存储多叉树，我使用了“左孩子右兄弟”的方法，使用二叉树来存储多叉树，便于实现和遍历。其次，宽度优先搜索时：1.用队列（先进先出）保存遍历路径。2.搜索顺序：对节点A，先访问节点的左节点（第一个孩子节点），从该左节点开始一直向右遍历直到最右叶子节点（所有兄弟节点），此时遍历
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2012/06/01/e5-a4-9a-e5-8f-89-e6-a0-91-e7-9a-84-e5-ae-bd-e5-ba-a6-e4-bc-98-e5-85-88-e6-90-9c-e7-b4-a2bfs/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1733,7 +1769,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">90</span>
+                  <span class="site-state-item-count">89</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
