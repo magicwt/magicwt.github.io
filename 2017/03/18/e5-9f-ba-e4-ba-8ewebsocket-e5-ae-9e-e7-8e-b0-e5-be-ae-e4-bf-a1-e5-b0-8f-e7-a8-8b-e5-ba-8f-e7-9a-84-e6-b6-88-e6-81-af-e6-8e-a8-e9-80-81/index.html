@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Spring,Spring Boot,WebSocket,小程序,微信,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="微信小程序支持通过基于WebSocket进行消息推送，提供了相应的API，例如创建连接示例代码：1234567891011wx.connectSocket(&amp;#123;  url: &amp;apos;test.php&amp;apos;,  data:&amp;#123;    x: &amp;apos;&amp;apos;,    y: &amp;apos;&amp;apos;  &amp;#125;,  header:&amp;#123;     &amp;apos;c">
+<meta name="keywords" content="Spring,Spring Boot,WebSocket,小程序,微信">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于WebSocket实现微信小程序的消息推送">
+<meta property="og:url" content="http://yoursite.com/2017/03/18/e5-9f-ba-e4-ba-8ewebsocket-e5-ae-9e-e7-8e-b0-e5-be-ae-e4-bf-a1-e5-b0-8f-e7-a8-8b-e5-ba-8f-e7-9a-84-e6-b6-88-e6-81-af-e6-8e-a8-e9-80-81/index.html">
+<meta property="og:site_name" content="magicwt的博客">
+<meta property="og:description" content="微信小程序支持通过基于WebSocket进行消息推送，提供了相应的API，例如创建连接示例代码：1234567891011wx.connectSocket(&amp;#123;  url: &amp;apos;test.php&amp;apos;,  data:&amp;#123;    x: &amp;apos;&amp;apos;,    y: &amp;apos;&amp;apos;  &amp;#125;,  header:&amp;#123;     &amp;apos;c">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2017/03/证书申请-300x169.png">
+<meta property="og:updated_time" content="2018-12-04T10:47:42.328Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于WebSocket实现微信小程序的消息推送">
+<meta name="twitter:description" content="微信小程序支持通过基于WebSocket进行消息推送，提供了相应的API，例如创建连接示例代码：1234567891011wx.connectSocket(&amp;#123;  url: &amp;apos;test.php&amp;apos;,  data:&amp;#123;    x: &amp;apos;&amp;apos;,    y: &amp;apos;&amp;apos;  &amp;#125;,  header:&amp;#123;     &amp;apos;c">
+<meta name="twitter:image" content="http://magicwt.com/wp-content/uploads/2017/03/证书申请-300x169.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/03/18/e5-9f-ba-e4-ba-8ewebsocket-e5-ae-9e-e7-8e-b0-e5-be-ae-e4-bf-a1-e5-b0-8f-e7-a8-8b-e5-ba-8f-e7-9a-84-e6-b6-88-e6-81-af-e6-8e-a8-e9-80-81/">
+
+
+
+
+
+  <title>基于WebSocket实现微信小程序的消息推送 | magicwt的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">magicwt的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/18/e5-9f-ba-e4-ba-8ewebsocket-e5-ae-9e-e7-8e-b0-e5-be-ae-e4-bf-a1-e5-b0-8f-e7-a8-8b-e5-ba-8f-e7-9a-84-e6-b6-88-e6-81-af-e6-8e-a8-e9-80-81/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="magicwt">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="magicwt的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">基于WebSocket实现微信小程序的消息推送</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-18T17:33:58+08:00">
+                2017-03-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/后端/" itemprop="url" rel="index">
+                    <span itemprop="name">后端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>微信小程序支持通过基于WebSocket进行消息推送，提供了相应的API，例如创建连接示例代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">wx.connectSocket(&#123;</span><br><span class="line">  url: &apos;test.php&apos;,</span><br><span class="line">  data:&#123;</span><br><span class="line">    x: &apos;&apos;,</span><br><span class="line">    y: &apos;&apos;</span><br><span class="line">  &#125;,</span><br><span class="line">  header:&#123; </span><br><span class="line">    &apos;content-type&apos;: &apos;application/json&apos;</span><br><span class="line">  &#125;,</span><br><span class="line">  method:&quot;GET&quot;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>API详细说明可参见：<a href="https://mp.weixin.qq.com/debug/wxadoc/dev/api/network-socket.html#wxconnectsocketobject，这里主要讲解服务端如何实现基于WebSocket的消息推送。" target="_blank" rel="noopener">https://mp.weixin.qq.com/debug/wxadoc/dev/api/network-socket.html#wxconnectsocketobject，这里主要讲解服务端如何实现基于WebSocket的消息推送。</a><br>服务端整体部署架构为Nginx+Tomcat，因为微信小程序要求使用WSS协议进行通信，因此，需要配置Nginx支持SSL，可以通过阿里云的证书服务申请免费证书：<br><a href="http://magicwt.com/wp-content/uploads/2017/03/证书申请.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2017/03/证书申请-300x169.png" alt=""></a><br>按照提示操作即可，证书申请成功后，在Nginx中配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">upstream websocket-server &#123;</span><br><span class="line">    server 127.0.0.1:8080;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">    listen 443;</span><br><span class="line">    server_name  xxx.com;</span><br><span class="line">    ssl on;</span><br><span class="line">    ssl_certificate /usr/local/nginx/conf/server.pem;</span><br><span class="line">    ssl_certificate_key /usr/local/nginx/conf/server.key;</span><br><span class="line">    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;</span><br><span class="line"></span><br><span class="line">    location ^~/websocket/ &#123;</span><br><span class="line">        proxy_pass http://websocket-server;</span><br><span class="line">        proxy_http_version 1.1;</span><br><span class="line">        proxy_set_header Upgrade $http_upgrade;</span><br><span class="line">        proxy_set_header Connection &quot;Upgrade&quot;;</span><br><span class="line">        proxy_connect_timeout       3600s;</span><br><span class="line">        proxy_read_timeout          3600s;</span><br><span class="line">        proxy_send_timeout          3600s;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其中需要注意的是：</p>
+<ul>
+<li>使用“proxy_set_header”设置转发后HTTP报文头的Upgrade和Connection属性；</li>
+<li>使用“proxy_connect_timeout”、“proxy_read_timeout”、“proxy_send_timeout”设置连接超时时间，因为WebSocket是长连接，而Nginx反向代理默认超时时间是60秒，这里需要将超时时间设置长一些。<br>WebSocket服务是使用Spring Boot实现的。<br>配置类代码如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">public class WebSocketConfig implements WebSocketConfigurer &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) &#123;</span><br><span class="line">        registry.addHandler(onlineWebSocketHandler(), &quot;/websocket&quot;).setAllowedOrigins(&quot;*&quot;).addInterceptors(onlineHandshakeInterceptor()).withSockJS();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Bean</span><br><span class="line">    public WebSocketHandler onlineWebSocketHandler() &#123;</span><br><span class="line">        return new PerConnectionWebSocketHandler(OnlineWebSocketHandler.class);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Bean</span><br><span class="line">    public HandshakeInterceptor onlineHandshakeInterceptor() &#123;</span><br><span class="line">        return new OnlineHandshakeInterceptor();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Bean</span><br><span class="line">    public ServerEndpointExporter serverEndpointExporter() &#123;</span><br><span class="line">        return new ServerEndpointExporter();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>其中通过WebSocketHandlerRegistry实例注册WebSocket处理器，并注册拦截器进行权限控制。需要注意的是，在创建处理器时，使用了PerConnectionWebSocketHandler进行了封装，保证每个WebSocket连接使用一个处理器进行处理，这样处理器就可以是有状态的。<br>WebSocket处理器代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">public class OnlineWebSocketHandler extends TextWebSocketHandler &#123;</span><br><span class="line"></span><br><span class="line">    private static Logger logger = LoggerFactory.getLogger(OnlineWebSocketHandler.class);</span><br><span class="line"></span><br><span class="line">    private static Map&lt;Integer, WebSocketSession&gt; sessionMap = Maps.newConcurrentMap();</span><br><span class="line"></span><br><span class="line">    private Integer userId;</span><br><span class="line">    private WebSocketSession session;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void afterConnectionEstablished(WebSocketSession session) throws Exception &#123;</span><br><span class="line">        this.userId = (Integer) session.getAttributes().get(Constant.USER_ID);</span><br><span class="line">        this.session = session;</span><br><span class="line">        sessionMap.put(this.userId, this.session);</span><br><span class="line">        logger.info(&quot;add session, userId=&#123;&#125;, total=&#123;&#125;&quot;, this.userId, sessionMap.size());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void afterConnectionClosed(WebSocketSession session, CloseStatus status)</span><br><span class="line">            throws Exception &#123;</span><br><span class="line">        sessionMap.remove(this.userId);</span><br><span class="line">        logger.info(&quot;remove session, userId=&#123;&#125;, total=&#123;&#125;&quot;, this.userId, sessionMap.size());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception &#123;</span><br><span class="line">        logger.info(message.getPayload());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void sendMessage(Integer userId, String message) throws IOException &#123;</span><br><span class="line">        if (sessionMap.containsKey(userId)) &#123;</span><br><span class="line">            sessionMap.get(userId).sendMessage(new TextMessage(message));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其中，实现了WebSocketHandler接口的afterConnectionEstablished和afterConnectionClosed方法，在afterConnectionEstablished方法中，当WebSocket连接创建后，将连接所对应处理器实例的userId和session注册到静态Map对象中，在 afterConnectionClosed中，当WebSocket连接关闭后，将连接所对应处理器实例的userId和session从静态Map对象中删除。OnlineWebSocketHandler提供了一个静态方法sendMessage，通过调用这个方法，可以向某个指定用户推送消息，其内部是根据userId从静态Map对象查找session，并调用session的sendMessage方法推送消息。<br>WebSocket拦截器代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">public class OnlineHandshakeInterceptor implements HandshakeInterceptor &#123;</span><br><span class="line"></span><br><span class="line">    private static Logger logger = LoggerFactory.getLogger(OnlineHandshakeInterceptor.class);</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    private UserService userService;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map&lt;String, Object&gt; attributes) throws Exception &#123;</span><br><span class="line">        HttpServletRequest httpRequest = ((ServletServerHttpRequest) request).getServletRequest();</span><br><span class="line">        String userIdStr = httpRequest.getParameter(Constant.USER_ID);</span><br><span class="line">        String session = httpRequest.getParameter(Constant.SESSION);</span><br><span class="line">        if (StringUtils.isBlank(userIdStr) || StringUtils.isBlank(session)) &#123;</span><br><span class="line">            logger.info(&quot;userId and session needed, now useId=&#123;&#125;, session=&#123;&#125;&quot;, userIdStr, session);</span><br><span class="line">            throw new BaseException(BaseExceptionEnum.NOT_ALLOWED);</span><br><span class="line">        &#125;</span><br><span class="line">        int userId = Integer.valueOf(userIdStr);</span><br><span class="line">        if (!userService.checkLogin(userId, session)) &#123;</span><br><span class="line">            throw new BaseException(BaseExceptionEnum.NOT_ALLOWED);</span><br><span class="line">        &#125;</span><br><span class="line">        attributes.put(Constant.USER_ID, userId);</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Exception exception) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;``` </span><br><span class="line">其中，实现了HandshakeInterceptor接口的beforeHandshake方法，在连接创建开始时，从request中获取url参数userId和session进行权限判断。</span><br><span class="line">Spring Boot启动类代码如下：</span><br></pre></td></tr></table></figure>
+<p>@SpringBootApplication<br>@EnableWebMvc<br>@EnableTransactionManagement<br>@EnableWebSocket<br>public class Application {</p>
+<pre><code>public static void main(String[] args) throws Exception {
+    SpringApplication.run(Application.class, args);
+}
+</code></pre><p><code>`</code><br>通过EnableWebSocket注解开启WebSocket。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Spring/" rel="tag"># Spring</a>
+          
+            <a href="/tags/Spring-Boot/" rel="tag"># Spring Boot</a>
+          
+            <a href="/tags/WebSocket/" rel="tag"># WebSocket</a>
+          
+            <a href="/tags/小程序/" rel="tag"># 小程序</a>
+          
+            <a href="/tags/微信/" rel="tag"># 微信</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/05/15/e5-9f-ba-e4-ba-8enginx-sticky-module-ng-e5-ae-9e-e7-8e-b0-e4-bc-9a-e8-af-9d-e4-bf-9d-e6-8c-81-ef-bc-88sticky-sessions-ef-bc-89/" rel="next" title="基于nginx-sticky-module-ng实现会话保持（Sticky Sessions）">
+                <i class="fa fa-chevron-left"></i> 基于nginx-sticky-module-ng实现会话保持（Sticky Sessions）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/29/hello-world/" rel="prev" title="Hello World">
+                Hello World <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">magicwt</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">90</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/magicwt" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:wang-t04@mails.tsinghua.edu.cn" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">magicwt</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

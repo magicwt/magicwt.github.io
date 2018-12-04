@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hibernate,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="简介Hibernate通过延迟加载在真正需要使用数据时从数据库表中加载，这样可以加快程序运行速度，减少内存开销。Hibernate在以下三种情况会默认使用延迟加载：1）load方法延迟加载；2）实体属性延迟加载；3）集合属性延迟加载。 数据库示例示例数据库包含3张表：1）文章表（post），存储文章标题、内容，主键为自增整数；2）分类表（category），存储分类名称，主键为自增整数；3）标签表">
+<meta name="keywords" content="Hibernate">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hibernate的延迟加载">
+<meta property="og:url" content="http://yoursite.com/2013/07/09/hibernate-e7-9a-84-e5-bb-b6-e8-bf-9f-e5-8a-a0-e8-bd-bd/index.html">
+<meta property="og:site_name" content="magicwt的博客">
+<meta property="og:description" content="简介Hibernate通过延迟加载在真正需要使用数据时从数据库表中加载，这样可以加快程序运行速度，减少内存开销。Hibernate在以下三种情况会默认使用延迟加载：1）load方法延迟加载；2）实体属性延迟加载；3）集合属性延迟加载。 数据库示例示例数据库包含3张表：1）文章表（post），存储文章标题、内容，主键为自增整数；2）分类表（category），存储分类名称，主键为自增整数；3）标签表">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2013/07/1.png">
+<meta property="og:updated_time" content="2018-12-04T10:47:42.321Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hibernate的延迟加载">
+<meta name="twitter:description" content="简介Hibernate通过延迟加载在真正需要使用数据时从数据库表中加载，这样可以加快程序运行速度，减少内存开销。Hibernate在以下三种情况会默认使用延迟加载：1）load方法延迟加载；2）实体属性延迟加载；3）集合属性延迟加载。 数据库示例示例数据库包含3张表：1）文章表（post），存储文章标题、内容，主键为自增整数；2）分类表（category），存储分类名称，主键为自增整数；3）标签表">
+<meta name="twitter:image" content="http://magicwt.com/wp-content/uploads/2013/07/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2013/07/09/hibernate-e7-9a-84-e5-bb-b6-e8-bf-9f-e5-8a-a0-e8-bd-bd/">
+
+
+
+
+
+  <title>Hibernate的延迟加载 | magicwt的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">magicwt的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2013/07/09/hibernate-e7-9a-84-e5-bb-b6-e8-bf-9f-e5-8a-a0-e8-bd-bd/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="magicwt">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="magicwt的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Hibernate的延迟加载</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2013-07-09T01:14:13+08:00">
+                2013-07-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/后端/" itemprop="url" rel="index">
+                    <span itemprop="name">后端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Hibernate通过延迟加载在真正需要使用数据时从数据库表中加载，这样可以加快程序运行速度，减少内存开销。Hibernate在以下三种情况会默认使用延迟加载：<br>1）load方法延迟加载；<br>2）实体属性延迟加载；<br>3）集合属性延迟加载。</p>
+<h2 id="数据库示例"><a href="#数据库示例" class="headerlink" title="数据库示例"></a>数据库示例</h2><p><a href="http://magicwt.com/wp-content/uploads/2013/07/1.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2013/07/1.png" alt="1"></a><br>示例数据库包含3张表：<br>1）文章表（post），存储文章标题、内容，主键为自增整数；<br>2）分类表（category），存储分类名称，主键为自增整数；<br>3）标签表（score），存储标签名称，主键为自增整数；<br>4）文章标签表（post_tag），存储文章包含的标签，使用文章id和标签id作为联合主键。<br>每篇文章属于一个分类，并包含多个标签。</p>
+<h2 id="延迟加载示例"><a href="#延迟加载示例" class="headerlink" title="延迟加载示例"></a>延迟加载示例</h2><p>创建Post类与post表映射。<br>Post.java：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">package com.magicwt.bean;</span><br><span class="line"></span><br><span class="line">import java.util.Set;</span><br><span class="line"></span><br><span class="line">public class Post &#123;</span><br><span class="line"></span><br><span class="line">    //与主键id映射</span><br><span class="line">    private int id;</span><br><span class="line">    //与字段title映射</span><br><span class="line">    private String title;</span><br><span class="line">    //与字段content映射</span><br><span class="line">    private String content;</span><br><span class="line">    //关联Category实体</span><br><span class="line">    private Category category;</span><br><span class="line">    //关联Tag实体</span><br><span class="line">    private Set&lt;Tag&gt; tags;</span><br><span class="line"></span><br><span class="line">    public int getId() &#123;</span><br><span class="line">        return id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setId(int id) &#123;</span><br><span class="line">        this.id = id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String getTitle() &#123;</span><br><span class="line">        return title;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setTitle(String title) &#123;</span><br><span class="line">        this.title = title;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String getContent() &#123;</span><br><span class="line">        return content;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setContent(String content) &#123;</span><br><span class="line">        this.content = content;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Category getCategory() &#123;</span><br><span class="line">        return category;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setCategory(Category category) &#123;</span><br><span class="line">        this.category = category;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Set&lt;Tag&gt; getTags() &#123;</span><br><span class="line">        return tags;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setTags(Set&lt;Tag&gt; tags) &#123;</span><br><span class="line">        this.tags = tags;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Post.hbm.xml：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;?xml version=&apos;1.0&apos; encoding=&apos;utf-8&apos;?&gt;</span><br><span class="line">&lt;!DOCTYPE hibernate-mapping PUBLIC</span><br><span class="line">    &quot;-//Hibernate/Hibernate Mapping DTD 3.0//EN&quot;</span><br><span class="line">    &quot;http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd&quot;&gt;</span><br><span class="line">&lt;hibernate-mapping&gt;</span><br><span class="line">    &lt;class name=&quot;com.magicwt.bean.Post&quot; table=&quot;post&quot;&gt;</span><br><span class="line">        &lt;id name=&quot;id&quot;&gt;</span><br><span class="line">            &lt;column name=&quot;id&quot; sql-type=&quot;int&quot; not-null=&quot;true&quot;/&gt;</span><br><span class="line">        &lt;/id&gt;</span><br><span class="line">        &lt;property name=&quot;title&quot;&gt;</span><br><span class="line">            &lt;column name=&quot;title&quot; sql-type=&quot;varchar&quot; length=&quot;16&quot;/&gt;</span><br><span class="line">        &lt;/property&gt;</span><br><span class="line">        &lt;property name=&quot;content&quot;&gt;</span><br><span class="line">            &lt;column name=&quot;content&quot; sql-type=&quot;text&quot; length=&quot;65535&quot;/&gt;</span><br><span class="line">        &lt;/property&gt;</span><br><span class="line">        &lt;!-- 实体属性，对应于一个分类实体 --&gt;</span><br><span class="line">        &lt;one-to-one name=&quot;category&quot; class=&quot;com.magicwt.bean.Category&quot; constrained=&quot;true&quot;/&gt;</span><br><span class="line">        &lt;!-- 集合属性，对应于多个标签实体 --&gt;</span><br><span class="line">        &lt;set name=&quot;tags&quot; table=&quot;post_tag&quot; inverse=&quot;true&quot;&gt;</span><br><span class="line">            &lt;key column=&quot;post_id&quot;/&gt;</span><br><span class="line">            &lt;many-to-many column=&quot;tag_id&quot; class=&quot;com.magicwt.bean.Tag&quot;/&gt;</span><br><span class="line">        &lt;/set&gt;</span><br><span class="line">    &lt;/class&gt;</span><br><span class="line">&lt;/hibernate-mapping&gt;</span><br></pre></td></tr></table></figure></p>
+<p>创建Category类与category表映射。<br>Category.java：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">package com.magicwt.bean;</span><br><span class="line"></span><br><span class="line">public class Category &#123;</span><br><span class="line"></span><br><span class="line">    //与主键id映射</span><br><span class="line">    private int id;</span><br><span class="line">    //与字段name映射</span><br><span class="line">    private String name;</span><br><span class="line"></span><br><span class="line">    public int getId() &#123;</span><br><span class="line">        return id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setId(int id) &#123;</span><br><span class="line">        this.id = id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String getName() &#123;</span><br><span class="line">        return name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setName(String name) &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Category.hbm.xml：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;?xml version=&apos;1.0&apos; encoding=&apos;utf-8&apos;?&gt;</span><br><span class="line">&lt;!DOCTYPE hibernate-mapping PUBLIC</span><br><span class="line">    &quot;-//Hibernate/Hibernate Mapping DTD 3.0//EN&quot;</span><br><span class="line">    &quot;http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd&quot;&gt;</span><br><span class="line">&lt;hibernate-mapping&gt;</span><br><span class="line">    &lt;class name=&quot;com.magicwt.bean.Category&quot; table=&quot;category&quot;&gt;</span><br><span class="line">        &lt;id name=&quot;id&quot;&gt;</span><br><span class="line">            &lt;column name=&quot;id&quot; sql-type=&quot;int&quot; not-null=&quot;true&quot;/&gt;</span><br><span class="line">        &lt;/id&gt;</span><br><span class="line">        &lt;property name=&quot;name&quot;&gt;</span><br><span class="line">            &lt;column name=&quot;name&quot; sql-type=&quot;varchar&quot; length=&quot;16&quot;/&gt;</span><br><span class="line">        &lt;/property&gt;</span><br><span class="line">    &lt;/class&gt;</span><br><span class="line">&lt;/hibernate-mapping&gt;</span><br></pre></td></tr></table></figure></p>
+<p>创建Tag类与tag表映射。<br>Tag.java：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">package com.magicwt.bean;</span><br><span class="line"></span><br><span class="line">public class Tag &#123;</span><br><span class="line"></span><br><span class="line">    //与主键id映射</span><br><span class="line">    private int id;</span><br><span class="line">    //与字段name映射</span><br><span class="line">    private String name;</span><br><span class="line"></span><br><span class="line">    public int getId() &#123;</span><br><span class="line">        return id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setId(int id) &#123;</span><br><span class="line">        this.id = id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String getName() &#123;</span><br><span class="line">        return name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setName(String name) &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Tag.hbm.xml：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;?xml version=&apos;1.0&apos; encoding=&apos;utf-8&apos;?&gt;</span><br><span class="line">&lt;!DOCTYPE hibernate-mapping PUBLIC</span><br><span class="line">    &quot;-//Hibernate/Hibernate Mapping DTD 3.0//EN&quot;</span><br><span class="line">    &quot;http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd&quot;&gt;</span><br><span class="line">&lt;hibernate-mapping&gt;</span><br><span class="line">    &lt;class name=&quot;com.magicwt.bean.Tag&quot; table=&quot;tag&quot;&gt;</span><br><span class="line">        &lt;id name=&quot;id&quot;&gt;</span><br><span class="line">            &lt;column name=&quot;id&quot; sql-type=&quot;int&quot; not-null=&quot;true&quot;/&gt;</span><br><span class="line">        &lt;/id&gt;</span><br><span class="line">        &lt;property name=&quot;name&quot;&gt;</span><br><span class="line">            &lt;column name=&quot;name&quot; sql-type=&quot;varchar&quot; length=&quot;16&quot;/&gt;</span><br><span class="line">        &lt;/property&gt;</span><br><span class="line">    &lt;/class&gt;</span><br><span class="line">&lt;/hibernate-mapping&gt;</span><br></pre></td></tr></table></figure></p>
+<p>Hibernate配置文件hibernate.cfg.xml：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;?xml version=&apos;1.0&apos; encoding=&apos;utf-8&apos;?&gt;</span><br><span class="line">&lt;!DOCTYPE hibernate-configuration PUBLIC</span><br><span class="line">        &quot;-//Hibernate/Hibernate Configuration DTD 3.0//EN&quot;</span><br><span class="line">        &quot;http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd&quot;&gt;</span><br><span class="line">&lt;hibernate-configuration&gt;</span><br><span class="line">    &lt;session-factory&gt;</span><br><span class="line">        &lt;property name=&quot;connection.driver_class&quot;&gt;com.mysql.jdbc.Driver&lt;/property&gt;</span><br><span class="line">        &lt;property name=&quot;connection.url&quot;&gt;jdbc:mysql://xxx.xxx.xxx.xxx:3306/test&lt;/property&gt;</span><br><span class="line">        &lt;property name=&quot;connection.username&quot;&gt;xxx&lt;/property&gt;</span><br><span class="line">        &lt;property name=&quot;connection.password&quot;&gt;xxx&lt;/property&gt;</span><br><span class="line">        &lt;property name=&quot;dialect&quot;&gt;org.hibernate.dialect.MySQL5Dialect&lt;/property&gt;</span><br><span class="line">        &lt;property name=&quot;show_sql&quot;&gt;true&lt;/property&gt;</span><br><span class="line">        &lt;property name=&quot;hibernate.format_sql&quot;&gt;true&lt;/property&gt;</span><br><span class="line">        &lt;mapping resource=&quot;mapper/Category.hbm.xml&quot;/&gt;</span><br><span class="line">        &lt;mapping resource=&quot;mapper/Post.hbm.xml&quot;/&gt;</span><br><span class="line">        &lt;mapping resource=&quot;mapper/Tag.hbm.xml&quot;/&gt;</span><br><span class="line">    &lt;/session-factory&gt;</span><br><span class="line">&lt;/hibernate-configuration&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="load方法延迟加载"><a href="#load方法延迟加载" class="headerlink" title="load方法延迟加载"></a>load方法延迟加载</h3><p>创建测试类Test：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">package com.magicwt;</span><br><span class="line"></span><br><span class="line">import com.magicwt.bean.Post;</span><br><span class="line">import org.hibernate.SessionFactory;</span><br><span class="line">import org.hibernate.cfg.Configuration;</span><br><span class="line">import org.hibernate.classic.Session;</span><br><span class="line"></span><br><span class="line">public class Test &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        SessionFactory sessionFactory = (new Configuration()).configure().buildSessionFactory();</span><br><span class="line">        Session session = sessionFactory.openSession();</span><br><span class="line">        //使用load方法加载id为1的文章</span><br><span class="line">        Post post = (Post)session.load(Post.class, Integer.valueOf(1));</span><br><span class="line">        //输出post实例的类名</span><br><span class="line">        System.out.println(&quot;class of post: &quot; + post.getClass().getCanonicalName());</span><br><span class="line">        //取出文章标题并输出</span><br><span class="line">        System.out.println(post.getTitle());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>执行main方法，输出如下：<br>[blockquote]class of post: com.magicwt.bean.Post$$EnhancerByCGLIB$$70a21d16<br>Hibernate:<br>&nbsp;&nbsp;&nbsp;&nbsp;select<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;post0_.id as id1_0_,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;post0_.title as title1_0_,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;post0_.content as content1_0_<br>&nbsp;&nbsp;&nbsp;&nbsp;from<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;post post0_<br>&nbsp;&nbsp;&nbsp;&nbsp;where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;post0_.id=?<br>title of post: 测试标题1[/blockquote]<br>从中可以看出，load方法返回的是通过动态代理实现的代理类实例。通过断点可以观察到，执行“post.getTitle()”前，post实例各属性都是默认值（null或0），执行“post.getTitle()”后，才真正从数据库表中取出数据并输出。<br>将load方法修改为get方法并重新执行，输出如下：<br>[blockquote]Hibernate:<br>&nbsp;&nbsp;&nbsp;&nbsp;select<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;post0_.id as id1_0_,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;post0_.title as title1_0_,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;post0_.content as content1_0_<br>&nbsp;&nbsp;&nbsp;&nbsp;from<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;post post0_<br>&nbsp;&nbsp;&nbsp;&nbsp;where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;post0_.id=?<br>class of post: com.magicwt.bean.Post<br>title of post: 测试标题1[/blockquote]<br>从中可以看出，get方法返回的是Post类实例。通过断点可以观察到，get方法返回的post实例各属性已从数据库表中取出对应的值，get方法并没有延迟加载。</p>
+<h3 id="实体属性延迟加载"><a href="#实体属性延迟加载" class="headerlink" title="实体属性延迟加载"></a>实体属性延迟加载</h3><p>修改测试类Test：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">package com.magicwt;</span><br><span class="line"></span><br><span class="line">import com.magicwt.bean.Post;</span><br><span class="line">import org.hibernate.SessionFactory;</span><br><span class="line">import org.hibernate.cfg.Configuration;</span><br><span class="line">import org.hibernate.classic.Session;</span><br><span class="line"></span><br><span class="line">public class Test &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        SessionFactory sessionFactory = (new Configuration()).configure().buildSessionFactory();</span><br><span class="line">        Session session = sessionFactory.openSession();</span><br><span class="line">        //使用load方法加载id为1的文章</span><br><span class="line">        Post post = (Post)session.get(Post.class, Integer.valueOf(1));</span><br><span class="line">        //输出post实例的类名</span><br><span class="line">        System.out.println(&quot;class of post: &quot; + post.getClass().getCanonicalName());</span><br><span class="line">        //输出post实例category属性的类名</span><br><span class="line">        System.out.println(&quot;class of category: &quot; + post.getCategory().getClass().getCanonicalName());</span><br><span class="line">        //输出分类名称</span><br><span class="line">        System.out.println(&quot;name of category:&quot; + post.getCategory().getName());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>执行main方法，输出如下：<br>[blockquote]Hibernate:<br>&nbsp;&nbsp;&nbsp;&nbsp;select<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;post0_.id as id1_0_,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;post0_.title as title1_0_,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;post0_.content as content1_0_<br>&nbsp;&nbsp;&nbsp;&nbsp;from<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;post post0_<br>&nbsp;&nbsp;&nbsp;&nbsp;where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;post0_.id=?<br>class of post: com.magicwt.bean.Post<br>class of category: com.magicwt.bean.Category$$EnhancerByCGLIB$$483428f6<br>Hibernate:<br>&nbsp;&nbsp;&nbsp;&nbsp;select<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;category0_.id as id0_0_,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;category0_.name as name0_0_<br>&nbsp;&nbsp;&nbsp;&nbsp;from<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;category category0_<br>&nbsp;&nbsp;&nbsp;&nbsp;where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;category0_.id=?<br>name of category: 测试分类1[/blockquote]<br>从中可以看出，get方法返回的post实例，其属性category是代理类实例，并没有真正读取category表中的数据，只有在输出分类名称时，才读取category表中的数据。</p>
+<h3 id="集合属性延迟加载"><a href="#集合属性延迟加载" class="headerlink" title="集合属性延迟加载"></a>集合属性延迟加载</h3><p>修改测试类Test：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">package com.magicwt;</span><br><span class="line"></span><br><span class="line">import com.magicwt.bean.Post;</span><br><span class="line">import com.magicwt.bean.Tag;</span><br><span class="line">import org.hibernate.SessionFactory;</span><br><span class="line">import org.hibernate.cfg.Configuration;</span><br><span class="line">import org.hibernate.classic.Session;</span><br><span class="line"></span><br><span class="line">public class Test &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        SessionFactory sessionFactory = (new Configuration()).configure().buildSessionFactory();</span><br><span class="line">        Session session = sessionFactory.openSession();</span><br><span class="line">        //使用load方法加载id为1的文章</span><br><span class="line">        Post post = (Post)session.get(Post.class, Integer.valueOf(1));</span><br><span class="line">        //输出post实例的类名</span><br><span class="line">        System.out.println(&quot;class of post: &quot; + post.getClass().getCanonicalName());</span><br><span class="line">        //输出post实例tags属性的类名</span><br><span class="line">        System.out.println(&quot;class of tags: &quot; + post.getTags().getClass().getCanonicalName());</span><br><span class="line">        //输出标签名称</span><br><span class="line">        for (Tag tag : post.getTags()) &#123;</span><br><span class="line">            System.out.println(&quot;name of tag: &quot; + tag.getName());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>执行main方法，输出如下：<br>[blockquote]Hibernate:<br>&nbsp;&nbsp;&nbsp;&nbsp;select<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;post0_.id as id1_0_,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;post0_.title as title1_0_,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;post0_.content as content1_0_<br>&nbsp;&nbsp;&nbsp;&nbsp;from<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;post post0_<br>&nbsp;&nbsp;&nbsp;&nbsp;where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;post0_.id=?<br>class of post: com.magicwt.bean.Post<br>class of tags: org.hibernate.collection.PersistentSet<br>Hibernate:<br>&nbsp;&nbsp;&nbsp;&nbsp;select<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tags0_.post_id as post1_1_,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tags0_.tag_id as tag2_1_,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tag1_.id as id3_0_,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tag1_.name as name3_0_<br>&nbsp;&nbsp;&nbsp;&nbsp;from<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;post_tag tags0_<br>&nbsp;&nbsp;&nbsp;&nbsp;left outer join<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tag tag1_<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;on tags0_.tag_id=tag1_.id<br>&nbsp;&nbsp;&nbsp;&nbsp;where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tags0_.post_id=?<br>name of tag: 测试标签1<br>name of tag: 测试标签2[/blockquote]<br>从中可以看出，get方法返回的post实例，其属性tags是PersistentSet实例，并没有真正读取tag表中的数据，只有在输出标签名称时，才读取tag表中的数据。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Hibernate/" rel="tag"># Hibernate</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/06/30/keepalived-e4-bb-8b-e7-bb-8d/" rel="next" title="Keepalived介绍">
+                <i class="fa fa-chevron-left"></i> Keepalived介绍
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013/07/10/e8-bd-achibernate-e7-bc-93-e5-ad-98-e6-9c-ba-e5-88-b6/" rel="prev" title="[转]Hibernate 缓存机制">
+                [转]Hibernate 缓存机制 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">magicwt</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">90</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/magicwt" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:wang-t04@mails.tsinghua.edu.cn" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库示例"><span class="nav-number">2.</span> <span class="nav-text">数据库示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#延迟加载示例"><span class="nav-number">3.</span> <span class="nav-text">延迟加载示例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#load方法延迟加载"><span class="nav-number">3.1.</span> <span class="nav-text">load方法延迟加载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实体属性延迟加载"><span class="nav-number">3.2.</span> <span class="nav-text">实体属性延迟加载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集合属性延迟加载"><span class="nav-number">3.3.</span> <span class="nav-text">集合属性延迟加载</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">magicwt</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

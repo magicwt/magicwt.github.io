@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="ActiveMQ,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="ActiveMQ这款开源消息服务器提供了多语言支持，除了一般的Java客户端以外，还可以使用C/C++、PHP、Python、JavaScript（Ajax）等语言开发客户端。最近由于项目需要，需要提供PHP和Python的主题订阅客户端。这里作为总结，列出这两种语言客户端的简单安装和使用。对于PHP和Python，可以通过使用STOMP协议与消息服务器进行通讯。在ActiveMQ的配置文件act">
+<meta name="keywords" content="ActiveMQ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ActiveMQ的PHP、Python客户端">
+<meta property="og:url" content="http://yoursite.com/2013/01/06/157/index.html">
+<meta property="og:site_name" content="magicwt的博客">
+<meta property="og:description" content="ActiveMQ这款开源消息服务器提供了多语言支持，除了一般的Java客户端以外，还可以使用C/C++、PHP、Python、JavaScript（Ajax）等语言开发客户端。最近由于项目需要，需要提供PHP和Python的主题订阅客户端。这里作为总结，列出这两种语言客户端的简单安装和使用。对于PHP和Python，可以通过使用STOMP协议与消息服务器进行通讯。在ActiveMQ的配置文件act">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/11/150641717-300x214.jpg">
+<meta property="og:updated_time" content="2018-12-04T11:13:16.372Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ActiveMQ的PHP、Python客户端">
+<meta name="twitter:description" content="ActiveMQ这款开源消息服务器提供了多语言支持，除了一般的Java客户端以外，还可以使用C/C++、PHP、Python、JavaScript（Ajax）等语言开发客户端。最近由于项目需要，需要提供PHP和Python的主题订阅客户端。这里作为总结，列出这两种语言客户端的简单安装和使用。对于PHP和Python，可以通过使用STOMP协议与消息服务器进行通讯。在ActiveMQ的配置文件act">
+<meta name="twitter:image" content="http://magicwt.com/wp-content/uploads/2015/11/150641717-300x214.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2013/01/06/157/">
+
+
+
+
+
+  <title>ActiveMQ的PHP、Python客户端 | magicwt的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">magicwt的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2013/01/06/157/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="magicwt">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="magicwt的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ActiveMQ的PHP、Python客户端</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2013-01-06T15:11:40+08:00">
+                2013-01-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/后端/" itemprop="url" rel="index">
+                    <span itemprop="name">后端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>ActiveMQ这款开源消息服务器提供了多语言支持，除了一般的Java客户端以外，还可以使用C/C++、PHP、Python、JavaScript（Ajax）等语言开发客户端。最近由于项目需要，需要提供PHP和Python的主题订阅客户端。这里作为总结，列出这两种语言客户端的简单安装和使用。<br>对于PHP和Python，可以通过使用STOMP协议与消息服务器进行通讯。在ActiveMQ的配置文件activemq.xml中，需要添加以下语句，来提供基于STOMP协议的连接器。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">transportConnectors</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">transportConnector</span> <span class="attr">name</span>=<span class="string">"openwire"</span> <span class="attr">uri</span>=<span class="string">"tcp://0.0.0.0:61616"</span>/&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">transportConnector</span> <span class="attr">name</span>=<span class="string">"stomp"</span> <span class="attr">uri</span>=<span class="string">"stomp://0.0.0.0:61613"</span>/&gt;</span><span class="comment">&lt;!--添加stomp连接器--&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">transportConnectors</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<h2 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h2><p>安装Python27，并安装stomppy（<a href="http://code.google.com/p/stomppy/）这一客户端库：" target="_blank" rel="noopener">http://code.google.com/p/stomppy/）这一客户端库：</a><br><a href="http://magicwt.com/wp-content/uploads/2015/11/150641717.jpg" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/11/150641717-300x214.jpg" alt="150641717"></a><br>基于stomppy访问ActiveMQ的Python代码：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time, sys </span><br><span class="line"><span class="keyword">import</span> stomp </span><br><span class="line"></span><br><span class="line"><span class="comment">#消息侦听器 </span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyListener</span><span class="params">(object)</span>:</span> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">on_error</span><span class="params">(self, headers, message)</span>:</span> </span><br><span class="line">        <span class="keyword">print</span> <span class="string">'received an error %s'</span> % message </span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">on_message</span><span class="params">(self, headers, message)</span>:</span> </span><br><span class="line">        <span class="keyword">print</span> <span class="string">'%s'</span> % message </span><br><span class="line"></span><br><span class="line"><span class="comment">#创建连接 </span></span><br><span class="line">conn = stomp.Connection([(<span class="string">'127.0.0.1'</span>,<span class="number">61613</span>)]) </span><br><span class="line"></span><br><span class="line"><span class="comment">#设置消息侦听器 </span></span><br><span class="line">conn.set_listener(<span class="string">''</span>, MyListener()) </span><br><span class="line"></span><br><span class="line"><span class="comment">#启动连接 </span></span><br><span class="line">conn.start() </span><br><span class="line">conn.connect() </span><br><span class="line"></span><br><span class="line"><span class="comment">#订阅主题，并采用消息自动确认机制 </span></span><br><span class="line">conn.subscribe(destination=<span class="string">'/topic/all_news'</span>, ack=<span class="string">'auto'</span>)</span><br></pre></td></tr></table></figure></p>
+<h2 id="PHP"><a href="#PHP" class="headerlink" title="PHP"></a>PHP</h2><p>安装PHP5，并安装STOMP的客户端库（<a href="http://php.net/manual/zh/book.stomp.php）：" target="_blank" rel="noopener">http://php.net/manual/zh/book.stomp.php）：</a><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">tar -zxf stomp-1.0.5.tgz </span><br><span class="line">cd stomp-1.0.5/</span><br><span class="line">/usr/local/php/bin/phpize </span><br><span class="line">./configure --enable-stomp --with-php-config=/usr/local/php/bin/php-config</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure></p>
+<p>安装完成后，将生成的stomp.so移入php.ini中指定的extension_dir目录下，并在php.ini中添加该客户端库:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">extension=stomp.so</span><br></pre></td></tr></table></figure></p>
+<p>访问ActiveMQ的PHP代码：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"></span><br><span class="line">$topic  = <span class="string">'/topic/all_news'</span>; </span><br><span class="line"></span><br><span class="line"><span class="comment">/* connection */</span> </span><br><span class="line"><span class="keyword">try</span> &#123; </span><br><span class="line">    $stomp = <span class="keyword">new</span> Stomp(<span class="string">'tcp://127.0.0.1:61613'</span>); </span><br><span class="line">&#125; <span class="keyword">catch</span>(StompException $e) &#123; </span><br><span class="line">    <span class="keyword">die</span>(<span class="string">'Connection failed: '</span> . $e-&gt;getMessage()); </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="comment">/* subscribe to messages from the queue 'foo' */</span> </span><br><span class="line">$stomp-&gt;subscribe($topic); </span><br><span class="line"></span><br><span class="line"><span class="comment">/* read a frame */</span> </span><br><span class="line"><span class="keyword">while</span>(<span class="keyword">true</span>) &#123; </span><br><span class="line">        $frame = $stomp-&gt;readFrame(); </span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> ($frame != <span class="keyword">null</span>) &#123; </span><br><span class="line">            <span class="keyword">echo</span> $frame-&gt;body; </span><br><span class="line"></span><br><span class="line">            <span class="comment">/* acknowledge that the frame was received */</span> </span><br><span class="line">            $stomp-&gt;ack($frame); </span><br><span class="line">        &#125; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="comment">/* close connection */</span> </span><br><span class="line"><span class="keyword">unset</span>($stomp); </span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ActiveMQ/" rel="tag"># ActiveMQ</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2012/09/23/activemq-e7-9a-84-e5-ae-89-e5-85-a8-e6-9c-ba-e5-88-b6-e4-bd-bf-e7-94-a8-e5-8f-8a-e5-85-b6-e6-ba-90-e4-bb-a3-e7-a0-81-e5-88-86-e6-9e-90/" rel="next" title="ActiveMQ的安全机制使用及其源代码分析">
+                <i class="fa fa-chevron-left"></i> ActiveMQ的安全机制使用及其源代码分析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013/06/30/keepalived-e4-bb-8b-e7-bb-8d/" rel="prev" title="Keepalived介绍">
+                Keepalived介绍 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">magicwt</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">90</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/magicwt" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:wang-t04@mails.tsinghua.edu.cn" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Python"><span class="nav-number">1.</span> <span class="nav-text">Python</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PHP"><span class="nav-number">2.</span> <span class="nav-text">PHP</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">magicwt</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

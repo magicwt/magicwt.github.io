@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="ActiveMQ,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="ActiveMQ是目前较为流行的一款开源消息服务器。最近在项目开发中，需要为ActiveMQ开发基于IP的验证和授权机制，因此，对ActiveMQ的安全机制进行了了解，以下将介绍ActiveMQ的安全机制使用及其源代码分析。本文开发环境介绍：操作系统：Windows XPJava：jdk 1.6.0_12maven：maven 3.0.4ActiveMQ：ActiveMQ 5.6.0">
+<meta name="keywords" content="ActiveMQ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ActiveMQ的安全机制使用及其源代码分析">
+<meta property="og:url" content="http://yoursite.com/2012/09/23/activemq-e7-9a-84-e5-ae-89-e5-85-a8-e6-9c-ba-e5-88-b6-e4-bd-bf-e7-94-a8-e5-8f-8a-e5-85-b6-e6-ba-90-e4-bb-a3-e7-a0-81-e5-88-86-e6-9e-90/index.html">
+<meta property="og:site_name" content="magicwt的博客">
+<meta property="og:description" content="ActiveMQ是目前较为流行的一款开源消息服务器。最近在项目开发中，需要为ActiveMQ开发基于IP的验证和授权机制，因此，对ActiveMQ的安全机制进行了了解，以下将介绍ActiveMQ的安全机制使用及其源代码分析。本文开发环境介绍：操作系统：Windows XPJava：jdk 1.6.0_12maven：maven 3.0.4ActiveMQ：ActiveMQ 5.6.0">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/11/224536599.png">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/11/225237380-300x201.jpg">
+<meta property="og:updated_time" content="2018-12-04T11:54:20.822Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ActiveMQ的安全机制使用及其源代码分析">
+<meta name="twitter:description" content="ActiveMQ是目前较为流行的一款开源消息服务器。最近在项目开发中，需要为ActiveMQ开发基于IP的验证和授权机制，因此，对ActiveMQ的安全机制进行了了解，以下将介绍ActiveMQ的安全机制使用及其源代码分析。本文开发环境介绍：操作系统：Windows XPJava：jdk 1.6.0_12maven：maven 3.0.4ActiveMQ：ActiveMQ 5.6.0">
+<meta name="twitter:image" content="http://magicwt.com/wp-content/uploads/2015/11/224536599.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2012/09/23/activemq-e7-9a-84-e5-ae-89-e5-85-a8-e6-9c-ba-e5-88-b6-e4-bd-bf-e7-94-a8-e5-8f-8a-e5-85-b6-e6-ba-90-e4-bb-a3-e7-a0-81-e5-88-86-e6-9e-90/">
+
+
+
+
+
+  <title>ActiveMQ的安全机制使用及其源代码分析 | magicwt的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">magicwt的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2012/09/23/activemq-e7-9a-84-e5-ae-89-e5-85-a8-e6-9c-ba-e5-88-b6-e4-bd-bf-e7-94-a8-e5-8f-8a-e5-85-b6-e6-ba-90-e4-bb-a3-e7-a0-81-e5-88-86-e6-9e-90/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="magicwt">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="magicwt的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ActiveMQ的安全机制使用及其源代码分析</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2012-09-23T23:09:07+08:00">
+                2012-09-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/后端/" itemprop="url" rel="index">
+                    <span itemprop="name">后端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>ActiveMQ是目前较为流行的一款开源消息服务器。最近在项目开发中，需要为ActiveMQ开发基于IP的验证和授权机制，因此，对ActiveMQ的安全机制进行了了解，以下将介绍ActiveMQ的安全机制使用及其源代码分析。<br>本文开发环境介绍：<br>操作系统：Windows XP<br>Java：jdk 1.6.0_12<br>maven：maven 3.0.4<br>ActiveMQ：ActiveMQ 5.6.0<br><a id="more"></a></p>
+<h2 id="ActiveMQ安全机制的介绍"><a href="#ActiveMQ安全机制的介绍" class="headerlink" title="ActiveMQ安全机制的介绍"></a>ActiveMQ安全机制的介绍</h2><p>安全机制一般包含验证（Authentication）和授权（Authorization）两部分。在ActiveMQ中，验证指通过访问者的用户名和密码实现用户身份的验证，授权指为消息目标（队列或主题）的读、写、管理指定具有相应权限的用户组，并为用户分配权限。ActiveMQ的安全机制基于插件实现。<br>ActiveMQ提供两种验证插件，分别是：</p>
+<ol>
+<li>Simple authentication plugin-in；</li>
+<li>JAAS（Java Authentication and Authorization Service）authentication plugin-in。</li>
+</ol>
+<p>ActiveMQ提供一种授权插件：Authorization plugin-in。</p>
+<h2 id="ActiveMQ安全机制的使用"><a href="#ActiveMQ安全机制的使用" class="headerlink" title="ActiveMQ安全机制的使用"></a>ActiveMQ安全机制的使用</h2><h3 id="1-ActiveMQ的使用"><a href="#1-ActiveMQ的使用" class="headerlink" title="1. ActiveMQ的使用"></a>1. ActiveMQ的使用</h3><p>可从ActiveMQ官网“<a href="http://activemq.apache.org/”" target="_blank" rel="noopener">http://activemq.apache.org/”</a> 下载ActiveMQ的源代码包或二进制分发包。由于ActiveMQ使用Java开发，因此需要预先安装jdk，另外，由于ActiveMQ的开发使用了maven，因此，若下载的是源代码包，需要预先安装maven。解压源代码包，并在源代码包目录下执行“mvn install -Dmaven.test.skip=true ”完成编译、打包和安装，成功后，会在assembly\target下生成二进制分发包。若下载的是二进制分发包，解压即可。<br>ActiveMQ的二进制分发包目录如下所示：<br><a href="http://magicwt.com/wp-content/uploads/2015/11/224536599.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/11/224536599.png" alt="224536599"></a><br>进入bin文件，执行脚本，即可运行ActiveMQ。</p>
+<h3 id="2-Simple-authentication-plugin-in的使用"><a href="#2-Simple-authentication-plugin-in的使用" class="headerlink" title="2. Simple authentication plugin-in的使用"></a>2. Simple authentication plugin-in的使用</h3><p>在activemq.xml中如下配置：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">plugins</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">simpleAuthenticationPlugin</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">users</span>&gt;</span> </span><br><span class="line">            <span class="tag">&lt;<span class="name">authenticationUser</span> <span class="attr">username</span>=<span class="string">"system"</span> <span class="attr">password</span>=<span class="string">"password"</span> <span class="attr">groups</span>=<span class="string">"users,admins"</span>/&gt;</span> </span><br><span class="line">            <span class="tag">&lt;<span class="name">authenticationUser</span> <span class="attr">username</span>=<span class="string">"user"</span> <span class="attr">password</span>=<span class="string">"password"</span> <span class="attr">groups</span>=<span class="string">"users"</span>/&gt;</span> </span><br><span class="line">            <span class="tag">&lt;<span class="name">authenticationUser</span> <span class="attr">username</span>=<span class="string">"guest"</span> <span class="attr">password</span>=<span class="string">"password"</span> <span class="attr">groups</span>=<span class="string">"guests"</span>/&gt;</span> </span><br><span class="line">        <span class="tag">&lt;/<span class="name">users</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;/<span class="name">simpleAuthenticationPlugin</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="3-JAAS-authentication-plugin-in的使用"><a href="#3-JAAS-authentication-plugin-in的使用" class="headerlink" title="3. JAAS authentication plugin-in的使用"></a>3. JAAS authentication plugin-in的使用</h3><p>在activemq.xml中如下配置：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">plugins</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">jaasAuthenticationPlugin</span> <span class="attr">configuration</span>=<span class="string">"activemq-domain"</span> /&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>创建login.config文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">activemq-domain &#123; </span><br><span class="line">    org.apache.activemq.jaas.PropertiesLoginModule required </span><br><span class="line">    debug=true </span><br><span class="line">    org.apache.activemq.jaas.properties.user=&quot;users.properties&quot; </span><br><span class="line">    org.apache.activemq.jaas.properties.group=&quot;groups.properties&quot;; </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>创建users.properties和groups.properties文件，包含用户和用户组信息。<br>users.properties：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">system=password </span><br><span class="line">user=password </span><br><span class="line">guest=password</span><br></pre></td></tr></table></figure></p>
+<p>groups.properties：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">admins=system </span><br><span class="line">users=system,user </span><br><span class="line">guests=guest</span><br></pre></td></tr></table></figure></p>
+<h3 id="4-Authorization-plugin-in的使用"><a href="#4-Authorization-plugin-in的使用" class="headerlink" title="4. Authorization plugin-in的使用"></a>4. Authorization plugin-in的使用</h3><p>在activemq.xml中如下配置：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">plugins</span>&gt;</span> </span><br><span class="line">  <span class="tag">&lt;<span class="name">authorizationPlugin</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">map</span>&gt;</span> </span><br><span class="line">      <span class="tag">&lt;<span class="name">authorizationMap</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">authorizationEntries</span>&gt;</span> </span><br><span class="line">          <span class="tag">&lt;<span class="name">authorizationEntry</span> <span class="attr">queue</span>=<span class="string">"&gt;"</span> <span class="attr">read</span>=<span class="string">"admins"</span> <span class="attr">write</span>=<span class="string">"admins"</span> <span class="attr">admin</span>=<span class="string">"admins"</span> /&gt;</span> </span><br><span class="line">          <span class="tag">&lt;<span class="name">authorizationEntry</span> <span class="attr">queue</span>=<span class="string">"USERS.&gt;"</span> <span class="attr">read</span>=<span class="string">"users"</span> <span class="attr">write</span>=<span class="string">"users"</span> <span class="attr">admin</span>=<span class="string">"users"</span> /&gt;</span> </span><br><span class="line">          <span class="tag">&lt;<span class="name">authorizationEntry</span> <span class="attr">queue</span>=<span class="string">"GUEST.&gt;"</span> <span class="attr">read</span>=<span class="string">"guests"</span> <span class="attr">write</span>=<span class="string">"guests,users"</span> <span class="attr">admin</span>=<span class="string">"guests,users"</span> /&gt;</span>          </span><br><span class="line">          <span class="tag">&lt;<span class="name">authorizationEntry</span> <span class="attr">queue</span>=<span class="string">"TEST.Q"</span> <span class="attr">read</span>=<span class="string">"guests"</span> <span class="attr">write</span>=<span class="string">"guests"</span> /&gt;</span>      </span><br><span class="line">          <span class="tag">&lt;<span class="name">authorizationEntry</span> <span class="attr">topic</span>=<span class="string">"&gt;"</span> <span class="attr">read</span>=<span class="string">"admins"</span> <span class="attr">write</span>=<span class="string">"admins"</span> <span class="attr">admin</span>=<span class="string">"admins"</span> /&gt;</span> </span><br><span class="line">          <span class="tag">&lt;<span class="name">authorizationEntry</span> <span class="attr">topic</span>=<span class="string">"USERS.&gt;"</span> <span class="attr">read</span>=<span class="string">"users"</span> <span class="attr">write</span>=<span class="string">"users"</span> <span class="attr">admin</span>=<span class="string">"users"</span> /&gt;</span> </span><br><span class="line">          <span class="tag">&lt;<span class="name">authorizationEntry</span> <span class="attr">topic</span>=<span class="string">"GUEST.&gt;"</span> <span class="attr">read</span>=<span class="string">"guests"</span> <span class="attr">write</span>=<span class="string">"guests,users"</span> <span class="attr">admin</span>=<span class="string">"guests,users"</span> /&gt;</span>        </span><br><span class="line">          <span class="tag">&lt;<span class="name">authorizationEntry</span> <span class="attr">topic</span>=<span class="string">"ActiveMQ.Advisory.&gt;"</span> <span class="attr">read</span>=<span class="string">"guests,users"</span> <span class="attr">write</span>=<span class="string">"guests,users"</span> <span class="attr">admin</span>=<span class="string">"guests,users"</span>/&gt;</span> </span><br><span class="line">        <span class="tag">&lt;/<span class="name">authorizationEntries</span>&gt;</span> </span><br><span class="line">      <span class="tag">&lt;/<span class="name">authorizationMap</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;/<span class="name">map</span>&gt;</span> </span><br><span class="line">  <span class="tag">&lt;/<span class="name">authorizationPlugin</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="ActiveMQ安全机制的源代码分析"><a href="#ActiveMQ安全机制的源代码分析" class="headerlink" title="ActiveMQ安全机制的源代码分析"></a>ActiveMQ安全机制的源代码分析</h2><p>ActiveMQ在其maven工程的activemq-core模块中实现安全机制。ActiveMQ原有安全机制均基于插件实现，实现思路如图所示。<br><a href="http://magicwt.com/wp-content/uploads/2015/11/225237380.jpg" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/11/225237380-300x201.jpg" alt="225237380"></a><br>其中，Broker接口是ActiveMQ的核心接口，ActiveMQ消息服务器对象即该接口的实现。接口BrokerPlugin通过installPlugin方法传入Broker对象，为其创建插件。BrokerFilter类也实现自Broker接口，其与Broker的关系，类似于Struts中Interceptor与Action的关系，多个BrokerFilter对象以及消息服务器Broker对象通过指向下一个对象的引用next构成链状结构，当创建连接、消息生产者、消息消费者时，先后执行BrokerFilter中的相应方法，直至执行消息服务器中的方法，而安全机制类即继承自BrokerFilter。<br>ActiveMQ原有安全机制的相关类均继承或实现自上述类或接口，安全机制的类包为activemq-core中的org.apache.activemq.security。</p>
+<h3 id="1-Simple-authentication-plugin-in的源代码分析"><a href="#1-Simple-authentication-plugin-in的源代码分析" class="headerlink" title="1. Simple authentication plugin-in的源代码分析"></a>1. Simple authentication plugin-in的源代码分析</h3><p>Simple authentication plugin-in主要包含两个基本类：SimpleAuthenticationPlugin（实现自BrokerPlugin）和SimpleAuthenticationBroker（继承自BrokerFilter）。<br>SimpleAuthenticationPlugin部分代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SimpleAuthenticationPlugin</span> <span class="keyword">implements</span> <span class="title">BrokerPlugin</span> </span>&#123; </span><br><span class="line">    <span class="keyword">private</span> Map&lt;String, String&gt; userPasswords; </span><br><span class="line">    <span class="keyword">private</span> Map&lt;String, Set&lt;Principal&gt;&gt; userGroups; </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String DEFAULT_ANONYMOUS_USER = <span class="string">"anonymous"</span>; </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String DEFAULT_ANONYMOUS_GROUP = <span class="string">"anonymous"</span>; </span><br><span class="line">    <span class="keyword">private</span> String anonymousUser = DEFAULT_ANONYMOUS_USER; </span><br><span class="line">    <span class="keyword">private</span> String anonymousGroup = DEFAULT_ANONYMOUS_GROUP; </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> anonymousAccessAllowed = <span class="keyword">false</span>; </span><br><span class="line">    <span class="comment">//...... </span></span><br><span class="line">    <span class="comment">//安装插件时，根据activemq.xml中的配置，新建 SimpleAuthenticationBroker对象， 并返回该对象  </span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Broker <span class="title">installPlugin</span><span class="params">(Broker parent)</span> </span>&#123; </span><br><span class="line">        SimpleAuthenticationBroker broker = <span class="keyword">new</span> SimpleAuthenticationBroker(parent, userPasswords, userGroups); </span><br><span class="line">        broker.setAnonymousAccessAllowed(anonymousAccessAllowed); </span><br><span class="line">        broker.setAnonymousUser(anonymousUser); </span><br><span class="line">        broker.setAnonymousGroup(anonymousGroup); </span><br><span class="line">        <span class="keyword">return</span> broker; </span><br><span class="line">    &#125; </span><br><span class="line">    <span class="comment">//...... </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>SimpleAuthenticationBroker部分代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SimpleAuthenticationBroker</span> <span class="keyword">extends</span> <span class="title">BrokerFilter</span> </span>&#123; </span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> anonymousAccessAllowed = <span class="keyword">false</span>; </span><br><span class="line">    <span class="keyword">private</span> String anonymousUser; </span><br><span class="line">    <span class="keyword">private</span> String anonymousGroup; </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Map&lt;String,String&gt; userPasswords; </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Map&lt;String,Set&lt;Principal&gt;&gt; userGroups; </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> CopyOnWriteArrayList&lt;SecurityContext&gt; securityContexts = <span class="keyword">new</span> CopyOnWriteArrayList&lt;SecurityContext&gt;(); </span><br><span class="line"></span><br><span class="line">    <span class="comment">//...... </span></span><br><span class="line">    <span class="comment">//由于验证需要在创建连接时进行，因此重写BrokerFilter的addConnection方法 </span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addConnection</span><span class="params">(ConnectionContext context, ConnectionInfo info)</span> <span class="keyword">throws</span> Exception </span>&#123; </span><br><span class="line"></span><br><span class="line">        SecurityContext s = context.getSecurityContext(); </span><br><span class="line">        <span class="keyword">if</span> (s == <span class="keyword">null</span>) &#123; </span><br><span class="line"></span><br><span class="line">        <span class="comment">//若允许匿名访问，则不进行验证 </span></span><br><span class="line">        <span class="comment">// Check the username and password. </span></span><br><span class="line">            <span class="keyword">if</span> (anonymousAccessAllowed &amp;&amp; info.getUserName() == <span class="keyword">null</span> &amp;&amp; info.getPassword() == <span class="keyword">null</span>) &#123; </span><br><span class="line">                info.setUserName(anonymousUser); </span><br><span class="line">                s = <span class="keyword">new</span> SecurityContext(info.getUserName()) &#123; </span><br><span class="line">                    <span class="function"><span class="keyword">public</span> Set&lt;Principal&gt; <span class="title">getPrincipals</span><span class="params">()</span> </span>&#123; </span><br><span class="line">                        Set&lt;Principal&gt; groups = <span class="keyword">new</span> HashSet&lt;Principal&gt;(); </span><br><span class="line">                        groups.add(<span class="keyword">new</span> GroupPrincipal(anonymousGroup)); </span><br><span class="line">                        <span class="keyword">return</span> groups; </span><br><span class="line">                    &#125; </span><br><span class="line">                &#125;; </span><br><span class="line">       <span class="comment">//若不允许匿名访问，则验证连接的用户名和密码是否与配置文件中的一致，若不一致，则抛出安全异常           </span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123; </span><br><span class="line">                String pw = userPasswords.get(info.getUserName()); </span><br><span class="line">                <span class="keyword">if</span> (pw == <span class="keyword">null</span> || !pw.equals(info.getPassword())) &#123; </span><br><span class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> SecurityException( </span><br><span class="line">                            <span class="string">"User name ["</span> + info.getUserName() + <span class="string">"] or password is invalid."</span>); </span><br><span class="line">                &#125; </span><br><span class="line"></span><br><span class="line">                <span class="keyword">final</span> Set&lt;Principal&gt; groups = userGroups.get(info.getUserName()); </span><br><span class="line">                s = <span class="keyword">new</span> SecurityContext(info.getUserName()) &#123; </span><br><span class="line">                    <span class="function"><span class="keyword">public</span> Set&lt;Principal&gt; <span class="title">getPrincipals</span><span class="params">()</span> </span>&#123; </span><br><span class="line">                        <span class="keyword">return</span> groups; </span><br><span class="line">                    &#125; </span><br><span class="line">                &#125;; </span><br><span class="line">            &#125; </span><br><span class="line"></span><br><span class="line">            context.setSecurityContext(s); </span><br><span class="line">            securityContexts.add(s); </span><br><span class="line">        &#125; </span><br><span class="line"></span><br><span class="line">    <span class="comment">//调用父对象的addConnection方法，即调用next引用的Broker对象的addConnection方法 </span></span><br><span class="line">    <span class="keyword">try</span> &#123; </span><br><span class="line">            <span class="keyword">super</span>.addConnection(context, info); </span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123; </span><br><span class="line">            securityContexts.remove(s); </span><br><span class="line">            context.setSecurityContext(<span class="keyword">null</span>); </span><br><span class="line">            <span class="keyword">throw</span> e; </span><br><span class="line">        &#125; </span><br><span class="line">    &#125; </span><br><span class="line">    <span class="comment">//...... </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-JAAS-authentication-plugin-in的源代码分析"><a href="#2-JAAS-authentication-plugin-in的源代码分析" class="headerlink" title="2. JAAS authentication plugin-in的源代码分析"></a>2. JAAS authentication plugin-in的源代码分析</h3><p>JAAS authentication plugin-in主要包含两个基本类：JaasAuthenticationPlugin（实现自BrokerPlugin）JaasAuthenticationBroker（继承自BrokerFilter）。<br>JaasAuthenticationPlugin部分代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JaasAuthenticationPlugin</span> <span class="keyword">implements</span> <span class="title">BrokerPlugin</span> </span>&#123; </span><br><span class="line">    <span class="keyword">protected</span> String configuration = <span class="string">"activemq-domain"</span>; </span><br><span class="line">    <span class="comment">//...... </span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Broker <span class="title">installPlugin</span><span class="params">(Broker broker)</span> </span>&#123; </span><br><span class="line">       <span class="comment">//读取配置文件， 初始化JAAS    </span></span><br><span class="line">       initialiseJaas(); </span><br><span class="line">       <span class="comment">//创建JaasAuthenticationBroker对象并返回        </span></span><br><span class="line">       <span class="keyword">return</span> <span class="keyword">new</span> JaasAuthenticationBroker(broker, configuration); </span><br><span class="line">    &#125; </span><br><span class="line">    <span class="comment">//...... </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>JaasAuthenticationBroker部分代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JaasAuthenticationBroker</span> <span class="keyword">extends</span> <span class="title">BrokerFilter</span> </span>&#123; </span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String jassConfiguration; </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> CopyOnWriteArrayList&lt;SecurityContext&gt; securityContexts = <span class="keyword">new</span> CopyOnWriteArrayList&lt;SecurityContext&gt;(); </span><br><span class="line"></span><br><span class="line">    <span class="comment">//...... </span></span><br><span class="line">    <span class="comment">//由于验证需要在创建连接时进行，因此重写BrokerFilter的addConnection方法    </span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addConnection</span><span class="params">(ConnectionContext context, ConnectionInfo info)</span> <span class="keyword">throws</span> Exception </span>&#123; </span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (context.getSecurityContext() == <span class="keyword">null</span>) &#123; </span><br><span class="line">            <span class="comment">// Set the TCCL since it seems JAAS needs it to find the login </span></span><br><span class="line">            <span class="comment">// module classes. </span></span><br><span class="line">            ClassLoader original = Thread.currentThread().getContextClassLoader(); </span><br><span class="line">            Thread.currentThread().setContextClassLoader(JaasAuthenticationBroker.class.getClassLoader()); </span><br><span class="line">            <span class="keyword">try</span> &#123; </span><br><span class="line">                <span class="comment">// Do the login. </span></span><br><span class="line">                <span class="keyword">try</span> &#123; </span><br><span class="line">                    JassCredentialCallbackHandler callback = <span class="keyword">new</span> JassCredentialCallbackHandler(info </span><br><span class="line">                        .getUserName(), info.getPassword()); </span><br><span class="line">                    LoginContext lc = <span class="keyword">new</span> LoginContext(jassConfiguration, callback); </span><br><span class="line">                    lc.login(); </span><br><span class="line">                    Subject subject = lc.getSubject(); </span><br><span class="line"></span><br><span class="line">                    <span class="comment">//基于JAAS判断用户名和密码是否正确 </span></span><br><span class="line">                    SecurityContext s = <span class="keyword">new</span> JaasSecurityContext(info.getUserName(), subject); </span><br><span class="line">                    context.setSecurityContext(s); </span><br><span class="line">                    securityContexts.add(s); </span><br><span class="line">                &#125; <span class="keyword">catch</span> (Exception e) &#123; </span><br><span class="line">                    <span class="keyword">throw</span> (SecurityException)<span class="keyword">new</span> SecurityException(<span class="string">"User name ["</span> + info.getUserName() + <span class="string">"] or password is invalid."</span>) </span><br><span class="line">                        .initCause(e); </span><br><span class="line">                &#125; </span><br><span class="line">            &#125; <span class="keyword">finally</span> &#123; </span><br><span class="line">                Thread.currentThread().setContextClassLoader(original); </span><br><span class="line">            &#125; </span><br><span class="line">        &#125; </span><br><span class="line">        <span class="comment">//调用父对象的addConnection方法，即调用next引用的Broker对象的addConnection方法 </span></span><br><span class="line">        <span class="keyword">super</span>.addConnection(context, info); </span><br><span class="line">    &#125; </span><br><span class="line">    <span class="comment">//...... </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="3-Authorization-plugin-in的源代码分析"><a href="#3-Authorization-plugin-in的源代码分析" class="headerlink" title="3. Authorization plugin-in的源代码分析"></a>3. Authorization plugin-in的源代码分析</h3><p>Authorization plugin-in主要包含两个基本类：AuthorizationPlugin（实现自BrokerPlugin）AuthorizationBroker（继承自BrokerFilter）。<br>AuthorizationPlugin部分代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AuthorizationPlugin</span> <span class="keyword">implements</span> <span class="title">BrokerPlugin</span> </span>&#123; </span><br><span class="line"></span><br><span class="line">    <span class="comment">//AuthorizationMap对象存储activemq.xml中消息目标、读、写、管理用户组信息 </span></span><br><span class="line">    <span class="keyword">private</span> AuthorizationMap map; </span><br><span class="line"></span><br><span class="line">    <span class="comment">//...... </span></span><br><span class="line">    <span class="comment">//创建 AuthorizationBroker 对象并返回     </span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Broker <span class="title">installPlugin</span><span class="params">(Broker broker)</span> </span>&#123; </span><br><span class="line">        <span class="keyword">if</span> (map == <span class="keyword">null</span>) &#123; </span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"You must configure a 'map' property"</span>); </span><br><span class="line">        &#125; </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> AuthorizationBroker(broker, map); </span><br><span class="line">    &#125; </span><br><span class="line">    <span class="comment">//...... </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>AuthorizationBroker部分代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AuthorizationBroker</span> <span class="keyword">extends</span> <span class="title">BrokerFilter</span> <span class="keyword">implements</span> <span class="title">SecurityAdminMBean</span> </span>&#123; </span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> AuthorizationMap authorizationMap; </span><br><span class="line"></span><br><span class="line">    <span class="comment">//......     </span></span><br><span class="line">    <span class="comment">//由于需要授权是否可管理消息目标，因此重写BrokerFilter的 addDestinationInfo 方法   </span></span><br><span class="line">    <span class="meta">@Override</span> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addDestinationInfo</span><span class="params">(ConnectionContext context, DestinationInfo info)</span> <span class="keyword">throws</span> Exception </span>&#123; </span><br><span class="line">        addDestination(context, info.getDestination(),<span class="keyword">true</span>); </span><br><span class="line">        <span class="keyword">super</span>.addDestinationInfo(context, info); </span><br><span class="line">    &#125; </span><br><span class="line"></span><br><span class="line">    <span class="comment">//由于需要授权是否可管理消息目标，因此重写BrokerFilter的  addDestination  方法      </span></span><br><span class="line">    <span class="meta">@Override</span> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> Destination <span class="title">addDestination</span><span class="params">(ConnectionContext context, ActiveMQDestination destination,<span class="keyword">boolean</span> create)</span> <span class="keyword">throws</span> Exception </span>&#123; </span><br><span class="line">        <span class="keyword">final</span> SecurityContext securityContext = context.getSecurityContext(); </span><br><span class="line">        <span class="keyword">if</span> (securityContext == <span class="keyword">null</span>) &#123; </span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> SecurityException(<span class="string">"User is not authenticated."</span>); </span><br><span class="line">        &#125; </span><br><span class="line"></span><br><span class="line">        Destination existing = <span class="keyword">this</span>.getDestinationMap().get(destination); </span><br><span class="line">        <span class="keyword">if</span> (existing != <span class="keyword">null</span>) &#123; </span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">super</span>.addDestination(context, destination,create); </span><br><span class="line">        &#125; </span><br><span class="line"></span><br><span class="line">    <span class="comment">//从访问控制列表中查看是否具有授权        </span></span><br><span class="line">    <span class="keyword">if</span> (!securityContext.isBrokerContext()) &#123; </span><br><span class="line">            Set&lt;?&gt; allowedACLs = <span class="keyword">null</span>; </span><br><span class="line">            <span class="keyword">if</span> (!destination.isTemporary()) &#123; </span><br><span class="line">                allowedACLs = authorizationMap.getAdminACLs(destination); </span><br><span class="line">            &#125; <span class="keyword">else</span> &#123; </span><br><span class="line">                allowedACLs = authorizationMap.getTempDestinationAdminACLs(); </span><br><span class="line">            &#125; </span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (allowedACLs != <span class="keyword">null</span> &amp;&amp; !securityContext.isInOneOf(allowedACLs)) &#123; </span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> SecurityException(<span class="string">"User "</span> + securityContext.getUserName() + <span class="string">" is not authorized to create: "</span> + destination); </span><br><span class="line">            &#125; </span><br><span class="line"></span><br><span class="line">        &#125; </span><br><span class="line"></span><br><span class="line">        <span class="comment">//调用next引用的addDestination方法        </span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.addDestination(context, destination,create); </span><br><span class="line">    &#125; </span><br><span class="line"></span><br><span class="line">    <span class="comment">//由于需要授权是否可读消息，因此重写BrokerFilter的  addConsumer  方法，在该方法中，从访问控制列表中查看是否具有读授权，并调用next引用的addConsumer方法         </span></span><br><span class="line">    <span class="meta">@Override</span> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> Subscription <span class="title">addConsumer</span><span class="params">(ConnectionContext context, ConsumerInfo info)</span> <span class="keyword">throws</span> Exception </span>&#123;  </span><br><span class="line">        <span class="comment">//......  </span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.addConsumer(context, info); </span><br><span class="line">    &#125; </span><br><span class="line"></span><br><span class="line">    <span class="comment">//由于需要授权是否可写消息，因此重写BrokerFilter的  addProducer   方法，在该方法中，从访问控制列表中查看是否具有写授权，并调用next引用的 addProducer 方法      </span></span><br><span class="line">    <span class="meta">@Override</span> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addProducer</span><span class="params">(ConnectionContext context, ProducerInfo info)</span> <span class="keyword">throws</span> Exception </span>&#123;  </span><br><span class="line">        <span class="comment">//......  </span></span><br><span class="line">        <span class="keyword">super</span>.addProducer(context, info); </span><br><span class="line">    &#125; </span><br><span class="line">    <span class="comment">//......  </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>ActiveMQ提供了便利的插件开发方式，并基于插件实现了包含验证和授权的安全机制。参考ActiveMQ的源代码，可以进行插件开发，实现个性化的安全机制，如基于IP的验证和授权。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ActiveMQ/" rel="tag"># ActiveMQ</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2012/07/27/myeclipse-e4-b8-8bspringhibernate-e6-95-b4-e5-90-88/" rel="next" title="MyEclipse下Spring+Hibernate整合">
+                <i class="fa fa-chevron-left"></i> MyEclipse下Spring+Hibernate整合
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013/01/06/157/" rel="prev" title="ActiveMQ的PHP、Python客户端">
+                ActiveMQ的PHP、Python客户端 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">magicwt</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">90</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/magicwt" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:wang-t04@mails.tsinghua.edu.cn" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ActiveMQ安全机制的介绍"><span class="nav-number">1.</span> <span class="nav-text">ActiveMQ安全机制的介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ActiveMQ安全机制的使用"><span class="nav-number">2.</span> <span class="nav-text">ActiveMQ安全机制的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-ActiveMQ的使用"><span class="nav-number">2.1.</span> <span class="nav-text">1. ActiveMQ的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Simple-authentication-plugin-in的使用"><span class="nav-number">2.2.</span> <span class="nav-text">2. Simple authentication plugin-in的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-JAAS-authentication-plugin-in的使用"><span class="nav-number">2.3.</span> <span class="nav-text">3. JAAS authentication plugin-in的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-Authorization-plugin-in的使用"><span class="nav-number">2.4.</span> <span class="nav-text">4. Authorization plugin-in的使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ActiveMQ安全机制的源代码分析"><span class="nav-number">3.</span> <span class="nav-text">ActiveMQ安全机制的源代码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Simple-authentication-plugin-in的源代码分析"><span class="nav-number">3.1.</span> <span class="nav-text">1. Simple authentication plugin-in的源代码分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-JAAS-authentication-plugin-in的源代码分析"><span class="nav-number">3.2.</span> <span class="nav-text">2. JAAS authentication plugin-in的源代码分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Authorization-plugin-in的源代码分析"><span class="nav-number">3.3.</span> <span class="nav-text">3. Authorization plugin-in的源代码分析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">magicwt</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

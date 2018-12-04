@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="ActiveMQ,MQTT,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="应用场景应用场景是当用户在餐饮、娱乐场所消费时，可以用手机关注商户微信公众号，并从公众号中访问商户评论页面，发表评论，评论会实时推送至现场的各个显示屏终端上，因此就需要开发一个评论消息推送系统，该系统具体需要满足：1）能够向所有显示屏终端发送评论消息；2）能够指定向某台显示屏终端发送评论消息。 实现方案基于ActiveMQ实现评论消息推送系统，Producer使用OpenWire协议将评论消息发送">
+<meta name="keywords" content="ActiveMQ,MQTT">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于ActiveMQ的消息推送实现">
+<meta property="og:url" content="http://yoursite.com/2016/01/04/e5-9f-ba-e4-ba-8eactivemq-e7-9a-84-e6-b6-88-e6-81-af-e6-8e-a8-e9-80-81-e5-ae-9e-e7-8e-b0/index.html">
+<meta property="og:site_name" content="magicwt的博客">
+<meta property="og:description" content="应用场景应用场景是当用户在餐饮、娱乐场所消费时，可以用手机关注商户微信公众号，并从公众号中访问商户评论页面，发表评论，评论会实时推送至现场的各个显示屏终端上，因此就需要开发一个评论消息推送系统，该系统具体需要满足：1）能够向所有显示屏终端发送评论消息；2）能够指定向某台显示屏终端发送评论消息。 实现方案基于ActiveMQ实现评论消息推送系统，Producer使用OpenWire协议将评论消息发送">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/12/应用场景1-300x261.jpg">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/12/消息推送1-300x126.jpg">
+<meta property="og:updated_time" content="2018-12-04T10:47:42.326Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于ActiveMQ的消息推送实现">
+<meta name="twitter:description" content="应用场景应用场景是当用户在餐饮、娱乐场所消费时，可以用手机关注商户微信公众号，并从公众号中访问商户评论页面，发表评论，评论会实时推送至现场的各个显示屏终端上，因此就需要开发一个评论消息推送系统，该系统具体需要满足：1）能够向所有显示屏终端发送评论消息；2）能够指定向某台显示屏终端发送评论消息。 实现方案基于ActiveMQ实现评论消息推送系统，Producer使用OpenWire协议将评论消息发送">
+<meta name="twitter:image" content="http://magicwt.com/wp-content/uploads/2015/12/应用场景1-300x261.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/01/04/e5-9f-ba-e4-ba-8eactivemq-e7-9a-84-e6-b6-88-e6-81-af-e6-8e-a8-e9-80-81-e5-ae-9e-e7-8e-b0/">
+
+
+
+
+
+  <title>基于ActiveMQ的消息推送实现 | magicwt的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">magicwt的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/04/e5-9f-ba-e4-ba-8eactivemq-e7-9a-84-e6-b6-88-e6-81-af-e6-8e-a8-e9-80-81-e5-ae-9e-e7-8e-b0/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="magicwt">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="magicwt的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">基于ActiveMQ的消息推送实现</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-01-04T20:41:52+08:00">
+                2016-01-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/后端/" itemprop="url" rel="index">
+                    <span itemprop="name">后端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><p><a href="http://magicwt.com/wp-content/uploads/2015/12/应用场景1.jpg" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/12/应用场景1-300x261.jpg" alt="应用场景"></a><br>应用场景是当用户在餐饮、娱乐场所消费时，可以用手机关注商户微信公众号，并从公众号中访问商户评论页面，发表评论，评论会实时推送至现场的各个显示屏终端上，因此就需要开发一个评论消息推送系统，该系统具体需要满足：<br>1）能够向所有显示屏终端发送评论消息；<br>2）能够指定向某台显示屏终端发送评论消息。</p>
+<h2 id="实现方案"><a href="#实现方案" class="headerlink" title="实现方案"></a>实现方案</h2><p><a href="http://magicwt.com/wp-content/uploads/2015/12/消息推送1.jpg" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/12/消息推送1-300x126.jpg" alt="消息推送"></a><br>基于ActiveMQ实现评论消息推送系统，Producer使用OpenWire协议将评论消息发送至Topic，Consumer通过订阅Topic，使用MQTT协议从Topic上取到评论消息。Topic是广播模式，同一个评论消息可以被所有订阅Topic的Consumer接收，这样就可以实现向所有显示屏终端发送评论消息。在conf/activemq.xml中配置ActiveMQ支持使用OpenWire协议和MQTT协议连接，如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;transportConnectors&gt;</span><br><span class="line">    &lt;!-- DOS protection, limit concurrent connections to 1000 and frame size to 100MB --&gt;</span><br><span class="line">    &lt;transportConnector name=&quot;openwire&quot; uri=&quot;tcp://0.0.0.0:61616?maximumConnections=1000&amp;wireFormat.maxFrameSize=104857600&quot;/&gt;</span><br><span class="line">    &lt;transportConnector name=&quot;mqtt&quot; uri=&quot;mqtt://0.0.0.0:1883?maximumConnections=1000&amp;wireFormat.maxFrameSize=104857600&quot;/&gt;</span><br><span class="line">&lt;/transportConnectors&gt;</span><br></pre></td></tr></table></figure></p>
+<p>如何向某台显示屏终端发送消息呢？这里参考了博客《使用ActiveMQ+MQTT实现Android点对点消息通知》（<a href="http://blog.csdn.net/kimmking/article/details/17449019）：通过在评论消息中设置一个属性记录这个消息需要发往Consumer的id，然后当消息在ActiveMQ中被分发至Consumer时，采用自定义的分发策略，该策略取出当前所有连接的Consumer，判断Consumer的id是否与消息中记录的值相等，若相等，则将消息发往这个Consumer。自定义分发策略代码如下所示：" target="_blank" rel="noopener">http://blog.csdn.net/kimmking/article/details/17449019）：通过在评论消息中设置一个属性记录这个消息需要发往Consumer的id，然后当消息在ActiveMQ中被分发至Consumer时，采用自定义的分发策略，该策略取出当前所有连接的Consumer，判断Consumer的id是否与消息中记录的值相等，若相等，则将消息发往这个Consumer。自定义分发策略代码如下所示：</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public class ClientIdFilterDispatchPolicy extends SimpleDispatchPolicy &#123;</span><br><span class="line">    private String ptpClientId = &quot;PTP_CLIENTID&quot;;</span><br><span class="line">    private String ptpSuffix = &quot;.PTP&quot;;</span><br><span class="line"></span><br><span class="line">    public boolean dispatch(MessageReference node, MessageEvaluationContext msgContext, List&lt;Subscription&gt; consumers) throws Exception &#123;</span><br><span class="line">        Object _clientId = node.getMessage().getProperty(this.ptpClientId);</span><br><span class="line">        if (_clientId == null) super.dispatch(node, msgContext, consumers);</span><br><span class="line"></span><br><span class="line">        ActiveMQDestination _destination = node.getMessage().getDestination();</span><br><span class="line"></span><br><span class="line">        int count = 0;</span><br><span class="line">        for (Subscription sub : consumers) &#123;</span><br><span class="line">            if (!sub.getConsumerInfo().isBrowser()) &#123;</span><br><span class="line">                if (!sub.matches(node, msgContext)) &#123;</span><br><span class="line">                    sub.unmatched(node);</span><br><span class="line">                &#125; else if ((_clientId != null) &amp;&amp; (_destination.isTopic()) &amp;&amp; (_clientId.equals(sub.getContext().getClientId())) &amp;&amp; (_destination.getQualifiedName().endsWith(this.ptpSuffix))) &#123;</span><br><span class="line">                    sub.add(node);</span><br><span class="line">                    count++;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    sub.unmatched(node);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return count &gt; 0;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String getPtpClientId() &#123;</span><br><span class="line">        return this.ptpClientId;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setPtpClientId(String ptpClientId) &#123;</span><br><span class="line">        this.ptpClientId = ptpClientId;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String getPtpSuffix() &#123;</span><br><span class="line">        return this.ptpSuffix;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setPtpSuffix(String ptpSuffix) &#123;</span><br><span class="line">        this.ptpSuffix = ptpSuffix;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>从代码中可以看出，若消息中包含属性ptpClientId（默认属性名为“PTP_CLIENTID”）且Topic的后缀为ptpSuffix（默认后缀为“.PTP”），则判断是否有Consumer，其id与ptpClientId属性值相等，若有，则将该消息分发给该Consumer。在conf/activemq.xml中配置分发策略，如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;destinationPolicy&gt;</span><br><span class="line">    &lt;policyMap&gt;</span><br><span class="line">        &lt;policyEntries&gt;</span><br><span class="line">            &lt;policyEntry topic=&quot;&gt;&quot; &gt;</span><br><span class="line">                &lt;dispatchPolicy&gt;</span><br><span class="line">                    &lt;clientIdFilterDispatchPolicy ptpSuffix=&quot;.push&quot; ptpClientId=&quot;machineId&quot; /&gt;</span><br><span class="line">                &lt;/dispatchPolicy&gt;</span><br><span class="line">                &lt;pendingMessageLimitStrategy&gt;</span><br><span class="line">                    &lt;constantPendingMessageLimitStrategy limit=&quot;1000&quot;/&gt;</span><br><span class="line">                &lt;/pendingMessageLimitStrategy&gt;</span><br><span class="line">            &lt;/policyEntry&gt;</span><br><span class="line">        &lt;/policyEntries&gt;</span><br><span class="line">    &lt;/policyMap&gt;</span><br><span class="line">&lt;/destinationPolicy&gt;</span><br></pre></td></tr></table></figure></p>
+<p>从中可以看出，ptpClientId取值为“machineId”，ptpSuffix取值为“.push”。</p>
+<h2 id="消息发送"><a href="#消息发送" class="headerlink" title="消息发送"></a>消息发送</h2><p>评论消息发送端代码如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public class PushProducer &#123;</span><br><span class="line"></span><br><span class="line">    private static Logger logger = LoggerFactory.getLogger(PushProducer.class);</span><br><span class="line"></span><br><span class="line">    private String brokerUrl;</span><br><span class="line">    private Connection connection;</span><br><span class="line">    private Session session;</span><br><span class="line">    private MessageProducer messageProducer;</span><br><span class="line"></span><br><span class="line">    public void init() &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(brokerUrl);</span><br><span class="line">            connection = connectionFactory.createConnection();</span><br><span class="line">            connection.start();</span><br><span class="line">            session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);</span><br><span class="line">            Destination destination = session.createTopic(Constants.PUSH_TOPIC_NAME);</span><br><span class="line">            messageProducer = session.createProducer(destination);</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            logger.error(&quot;init producer error&quot;, e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void destroy() &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            if (session != null) &#123;</span><br><span class="line">                session.close();</span><br><span class="line">            &#125;</span><br><span class="line">            if (connection != null) &#123;</span><br><span class="line">                connection.close();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            logger.error(&quot;destroy producer error&quot;, e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public boolean pushToOne(String text, int machineId) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            Message message = session.createTextMessage(text);</span><br><span class="line">            message.setStringProperty(Constants.PUSH_CLIENT_ID_KEY, String.valueOf(machineId));</span><br><span class="line">            messageProducer.send(message);</span><br><span class="line">            return true;</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            logger.error(&quot;push message error&quot;, e);</span><br><span class="line">        &#125;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public boolean pushToAll(String text) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            Message message = session.createTextMessage(text);</span><br><span class="line">            messageProducer.send(message);</span><br><span class="line">            return true;</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            logger.error(&quot;push message error&quot;, e);</span><br><span class="line">        &#125;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String getBrokerUrl() &#123;</span><br><span class="line">        return brokerUrl;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setBrokerUrl(String brokerUrl) &#123;</span><br><span class="line">        this.brokerUrl = brokerUrl;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Connection getConnection() &#123;</span><br><span class="line">        return connection;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setConnection(Connection connection) &#123;</span><br><span class="line">        this.connection = connection;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Session getSession() &#123;</span><br><span class="line">        return session;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setSession(Session session) &#123;</span><br><span class="line">        this.session = session;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public MessageProducer getMessageProducer() &#123;</span><br><span class="line">        return messageProducer;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setMessageProducer(MessageProducer messageProducer) &#123;</span><br><span class="line">        this.messageProducer = messageProducer;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其中：<br>1）init方法使用JMS API建立与ActiveMQ的连接与会话，并创建MessageProducer实例。<br>2）destroy方法关闭与ActiveMQ的连接与会话。<br>3）pushToOne方法创建文本消息包含评论，并设置属性“machineId”，使用MessageProducer实例发送消息。<br>4）pushToAll方法创建文本消息包含评论，使用MessageProducer实例发送消息。</p>
+<h2 id="消息接收"><a href="#消息接收" class="headerlink" title="消息接收"></a>消息接收</h2><p>评论消息接收端代码如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public abstract class AuthPushConsumer implements MqttCallback &#123;</span><br><span class="line"></span><br><span class="line">    private static Logger logger = LoggerFactory.getLogger(AuthPushConsumer.class);</span><br><span class="line"></span><br><span class="line">    private String brokerUrl;</span><br><span class="line">    private MqttClient mqttClient;</span><br><span class="line">    private int machineId;</span><br><span class="line">    private String password;</span><br><span class="line"></span><br><span class="line">    public AuthPushConsumer() &#123;&#125;</span><br><span class="line"></span><br><span class="line">    public AuthPushConsumer(String brokerUrl, int machineId, String password) &#123;</span><br><span class="line">        this.brokerUrl = brokerUrl;</span><br><span class="line">        this.machineId = machineId;</span><br><span class="line">        this.password = password;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void start() throws Exception &#123;</span><br><span class="line">        mqttClient = new MqttClient(brokerUrl, String.valueOf(machineId), new MemoryPersistence());</span><br><span class="line">        MqttConnectOptions options= new MqttConnectOptions();</span><br><span class="line">        options.setCleanSession(true);</span><br><span class="line">        options.setKeepAliveInterval(30);</span><br><span class="line">        options.setUserName(String.valueOf(machineId));</span><br><span class="line">        options.setPassword(password.toCharArray());</span><br><span class="line">        mqttClient.setCallback(this);</span><br><span class="line">        mqttClient.connect(options);</span><br><span class="line">        mqttClient.subscribe(new String[]&#123;Constants.PUSH_TOPIC_NAME, String.valueOf(machineId)&#125;);</span><br><span class="line">        logger.info(&quot;start mqtt client success&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void connectionLost(Throwable throwable) &#123;</span><br><span class="line">        logger.error(&quot;lost connection&quot;);</span><br><span class="line">        if (mqttClient != null) &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                mqttClient.close();</span><br><span class="line">            &#125; catch (Exception e) &#123;</span><br><span class="line">                logger.error(&quot;close error&quot;, e);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        while (true) &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                start();</span><br><span class="line">                break;</span><br><span class="line">            &#125; catch (Exception e) &#123;</span><br><span class="line">                logger.error(&quot;exception&quot;, e);</span><br><span class="line">                if (e.getCause() instanceof ConnectException || &quot;代理程序不可用&quot;.equals(e.getMessage())) &#123;</span><br><span class="line">                    try &#123;</span><br><span class="line">                        Thread.sleep(2000);</span><br><span class="line">                    &#125; catch (Exception e1) &#123;</span><br><span class="line">                    &#125;</span><br><span class="line">                    continue;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    break;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) &#123;</span><br><span class="line">        logger.info(&quot;delivery complete&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void messageArrived(String s, MqttMessage mqttMessage) throws Exception &#123;</span><br><span class="line">        System.out.println(s);</span><br><span class="line">        processMessage(new String(mqttMessage.getPayload()));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public abstract void processMessage(String message);</span><br><span class="line"></span><br><span class="line">    public int getMachineId() &#123;</span><br><span class="line">        return machineId;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setMachineId(int machineId) &#123;</span><br><span class="line">        this.machineId = machineId;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String getPassword() &#123;</span><br><span class="line">        return password;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setPassword(String password) &#123;</span><br><span class="line">        this.password = password;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其中：<br>1）start方法创建MqttClient实例，建立与ActiveMQ的连接，创建时指定id。<br>2）connectionLost方法在连接丢失时被调用，循环调用start方法直至连接恢复。<br>3）messageArrived方法在消息接收时被调用，调用processMessage方法执行具体的业务逻辑，例如在屏幕上显示评论。</p>
+<h2 id="权限验证"><a href="#权限验证" class="headerlink" title="权限验证"></a>权限验证</h2><p>为了验证尝试连接的Consumer是否具有权限，开发了权限验证插件，该插件调用远程接口进行权限验证。插件配置如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;plugins&gt;</span><br><span class="line">    &lt;bean xmlns=&quot;http://www.springframework.org/schema/beans&quot; id=&quot;AuthPlugin&quot; class=&quot;com.vshangping.server.activemq.auth.plugin.AuthPlugin&quot;&gt;</span><br><span class="line">        &lt;property name=&quot;machineService&quot;&gt;</span><br><span class="line">            &lt;bean xmlns=&quot;http://www.springframework.org/schema/beans&quot; id=&quot;machineService&quot; name=&quot;machineService&quot; class=&quot;org.springframework.remoting.caucho.HessianProxyFactoryBean&quot;&gt;</span><br><span class="line">                &lt;property name=&quot;serviceUrl&quot; value=&quot;http://xxx.xxx.xxx.xxx/remoting/machineService&quot; /&gt;</span><br><span class="line">                &lt;property name=&quot;serviceInterface&quot; value=&quot;xxx.xxx.server.service.MachineService&quot; /&gt;</span><br><span class="line">                &lt;property name=&quot;chunkedPost&quot; value=&quot;false&quot;/&gt;</span><br><span class="line">            &lt;/bean&gt;</span><br><span class="line">        &lt;/property&gt;</span><br><span class="line">    &lt;/bean&gt;</span><br><span class="line">&lt;/plugins&gt;</span><br></pre></td></tr></table></figure></p>
+<p>插件AuthPlugin代码如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public class AuthPlugin implements BrokerPlugin &#123;</span><br><span class="line"></span><br><span class="line">	private static Logger logger = LoggerFactory.getLogger(AuthPlugin.class);</span><br><span class="line"></span><br><span class="line">	private MachineService machineService;</span><br><span class="line"></span><br><span class="line">	public Broker installPlugin(Broker broker) throws Exception &#123;</span><br><span class="line">		logger.info(&quot;install auth plugin&quot;);</span><br><span class="line">		return new AuthBroker(broker, machineService);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public MachineService getMachineService() &#123;</span><br><span class="line">		return machineService;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void setMachineService(MachineService machineService) &#123;</span><br><span class="line">		this.machineService = machineService;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>从代码中可以看出，该插件主要功能是新建并返回AuthBroker实例，AuthBroker代码如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public class AuthBroker extends BrokerFilter &#123;</span><br><span class="line"></span><br><span class="line">	private static Logger logger = LoggerFactory.getLogger(AuthBroker.class);</span><br><span class="line"></span><br><span class="line">	private MachineService machineService;</span><br><span class="line"></span><br><span class="line">	public AuthBroker(Broker next) &#123;</span><br><span class="line">		super(next);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public AuthBroker(Broker next, MachineService machineService) &#123;</span><br><span class="line">		super(next);</span><br><span class="line">		this.machineService = machineService;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public void addConnection(ConnectionContext context, ConnectionInfo info) throws Exception &#123;</span><br><span class="line">		if (context.getConnector().toString().equals(&quot;mqtt&quot;)) &#123;</span><br><span class="line">			if (!machineService.checkPassword(Integer.parseInt(info.getUserName()), info.getPassword())) &#123;</span><br><span class="line">				throw new SecurityException(&quot;invalid machine &quot; + info.getUserName());</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		logger.info(&quot;connect machine &quot; + info.getUserName());</span><br><span class="line">		super.addConnection(context, info);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public MachineService getMachineService() &#123;</span><br><span class="line">		return machineService;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void setMachineService(MachineService machineService) &#123;</span><br><span class="line">		this.machineService = machineService;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>从代码中可以看出，AuthBroker继承自BrokerFilter，重写了addConnection方法，在创建连接时，对于使用MQTT协议的连接，调用远程接口的checkPassword方法，判断账号和密码是否正确，若正确则允许连接。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ActiveMQ/" rel="tag"># ActiveMQ</a>
+          
+            <a href="/tags/MQTT/" rel="tag"># MQTT</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/01/03/e4-bd-bf-e7-94-a8hive-e5-ad-98-e5-82-a8-e6-95-b0-e6-8d-ae-e5-ae-9e-e8-b7-b5/" rel="next" title="使用Hive存储数据实践">
+                <i class="fa fa-chevron-left"></i> 使用Hive存储数据实践
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/01/10/e5-b7-a5-e4-bd-9c-e6-80-bb-e7-bb-93/" rel="prev" title="工作总结">
+                工作总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">magicwt</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">90</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/magicwt" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:wang-t04@mails.tsinghua.edu.cn" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#应用场景"><span class="nav-number">1.</span> <span class="nav-text">应用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现方案"><span class="nav-number">2.</span> <span class="nav-text">实现方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#消息发送"><span class="nav-number">3.</span> <span class="nav-text">消息发送</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#消息接收"><span class="nav-number">4.</span> <span class="nav-text">消息接收</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#权限验证"><span class="nav-number">5.</span> <span class="nav-text">权限验证</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">magicwt</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

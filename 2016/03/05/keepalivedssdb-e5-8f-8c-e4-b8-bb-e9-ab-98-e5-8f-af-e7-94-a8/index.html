@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Keepalived,SSDB,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="SSDB是一个C/C++语言开发的高性能NoSQL数据库，支持KV，list，map（hash），zset（sorted set）等数据结构，用来替代或者与Redis配合存储十亿级别列表的数据。与Redis相比，SSDB的存储基于文件，因此可以存储更多的数据，而不受限于内存的大小。在实际应用中，我们使用SSDB存储网站实时流量数据。本文主要介绍如何搭建SSDB双主，并使用Keepalived做IP">
+<meta name="keywords" content="Keepalived,SSDB">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Keepalived+SSDB双主高可用">
+<meta property="og:url" content="http://yoursite.com/2016/03/05/keepalivedssdb-e5-8f-8c-e4-b8-bb-e9-ab-98-e5-8f-af-e7-94-a8/index.html">
+<meta property="og:site_name" content="magicwt的博客">
+<meta property="og:description" content="SSDB是一个C/C++语言开发的高性能NoSQL数据库，支持KV，list，map（hash），zset（sorted set）等数据结构，用来替代或者与Redis配合存储十亿级别列表的数据。与Redis相比，SSDB的存储基于文件，因此可以存储更多的数据，而不受限于内存的大小。在实际应用中，我们使用SSDB存储网站实时流量数据。本文主要介绍如何搭建SSDB双主，并使用Keepalived做IP">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2016/03/keepalivedssdb.png">
+<meta property="og:updated_time" content="2018-12-04T10:47:42.327Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Keepalived+SSDB双主高可用">
+<meta name="twitter:description" content="SSDB是一个C/C++语言开发的高性能NoSQL数据库，支持KV，list，map（hash），zset（sorted set）等数据结构，用来替代或者与Redis配合存储十亿级别列表的数据。与Redis相比，SSDB的存储基于文件，因此可以存储更多的数据，而不受限于内存的大小。在实际应用中，我们使用SSDB存储网站实时流量数据。本文主要介绍如何搭建SSDB双主，并使用Keepalived做IP">
+<meta name="twitter:image" content="http://magicwt.com/wp-content/uploads/2016/03/keepalivedssdb.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/03/05/keepalivedssdb-e5-8f-8c-e4-b8-bb-e9-ab-98-e5-8f-af-e7-94-a8/">
+
+
+
+
+
+  <title>Keepalived+SSDB双主高可用 | magicwt的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">magicwt的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/03/05/keepalivedssdb-e5-8f-8c-e4-b8-bb-e9-ab-98-e5-8f-af-e7-94-a8/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="magicwt">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="magicwt的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Keepalived+SSDB双主高可用</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-03-05T15:52:30+08:00">
+                2016-03-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/服务器/" itemprop="url" rel="index">
+                    <span itemprop="name">服务器</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>SSDB是一个C/C++语言开发的高性能NoSQL数据库，支持KV，list，map（hash），zset（sorted set）等数据结构，用来替代或者与Redis配合存储十亿级别列表的数据。与Redis相比，SSDB的存储基于文件，因此可以存储更多的数据，而不受限于内存的大小。在实际应用中，我们使用SSDB存储网站实时流量数据。本文主要介绍如何搭建SSDB双主，并使用Keepalived做IP漂移，使得双主对客户端透明。只要双主中有一个服务正常，客户端就可以正常读写，并保证数据不会丢失。其结构如图所示：<br><a href="http://magicwt.com/wp-content/uploads/2016/03/keepalivedssdb.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2016/03/keepalivedssdb.png" alt="keepalived+ssdb"></a></p>
+<h2 id="安装SSDB"><a href="#安装SSDB" class="headerlink" title="安装SSDB"></a>安装SSDB</h2><p>在两台服务器上下载SSDB源码包master.zip（<a href="https://github.com/ideawu/ssdb/archive/master.zip），解压后先后执行“make”和“make" target="_blank" rel="noopener">https://github.com/ideawu/ssdb/archive/master.zip），解压后先后执行“make”和“make</a> install”完成安装：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">unzip master.zip </span><br><span class="line">cd ssdb-master</span><br><span class="line">make</span><br><span class="line">make install</span><br><span class="line">``` </span><br><span class="line">SSDB默认安装至/usr/local/ssdb。</span><br><span class="line"></span><br><span class="line">## 配置SSDB</span><br><span class="line"></span><br><span class="line">修改/usr/local/ssdb中的配置文件ssdb.conf：</span><br></pre></td></tr></table></figure></p>
+<h1 id="ssdb-server-config"><a href="#ssdb-server-config" class="headerlink" title="ssdb-server config"></a>ssdb-server config</h1><h1 id="MUST-indent-by-TAB"><a href="#MUST-indent-by-TAB" class="headerlink" title="MUST indent by TAB!"></a>MUST indent by TAB!</h1><h1 id="配置目录"><a href="#配置目录" class="headerlink" title="配置目录"></a>配置目录</h1><p>work_dir = /data/ssdb-shard<br>pidfile = /data/ssdb-shard/ssdb.pid</p>
+<h1 id="配置访问"><a href="#配置访问" class="headerlink" title="配置访问"></a>配置访问</h1><p>server:</p>
+<pre><code># IP配置为0.0.0.0，则任何一个IP都可以访问
+ip: 0.0.0.0
+port: 8888
+# 可以配置访问IP和访问密码，我们使用iptables配置访问IP，因此不在此处配置
+# format: allow|deny: all|ip_prefix
+# multiple allows or denys is supported
+#deny: all
+#allow: 127.0.0.1
+#allow: 192.168
+# auth password must be at least 32 characters
+#auth: very-strong-password
+</code></pre><h1 id="配置同步和复制"><a href="#配置同步和复制" class="headerlink" title="配置同步和复制"></a>配置同步和复制</h1><h1 id="双主下，当前SSDB是另一个SSDB的从，需要从另一个SSDB同步和复制数据"><a href="#双主下，当前SSDB是另一个SSDB的从，需要从另一个SSDB同步和复制数据" class="headerlink" title="双主下，当前SSDB是另一个SSDB的从，需要从另一个SSDB同步和复制数据"></a>双主下，当前SSDB是另一个SSDB的从，需要从另一个SSDB同步和复制数据</h1><p>replication:<br>        binlog: yes</p>
+<pre><code># Limit sync speed to *MB/s, -1: no limit
+sync_speed: -1
+slaveof:
+        # to identify a master even if it moved(ip, port changed)
+        # if set to empty or not defined, ip:port will be used.
+        id: svc_2
+        # sync|mirror, default is sync
+        # 由于双主是双向同步，如果使用sync，则会造成双主重复一直同步，死循环
+        type: mirror
+        ip: xx.xx.xx.xx
+        port: 8888
+</code></pre><h1 id="配置日志"><a href="#配置日志" class="headerlink" title="配置日志"></a>配置日志</h1><p>logger:<br>        level: error<br>        output: log.txt<br>        rotate:<br>                size: 1000000000</p>
+<h1 id="配置LevelDB，SSDB使用LevelDB作为底层存储引擎"><a href="#配置LevelDB，SSDB使用LevelDB作为底层存储引擎" class="headerlink" title="配置LevelDB，SSDB使用LevelDB作为底层存储引擎"></a>配置LevelDB，SSDB使用LevelDB作为底层存储引擎</h1><p>leveldb:</p>
+<pre><code># in MB
+cache_size: 500
+# in KB
+block_size: 32
+# in MB
+write_buffer_size: 64
+# in MB
+compaction_speed: 1000
+# yes|no
+compression: yes
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## 启动SSDB</span><br><span class="line"></span><br><span class="line">启动两台服务器上的SSDB：</span><br></pre></td></tr></table></figure>
+<h1 id="启动为后台进程-不阻塞命令行"><a href="#启动为后台进程-不阻塞命令行" class="headerlink" title="启动为后台进程(不阻塞命令行)"></a>启动为后台进程(不阻塞命令行)</h1><p>/usr/local/ssdb/ssdb-server -d ssdb.conf<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">使用/usr/local/ssdb/ssdb-cli进入命令行，使用info命令查看SSDB信息：</span><br><span class="line">[![1](http://magicwt.com/wp-content/uploads/2016/03/1.png)](http://magicwt.com/wp-content/uploads/2016/03/1.png)</span><br><span class="line">从replication信息可以看到当前SSDB作为另一个SSDB的从，而在另一个SSDB中通过info命令也可以看到其是当前SSDB的从。而在某个SSDB使用set命令写入一个键值时，在另一个SSDB使用get命令可读出这个键值，说明SSDB双主搭建成功，这两个SSDB只要有一个服务正常，就可以正常对外提供读写，并保证数据不会丢失。</span><br><span class="line"></span><br><span class="line">## 配置Keepalived</span><br><span class="line"></span><br><span class="line">对于客户端，在访问SSDB双主时，需要知道各个SSDB的地址，并且自己实现fail-over机制，在无法读写某个SSDB时，重新尝试读写另一个SSDB。我们使用Keepalived监控SSDB，对外提供虚IP供客户端连接读写，虚IP初始映射到某个SSDB，当该SSDB不可用时，将虚IP漂移到另一个SSDB，这样，双主对于客户端是透明的，客户端只要连接虚IP即可。此处不再介绍Keepalived的安装和运行，可参见《Keepalived介绍》(http://magicwt.com/2013/06/30/keepalived%E4%BB%8B%E7%BB%8D/)，Keepalived的主配置keepalived.conf如下：</span><br></pre></td></tr></table></figure></p>
+<p>! Configuration File for keepalived</p>
+<p>global_defs {<br>   router_id ssdb_1<br>}</p>
+<p>vrrp_script chk_ssdb {<br>    script “/usr/local/keepalived/scripts/ssdb_check.sh 127.0.0.1 8888”<br>    interval 5<br>    weight -2<br>}</p>
+<p>vrrp_instance VI_1 {<br>    state BACKUP<br>    interface eth0<br>    virtual_router_id 225<br>    priority 101<br>    advert_int 1<br>    nopreempt<br>    authentication {<br>        auth_type PASS<br>        auth_pass 1111<br>    }<br>    virtual_ipaddress {<br>        xx.xx.xx.xx<br>    }<br>    track_script {<br>        chk_ssdb<br>    }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">其中每隔5秒执行一个脚本检查SSDB服务是否可用，如不可用，则将权重减小2至99，而Keepalived从配置中权重为100，因此，从切换为主，并配置虚IP，保证了虚IP所在的SSDB服务一直可用。ssdb_check.sh脚本如下所示：</span><br></pre></td></tr></table></figure></p>
+<p>#!/bin/bash<br>LOGFILE=”/var/log/keepalived-ssdb-check.log”<br>if [ “<code>/usr/local/bin/redis-cli -h $1 -p $2 PING</code>“ == “PONG” ]; then :<br>   exit 0<br>else<br>   sleep 1<br>   if [ “<code>/usr/local/bin/redis-cli -h $1 -p $2 PING</code>“ == “PONG” ]; then :<br>      exit 0<br>   else<br>      date &gt;&gt; $LOGFILE<br>      echo “Failed:redis-cli -h $1 -p $2 PING” &gt;&gt; $LOGFILE 2&gt;&amp;1<br>      exit 1<br>   fi<br>fi<br><code>`</code><br>由于SSDB兼容Redis部分协议，因此此处使用Redis的命令行工具PING SSDB检查服务是否可用。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Keepalived/" rel="tag"># Keepalived</a>
+          
+            <a href="/tags/SSDB/" rel="tag"># SSDB</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/02/26/e8-bd-ac-e5-88-86-e5-b8-83-e5-bc-8f-e7-bc-93-e5-ad-98-e9-9b-86-e7-be-a4-e6-96-b9-e6-a1-88-e7-89-b9-e6-80-a7-e3-80-81-e5-ba-94-e7-94-a8-e5-9c-ba-e6-99-af-e3-80-81-e4-bc-98-e7-bc-ba-e7-82-b9-e5-af-b9/" rel="next" title="[转]分布式缓存集群方案特性、应用场景、优缺点对比及选型">
+                <i class="fa fa-chevron-left"></i> [转]分布式缓存集群方案特性、应用场景、优缺点对比及选型
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/03/06/activemq-e5-9f-ba-e4-ba-8ezookeeper-e5-92-8cleveldb-e5-ae-9e-e7-8e-b0masterslave/" rel="prev" title="ActiveMQ基于Zookeeper和LevelDB实现Master/Slave">
+                ActiveMQ基于Zookeeper和LevelDB实现Master/Slave <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">magicwt</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">90</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/magicwt" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:wang-t04@mails.tsinghua.edu.cn" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装SSDB"><span class="nav-number">1.</span> <span class="nav-text">安装SSDB</span></a></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#ssdb-server-config"><span class="nav-number"></span> <span class="nav-text">ssdb-server config</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MUST-indent-by-TAB"><span class="nav-number"></span> <span class="nav-text">MUST indent by TAB!</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置目录"><span class="nav-number"></span> <span class="nav-text">配置目录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置访问"><span class="nav-number"></span> <span class="nav-text">配置访问</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置同步和复制"><span class="nav-number"></span> <span class="nav-text">配置同步和复制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#双主下，当前SSDB是另一个SSDB的从，需要从另一个SSDB同步和复制数据"><span class="nav-number"></span> <span class="nav-text">双主下，当前SSDB是另一个SSDB的从，需要从另一个SSDB同步和复制数据</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置日志"><span class="nav-number"></span> <span class="nav-text">配置日志</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置LevelDB，SSDB使用LevelDB作为底层存储引擎"><span class="nav-number"></span> <span class="nav-text">配置LevelDB，SSDB使用LevelDB作为底层存储引擎</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#启动为后台进程-不阻塞命令行"><span class="nav-number"></span> <span class="nav-text">启动为后台进程(不阻塞命令行)</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">magicwt</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

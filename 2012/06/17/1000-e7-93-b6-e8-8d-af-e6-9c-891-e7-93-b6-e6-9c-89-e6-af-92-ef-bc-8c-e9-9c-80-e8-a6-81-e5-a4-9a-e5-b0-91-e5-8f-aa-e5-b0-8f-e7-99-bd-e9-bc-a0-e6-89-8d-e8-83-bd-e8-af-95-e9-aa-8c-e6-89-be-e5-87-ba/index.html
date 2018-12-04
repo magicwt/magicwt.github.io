@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1000瓶药有1瓶有毒，如果小白鼠服用有毒的药，则24小时后死亡。现在需设计一种策略，使用尽可能少的小白鼠，在24小时内找出有毒的药。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="1000瓶药有1瓶有毒，需要多少只小白鼠才能试验找出">
+<meta property="og:url" content="http://yoursite.com/2012/06/17/1000-e7-93-b6-e8-8d-af-e6-9c-891-e7-93-b6-e6-9c-89-e6-af-92-ef-bc-8c-e9-9c-80-e8-a6-81-e5-a4-9a-e5-b0-91-e5-8f-aa-e5-b0-8f-e7-99-bd-e9-bc-a0-e6-89-8d-e8-83-bd-e8-af-95-e9-aa-8c-e6-89-be-e5-87-ba/index.html">
+<meta property="og:site_name" content="magicwt的博客">
+<meta property="og:description" content="1000瓶药有1瓶有毒，如果小白鼠服用有毒的药，则24小时后死亡。现在需设计一种策略，使用尽可能少的小白鼠，在24小时内找出有毒的药。">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-12-04T11:19:00.618Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="1000瓶药有1瓶有毒，需要多少只小白鼠才能试验找出">
+<meta name="twitter:description" content="1000瓶药有1瓶有毒，如果小白鼠服用有毒的药，则24小时后死亡。现在需设计一种策略，使用尽可能少的小白鼠，在24小时内找出有毒的药。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2012/06/17/1000-e7-93-b6-e8-8d-af-e6-9c-891-e7-93-b6-e6-9c-89-e6-af-92-ef-bc-8c-e9-9c-80-e8-a6-81-e5-a4-9a-e5-b0-91-e5-8f-aa-e5-b0-8f-e7-99-bd-e9-bc-a0-e6-89-8d-e8-83-bd-e8-af-95-e9-aa-8c-e6-89-be-e5-87-ba/">
+
+
+
+
+
+  <title>1000瓶药有1瓶有毒，需要多少只小白鼠才能试验找出 | magicwt的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">magicwt的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2012/06/17/1000-e7-93-b6-e8-8d-af-e6-9c-891-e7-93-b6-e6-9c-89-e6-af-92-ef-bc-8c-e9-9c-80-e8-a6-81-e5-a4-9a-e5-b0-91-e5-8f-aa-e5-b0-8f-e7-99-bd-e9-bc-a0-e6-89-8d-e8-83-bd-e8-af-95-e9-aa-8c-e6-89-be-e5-87-ba/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="magicwt">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="magicwt的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">1000瓶药有1瓶有毒，需要多少只小白鼠才能试验找出</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2012-06-17T11:47:17+08:00">
+                2012-06-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据结构与算法/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构与算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>1000瓶药有1瓶有毒，如果小白鼠服用有毒的药，则24小时后死亡。现在需设计一种策略，使用尽可能少的小白鼠，在24小时内找出有毒的药。<br><a id="more"></a></p>
+<h2 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h2><p>令1000瓶药的序号为1,2,…,999,1000,小白鼠的数目为n。<br>a(k)表示小白鼠k在24小时后的状态:<br>a(k) = 1, 小白鼠k存活；a(k) = 0,小白鼠k死亡。<br>如此，所有n只小白鼠在24小时后的状态为a(1)a(2)…a(k)…a(n-1)a(n),相当于n位2进制数，若n = 10,则2^10 = 1024 &gt; 1000，也就是说，可设计一种策略，使得某一瓶有毒映射一个10位二进制数，这样，需要10只小白鼠就可以在24小时内找出哪一瓶有毒。</p>
+<h2 id="具体策略："><a href="#具体策略：" class="headerlink" title="具体策略："></a>具体策略：</h2><p>令瓶号表示为b(1)b(2)…b(k)…b(9)b(10),对于第k只小白鼠，它尝试b(k) = 0的药。<br>对于第1只小白鼠，它尝试b(1) = 0的药，即尝试1至512的药。<br>对于第10只小白鼠，它尝试b(10) = 0的药，即尝试瓶号为偶数的药。<br>这样，当24小时后，得到10只小白鼠的状态a(1)a(2)…a(k)…a(9)a(10)，且由10个状态组成的10位二进制数即有毒药瓶序号。</p>
+<h2 id="举例分析："><a href="#举例分析：" class="headerlink" title="举例分析："></a>举例分析：</h2><p>若10只小白鼠的状态为1001001001，换算成10进制即585。<br>进行验证：<br>a(1) = 1,由于第1只小白鼠尝试1至512的药，且存活，所以有毒药瓶在513至1000之间。<br>a(2) = 0,由于第2只小白鼠尝试1至256,513至768的药，且死亡，所以有毒药瓶在513至768之间。<br>a(3) = 0,由于第3只小白苏尝试1至128,257至384,513至640,769至896的药，且死亡，所以有毒药瓶在513至640之间。<br>a(4) = 1,有毒药瓶在577至640之间。<br>a(5) = 0,有毒药瓶在577至608之间。<br>a(6) = 0,有毒药瓶在577至592之间。<br>a(7) = 1,有毒药瓶在585至592之间。<br>a(8) = 0,有毒药瓶在585至588之间。<br>a(9) = 0,有毒药瓶在585至586之间。<br>a(10) = 1,有毒药瓶是585。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2012/06/12/e4-b8-80-e9-81-93-e6-9c-89-e5-85-b3-e9-a3-9e-e6-9c-ba-e7-bb-95-e8-b5-a4-e9-81-93-e9-a3-9e-e8-a1-8c-e7-9a-84-e9-9d-a2-e8-af-95-e9-a2-98/" rel="next" title="一道有关飞机绕赤道飞行的面试题">
+                <i class="fa fa-chevron-left"></i> 一道有关飞机绕赤道飞行的面试题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2012/06/17/1000-e7-93-b6-e8-8d-af-e9-9c-80-e8-a6-81-e5-a4-9a-e5-b0-91-e5-8f-aa-e5-b0-8f-e7-99-bd-e9-bc-a0-e8-af-95-e9-aa-8c-ef-bc-88-e4-ba-8c-ef-bc-89/" rel="prev" title="1000瓶药,需要多少只小白鼠试验（二）">
+                1000瓶药,需要多少只小白鼠试验（二） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">magicwt</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">90</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/magicwt" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:wang-t04@mails.tsinghua.edu.cn" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#思路："><span class="nav-number">1.</span> <span class="nav-text">思路：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#具体策略："><span class="nav-number">2.</span> <span class="nav-text">具体策略：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#举例分析："><span class="nav-number">3.</span> <span class="nav-text">举例分析：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">magicwt</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

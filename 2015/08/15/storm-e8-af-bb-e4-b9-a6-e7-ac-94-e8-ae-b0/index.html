@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Storm,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="什么是storm 分布式实时计算系统； 与hadoop为批处理提供map和reduce这两种操作原语类似，storm为实时处理也提供了spout和bolt这两种操作原语； storm的特点：  可扩展性，通过增加集群机器、调整计算并行度，即可以扩展计算性能； 保证数据不丢失，每条消息至少能被执行一次； 健壮性，集群状态保存在zookeeper中，节点不保存状态，节点故障不影响系统运行； 容错性，计">
+<meta name="keywords" content="Storm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="storm读书笔记">
+<meta property="og:url" content="http://yoursite.com/2015/08/15/storm-e8-af-bb-e4-b9-a6-e7-ac-94-e8-ae-b0/index.html">
+<meta property="og:site_name" content="magicwt的博客">
+<meta property="og:description" content="什么是storm 分布式实时计算系统； 与hadoop为批处理提供map和reduce这两种操作原语类似，storm为实时处理也提供了spout和bolt这两种操作原语； storm的特点：  可扩展性，通过增加集群机器、调整计算并行度，即可以扩展计算性能； 保证数据不丢失，每条消息至少能被执行一次； 健壮性，集群状态保存在zookeeper中，节点不保存状态，节点故障不影响系统运行； 容错性，计">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/08/1-300x228.png">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/08/2-300x231.png">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/08/3-300x178.png">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/08/4-300x232.png">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/08/5-300x127.png">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/08/6-122x300.png">
+<meta property="og:updated_time" content="2018-12-04T10:47:42.322Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="storm读书笔记">
+<meta name="twitter:description" content="什么是storm 分布式实时计算系统； 与hadoop为批处理提供map和reduce这两种操作原语类似，storm为实时处理也提供了spout和bolt这两种操作原语； storm的特点：  可扩展性，通过增加集群机器、调整计算并行度，即可以扩展计算性能； 保证数据不丢失，每条消息至少能被执行一次； 健壮性，集群状态保存在zookeeper中，节点不保存状态，节点故障不影响系统运行； 容错性，计">
+<meta name="twitter:image" content="http://magicwt.com/wp-content/uploads/2015/08/1-300x228.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2015/08/15/storm-e8-af-bb-e4-b9-a6-e7-ac-94-e8-ae-b0/">
+
+
+
+
+
+  <title>storm读书笔记 | magicwt的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">magicwt的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/08/15/storm-e8-af-bb-e4-b9-a6-e7-ac-94-e8-ae-b0/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="magicwt">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="magicwt的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">storm读书笔记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-08-15T10:47:52+08:00">
+                2015-08-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/大数据/" itemprop="url" rel="index">
+                    <span itemprop="name">大数据</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="什么是storm"><a href="#什么是storm" class="headerlink" title="什么是storm"></a><span class="s1" style="line-height: 1.5;"><strong>什么是</strong></span><span class="s2" style="line-height: 1.5;">storm</span></h1><ul>
+<li><span class="s2">分布式实时计算系统；</span></li>
+<li><span class="s2">与hadoop为批处理提供map和reduce这两种操作原语类似，storm为实时处理也提供了spout和bolt这两种操作原语；</span></li>
+<li><p><span class="s2">storm的特点：</span></p>
+<ol>
+<li><span class="s2">可扩展性，通过增加集群机器、调整计算并行度，即可以扩展计算性能；</span></li>
+<li><span class="s2">保证数据不丢失，每条消息至少能被执行一次；</span></li>
+<li>健壮性，集群状态保存在zookeeper中，节点不保存状态，节点故障不影响系统运行；</li>
+<li>容错性，计算任务错误时，能够及时重新分配、运行计算任务，保证计算任务永远运行；</li>
+<li>支持多种开发语言，java、python等。</li>
+</ol>
+</li>
+</ul>
+<h1 id="storm的计算模型"><a href="#storm的计算模型" class="headerlink" title="storm的计算模型"></a><span class="s2"><strong>storm的计算模型</strong></span></h1><ul>
+<li><span class="s2">tuple，元组，strom中的数据模型，tuple由多个key-value组成；</span></li>
+<li><span class="s2">stream，流，多个tuple组成的序列，storm的计算过程就是输入流，对流进行转换、计算的过程；</span></li>
+<li><span class="s2">spout，输入流的操作；</span></li>
+<li><span class="s2">bolt，转换流的操作；</span></li>
+<li><span class="s2">topology，拓扑，由多个spout和bolt操作组成，实现某个具体计算任务。</span></li>
+</ul>
+<p><a href="http://magicwt.com/wp-content/uploads/2015/08/1.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/08/1-300x228.png" alt="1"></a></p>
+<p>以word count为例，其spout生成sentence流，bolt 1接收sentence流，进行分词操作，生成word流，bolt 2接收word流，计算每个词出现的次数</p>
+<h1 id="storm的部署"><a href="#storm的部署" class="headerlink" title=" storm的部署"></a><span class="s2"> storm</span><span class="s1"><strong>的部署<img src="http://magicwt.com/wp-content/uploads/2015/08/2-300x231.png" alt="2"></strong></span></h1><ul>
+<li><span class="s2">一个nimbus节点，多个supervisor节点，所有的节点都是fail-fast和无状态，状态保存在zookeeper和本地磁盘；</span></li>
+<li><span class="s2">nimbus，类似于hadoop中的JobTracker，负责在集群中分发代码，分配计算任务，监控失败等；</span></li>
+<li><span class="s2">supervisor，类似于hadoop中的的TaskTracker，负责在集群中按照nimbus的分配，启动和停止</span> <span class="s2">计算任务。</span></li>
+</ul>
+<p><a href="http://magicwt.com/wp-content/uploads/2015/08/3.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/08/3-300x178.png" alt="3"></a></p>
+<p><span class="s2">通过storm提供的ui模块可以查看集群信息，从上述图中可以看出集群包含4个supervisor节点。</span></p>
+<h1 id="storm的api"><a href="#storm的api" class="headerlink" title="storm的api"></a><span class="s2">storm</span><span class="s1"><strong>的</strong></span><span class="s2">api</span></h1><ul>
+<li><span class="s2">ISpout：</span></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public interface ISpout extends Serializable &#123;   </span><br><span class="line">    void open(Map conf, TopologyContext context, SpoutOutputCollector collector);   //work进程初始化spout时运行该方法；</span><br><span class="line">    void nextTuple();   //使用collector发送tuple；</span><br><span class="line">    void ack(Object msgId);   //某个tuple处理成功后，运行该方法；</span><br><span class="line">    void fail(Object msgId);   //某个tuple处理失败后，运行该方法；</span><br><span class="line">    void close();//关闭spout时运行该方法</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><span class="s2">IBolt：</span></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public interface IBolt extends Serializable &#123;</span><br><span class="line">    void prepare(Map stormConf, TopologyContext context, OutputCollector collector); //work进程初始化bolt时运行该方法；</span><br><span class="line">    void execute(Tuple input);//处理tuple</span><br><span class="line">    void cleanup();//关闭bolt时运行该方法</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><span class="s2">TopologyBuilder：</span></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public class TopologyBuilder &#123;</span><br><span class="line">    public StormTopology createTopology() &#123;…&#125;//创建topology</span><br><span class="line">    public BoltDeclarer setBolt(String id, IRichBolt bolt) &#123;…&#125;//设置bolt</span><br><span class="line">    public BoltDeclarer setBolt(String id, IRichBolt bolt, Number parallelism_hint) &#123;...&#125;</span><br><span class="line">    public BoltDeclarer setBolt(String id, IBasicBolt bolt) &#123;...&#125;</span><br><span class="line">    public BoltDeclarer setBolt(String id, IBasicBolt bolt, Number parallelism_hint) &#123;...&#125;</span><br><span class="line">    public SpoutDeclarer setSpout(String id, IRichSpout spout) &#123;…&#125;//设置spout</span><br><span class="line">    public SpoutDeclarer setSpout(String id, IRichSpout spout, Number parallelism_hint) &#123;...&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><span class="s2">StormSubmitter：</span></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public class StormSubmitter &#123; </span><br><span class="line">    public static void submitTopology(String name, Map stormConf, StormTopology topology) throws AlreadyAliveException, InvalidTopologyException &#123;…&#125;//向集群中提交topology</span><br><span class="line">    public static void submitTopology(String name, Map stormConf, StormTopology topology, SubmitOptions opts, ProgressListener progressListener) throws AlreadyAliveException, InvalidTopologyException &#123;...&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><span class="s2">LocalCluster：</span></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public class LocalCluster implements ILocalCluster &#123;</span><br><span class="line">    public void submitTopology(String var1, Map var2, StormTopology var3) &#123;…&#125;//在本地提交运行toplogy，多用于测试</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="storm的数据可靠性"><a href="#storm的数据可靠性" class="headerlink" title="storm的数据可靠性"></a><span class="s4"><strong>storm</strong></span><span class="s2"><strong>的数据可靠性</strong></span></h1><ul>
+<li><span class="s2">什么是storm的数据可靠性（数据完全被处理）？</span></li>
+</ul>
+<p><span class="s5">仍以</span><span class="s2">word count为例，spout从外部队列取消息生成sentence tuple，bolt 1生成word tuple，bolt2 生成word count tuple，这些tuple组成tuple树，sentence tuple是树的根节点。</span></p>
+<p><span class="s6">当tuple</span><span class="s2">树的所有叶子节点都被确认成功处理时，根节点才会被确认成功处理，这时可以向外部队列发送消息确认，否则会重新从外部队列获取消息再次处理。</span></p>
+<p><a href="http://magicwt.com/wp-content/uploads/2015/08/4.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/08/4-300x232.png" alt="4"></a></p>
+<ul>
+<li><span class="s2">代码中如何保证数据可靠性？</span></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public class SplitSentence extends BaseRichBolt &#123;</span><br><span class="line">    OutputCollector _collector;</span><br><span class="line"></span><br><span class="line">    public void prepare(Map conf, TopologyContext context, OutputCollector collector) &#123;</span><br><span class="line">        _collector = collector;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void execute(Tuple tuple) &#123;</span><br><span class="line">        String sentence = tuple.getString(0);</span><br><span class="line">        for(String word: sentence.split(&quot; &quot;)) &#123;</span><br><span class="line">            _collector.emit(tuple, new Values(word));//发送新tuple</span><br><span class="line">        &#125;</span><br><span class="line">        _collector.ack(tuple);//确认原tuple</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void declareOutputFields(OutputFieldsDeclarer declarer) &#123;</span><br><span class="line">        declarer.declare(new Fields(&quot;word&quot;));</span><br><span class="line">    &#125;        </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><span class="s2">其中_collector.ack(tuple)用于确认输入tuple是否被正常处理。</span></p>
+<ul>
+<li><span class="s2">_collector.emit(oldTuple, newTuple)与_collector.emit(newTuple)的区别</span></li>
+</ul>
+<p><span class="s2">前者会执行anchor操作，即在tuple树中构建oldTuple和newTuple的父子关系，newTuple及其后续tuple需要被确认成功处理，tuple树根节点才会被确认成功处理。</span></p>
+<p><span class="s2">后者不会执行anchor操作，即在tuple树中只要oldTuple及其前续tuple被确认成功处理，tuple树根节点就会被确认成功处理，而不用监控后续tuple。</span></p>
+<ul>
+<li><span class="s2">数据可靠性的实现原理</span></li>
+</ul>
+<p><span class="s2">topology在负责spout和bolt的进程外，还有一个负责ack的进程，用于在emit和ack操作时，更新tuple树，ack进程确认tuple被成功处理是采用异或来实现的。</span></p>
+<blockquote>
+<p><span class="s2">tuple1 xor tuple1 xor tuple2 xor tuple2 = 0</span></p>
+</blockquote>
+<p><span class="s2">异或结果为0说明所有的tuple都被正常处理。</span></p>
+<h1 id="storm的并行计算"><a href="#storm的并行计算" class="headerlink" title="storm的并行计算"></a><span class="s4"><strong>storm</strong></span><span class="s2"><strong>的并行计算</strong></span></h1><ul>
+<li><p><span class="s2">三类实体：</span></p>
+<ol>
+<li>worker：集群中的每台机器运行多个worker进程（默认值4）；</li>
+<li>executor：每个worker processe进程运行多个executor线程；</li>
+<li>task：每个executor运行多个task（即spout和bolt）。</li>
+</ol>
+</li>
+<li><p><span class="s2">并行计算实例：</span></p>
+</li>
+</ul>
+<p><a href="http://magicwt.com/wp-content/uploads/2015/08/5.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/08/5-300x127.png" alt="5"></a></p>
+<p><span class="s2">该topology由1个spout、2个bolt组成，需要设置blue-spout并行度为2，green-bolt并行度为2，yellow-bolt并行度为6，以下是在并行度配置代码：</span></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Config conf = new Config();</span><br><span class="line">conf.setNumWorkers(2); //使用两个worker进程运行topology</span><br><span class="line">topologyBuilder.setSpout(&quot;blue-spout&quot;, new BlueSpout(), 2); //使用2个executor线程运行blue-spout</span><br><span class="line">topologyBuilder.setBolt(&quot;green-bolt&quot;, new GreenBolt(), 2).setNumTasks(4).shuffleGrouping(“blue-spout”);//使用2个executor线程运行green-bolt，并使用4个task</span><br><span class="line">topologyBuilder.setBolt(&quot;yellow-bolt&quot;, new YellowBolt(), 6).shuffleGrouping(“green-bolt”);//使用6个executor线程运行yellow-bolt</span><br><span class="line">StormSubmitter.submitTopology(&quot;mytopology&quot;,conf,topologyBuilder.createTopology());</span><br></pre></td></tr></table></figure>
+<p><span class="s2">运行的进程、线程状态如图所示，共分配2个worker进程，10个executor线程，12个task，每个</span> <span class="s2">进程各运行5个线程。</span></p>
+<p><a href="http://magicwt.com/wp-content/uploads/2015/08/6.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/08/6-122x300.png" alt="6"></a></p>
+<h1 id="storm的分组策略"><a href="#storm的分组策略" class="headerlink" title="storm的分组策略"></a><span class="s2"><strong>storm</strong></span><span class="s1"><strong>的分组策略</strong></span></h1><ul>
+<li><span class="s2">shuffle grouping：随机分组；</span></li>
+<li><span class="s2">fields grouping：按字段分组；</span></li>
+<li><span class="s2">all grouping：广播分组，发送到bolt的所有</span><span class="s3">task</span><span class="s2">中；</span></li>
+<li><span class="s2">global grouping</span><span class="s3">：</span><span class="s2">发送到</span><span class="s3">bolt</span><span class="s2">的同一个task</span><span class="s3">(task id</span><span class="s2">最小</span><span class="s3">)</span><span class="s2">中</span><span class="s5">；</span></li>
+<li><span class="s2">none grouping：同shuffle group</span><span class="s3">ing</span><span class="s2">；</span></li>
+<li><span class="s2">direct grouping：制定发送给某个task。</span></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Storm/" rel="tag"># Storm</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/08/07/e5-9f-ba-e4-ba-8eseleniumphantomjs-e6-a8-a1-e6-8b-9f-e6-b5-8f-e8-a7-88-e5-99-a8-e8-ae-bf-e9-97-ae/" rel="next" title="基于Selenium+PhantomJS模拟浏览器访问">
+                <i class="fa fa-chevron-left"></i> 基于Selenium+PhantomJS模拟浏览器访问
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/08/24/postgresqlpostgis-e5-ae-89-e8-a3-85/" rel="prev" title="PostgreSQL+PostGIS安装">
+                PostgreSQL+PostGIS安装 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">magicwt</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">90</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/magicwt" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:wang-t04@mails.tsinghua.edu.cn" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是storm"><span class="nav-number">1.</span> <span class="nav-text">什么是storm</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#storm的计算模型"><span class="nav-number">2.</span> <span class="nav-text">storm的计算模型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#storm的部署"><span class="nav-number">3.</span> <span class="nav-text"> storm的部署</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#storm的api"><span class="nav-number">4.</span> <span class="nav-text">storm的api</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#storm的数据可靠性"><span class="nav-number">5.</span> <span class="nav-text">storm的数据可靠性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#storm的并行计算"><span class="nav-number">6.</span> <span class="nav-text">storm的并行计算</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#storm的分组策略"><span class="nav-number">7.</span> <span class="nav-text">storm的分组策略</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">magicwt</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="ActiveMQ,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前一段在组内做过一次有关《JMS和ActiveMQ介绍》的技术分享，今天把幻灯片整理了一下，希望和大家多交流。JMS，java消息服务是由Sun提出的一套消息传送API规范，而ActiveMQ是一款开源的消息服务器产品。消息传送机制是在多个系统之间引入消息服务器，由消息服务器接收来自各系统的消息并将消息转发到相应的系统上，以实现各系统之间的通信。而在每个系统中，应用程序通过调用消息传送API来进行">
+<meta name="keywords" content="ActiveMQ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JMS和ActiveMQ介绍(1)_消息传送机制">
+<meta property="og:url" content="http://yoursite.com/2013/09/30/jms-e5-92-8cactivemq-e4-bb-8b-e7-bb-8d1-e6-b6-88-e6-81-af-e4-bc-a0-e9-80-81-e6-9c-ba-e5-88-b6/index.html">
+<meta property="og:site_name" content="magicwt的博客">
+<meta property="og:description" content="前一段在组内做过一次有关《JMS和ActiveMQ介绍》的技术分享，今天把幻灯片整理了一下，希望和大家多交流。JMS，java消息服务是由Sun提出的一套消息传送API规范，而ActiveMQ是一款开源的消息服务器产品。消息传送机制是在多个系统之间引入消息服务器，由消息服务器接收来自各系统的消息并将消息转发到相应的系统上，以实现各系统之间的通信。而在每个系统中，应用程序通过调用消息传送API来进行">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片1.png">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片2.png">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片3.png">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片4.png">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片5.png">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片6.png">
+<meta property="og:updated_time" content="2018-12-04T10:47:42.321Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JMS和ActiveMQ介绍(1)_消息传送机制">
+<meta name="twitter:description" content="前一段在组内做过一次有关《JMS和ActiveMQ介绍》的技术分享，今天把幻灯片整理了一下，希望和大家多交流。JMS，java消息服务是由Sun提出的一套消息传送API规范，而ActiveMQ是一款开源的消息服务器产品。消息传送机制是在多个系统之间引入消息服务器，由消息服务器接收来自各系统的消息并将消息转发到相应的系统上，以实现各系统之间的通信。而在每个系统中，应用程序通过调用消息传送API来进行">
+<meta name="twitter:image" content="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2013/09/30/jms-e5-92-8cactivemq-e4-bb-8b-e7-bb-8d1-e6-b6-88-e6-81-af-e4-bc-a0-e9-80-81-e6-9c-ba-e5-88-b6/">
+
+
+
+
+
+  <title>JMS和ActiveMQ介绍(1)_消息传送机制 | magicwt的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">magicwt的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2013/09/30/jms-e5-92-8cactivemq-e4-bb-8b-e7-bb-8d1-e6-b6-88-e6-81-af-e4-bc-a0-e9-80-81-e6-9c-ba-e5-88-b6/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="magicwt">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="magicwt的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">JMS和ActiveMQ介绍(1)_消息传送机制</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2013-09-30T17:59:49+08:00">
+                2013-09-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/后端/" itemprop="url" rel="index">
+                    <span itemprop="name">后端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>前一段在组内做过一次有关《JMS和ActiveMQ介绍》的技术分享，今天把幻灯片整理了一下，希望和大家多交流。<br><a href="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片1.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片1.png" alt="1幻灯片1"></a><br>JMS，java消息服务是由Sun提出的一套消息传送API规范，而ActiveMQ是一款开源的消息服务器产品。<br><a href="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片2.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片2.png" alt="1幻灯片2"></a><br><a href="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片3.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片3.png" alt="1幻灯片3"></a><br><a href="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片4.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片4.png" alt="1幻灯片4"></a><br>消息传送机制是在多个系统之间引入消息服务器，由消息服务器接收来自各系统的消息并将消息转发到相应的系统上，以实现各系统之间的通信。<br>而在每个系统中，应用程序通过调用消息传送API来进行消息的发送和接收，消息传送API再通过各消息服务器所对应的消息传送客户端将消息发送至服务器或从服务器接收消息。<br>目前，消息服务器产品中，<br>属于商业软件的有：IBM WebSphere MQ、SonicMQ、Microsoft Message Queuing（mSMQ）；<br>属于开源软件的有：ActiveMQ、OpenMQ、RabbitMQ。<br>虽然消息服务器产品较多，但基本遵循同一个消息传送API规范，即JMS（Java Message Service，Java消息服务）:<br>1）JMS是由Sun发起创建；<br>2）它与JDBC类似，只定义消息传送的相关接口，由消息服务器产品自己实现相应的接口功能；<br>因此，在使用不同的消息服务器产品时，系统中的应用程序可以使用同一个消息传送API。<br><a href="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片5.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片5.png" alt="1幻灯片5"></a><br>消息传送机制具有以下优点：<br>1）可以实现异构集成，不同平台、不同语言的系统可以通过消息进行通信，实现集成。例如，ActiveMQ支持多语言，除Java以外，还包括C、PHP、Python。<br>2）可以缓解系统瓶颈，当系统同步处理的请求数量增大时，会造成请求阻塞，如果使用消息传送机制，可以将请求以消息方式发送至消息服务器，并由多个请求处理模块接收消息进行并发处理。<br>3）可以提高可伸缩性，这个与缓解系统瓶颈类似，通过增加或减少消息接收者来控制并发处理的能力，提高可伸缩性。<br>4）可以提高最终用户生产率，这是因为使用消息传送机制时，可以对请求进行异步处理，请求以消息方式发送至消息服务器后，最终用户无需同步等待请求返回结果。<br>5）体系结构灵活性和敏捷性，我们知道系统设计的一个基本原则就是高内聚、低耦合，通过引入消息传送机制，各系统服务以消息的形式抽象出来，减少系统之间的耦合，提高系统结构灵活性和敏捷性。<br><a href="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片6.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片6.png" alt="1幻灯片6"></a><br>首先，先引入以下概念：<br>JMS提供者（Provider），消息服务器；<br>目的地（Destination、Queue、Topic），消息在JMS提供者中的目的地；<br>生产者（Producer、Sender、Publisher），发送消息；<br>消费者（Consumer、Receiver、Subscriber），接收消息。<br>两种消息传送模型：<br>队列（一对一）：<br>基于拉取（Pull）或基于轮询（polling）；<br>发送到队列的消息被一个而且仅仅一个接收者所接收，即使有多个接收者在一个队列中侦听同一消息；<br>既支持异步“即发即弃”消息传送方式，又支持同步请求/应答消息传送方式；<br>支持负载均衡。<br>主题（一对多）：<br>基于推送（push）的模型，其中消息自动地向消费者广播，它们无须请求或轮询主题来获得新消息。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ActiveMQ/" rel="tag"># ActiveMQ</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/09/27/maven-e4-b8-ad-dskiptests-e5-92-8c-dmaven-test-skiptrue-e7-9a-84-e5-8c-ba-e5-88-ab/" rel="next" title="Maven中-DskipTests和-Dmaven.test.skip=true的区别">
+                <i class="fa fa-chevron-left"></i> Maven中-DskipTests和-Dmaven.test.skip=true的区别
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013/09/30/jms-e5-92-8cactivemq-e4-bb-8b-e7-bb-8d2-jms/" rel="prev" title="JMS和ActiveMQ介绍(2)_JMS">
+                JMS和ActiveMQ介绍(2)_JMS <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">magicwt</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">90</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/magicwt" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:wang-t04@mails.tsinghua.edu.cn" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">magicwt</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

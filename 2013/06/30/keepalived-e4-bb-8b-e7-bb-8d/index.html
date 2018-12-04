@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Keepalived,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Keepalived介绍Keepalived是一款高可用软件，它的功能主要包括两方面：1）通过IP漂移，实现服务的高可用：服务器集群共享一个虚拟IP，同一时间只有一个服务器占有虚拟IP并对外提供服务，若该服务器不可用，则虚拟IP漂移至另一台服务器并对外提供服务；2）对LVS应用服务层的应用服务器集群进行状态监控：若应用服务器不可用，则keepalived将其从集群中摘除，若应用服务器恢复，则kee">
+<meta name="keywords" content="Keepalived">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Keepalived介绍">
+<meta property="og:url" content="http://yoursite.com/2013/06/30/keepalived-e4-bb-8b-e7-bb-8d/index.html">
+<meta property="og:site_name" content="magicwt的博客">
+<meta property="og:description" content="Keepalived介绍Keepalived是一款高可用软件，它的功能主要包括两方面：1）通过IP漂移，实现服务的高可用：服务器集群共享一个虚拟IP，同一时间只有一个服务器占有虚拟IP并对外提供服务，若该服务器不可用，则虚拟IP漂移至另一台服务器并对外提供服务；2）对LVS应用服务层的应用服务器集群进行状态监控：若应用服务器不可用，则keepalived将其从集群中摘除，若应用服务器恢复，则kee">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/11/13-300x242.png">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/11/21-300x282.png">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/11/31-300x254.png">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/11/41-300x43.png">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/11/51-300x22.png">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/11/61-300x34.png">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/11/71-300x36.png">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/11/81-300x41.png">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/11/91-300x21.png">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/11/101-295x300.png">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/11/111-300x65.png">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/11/121-300x75.png">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/11/131-300x102.png">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/11/14-300x28.png">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/11/15.png">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/11/16-300x42.png">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/11/17.png">
+<meta property="og:updated_time" content="2018-12-04T10:47:42.320Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Keepalived介绍">
+<meta name="twitter:description" content="Keepalived介绍Keepalived是一款高可用软件，它的功能主要包括两方面：1）通过IP漂移，实现服务的高可用：服务器集群共享一个虚拟IP，同一时间只有一个服务器占有虚拟IP并对外提供服务，若该服务器不可用，则虚拟IP漂移至另一台服务器并对外提供服务；2）对LVS应用服务层的应用服务器集群进行状态监控：若应用服务器不可用，则keepalived将其从集群中摘除，若应用服务器恢复，则kee">
+<meta name="twitter:image" content="http://magicwt.com/wp-content/uploads/2015/11/13-300x242.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2013/06/30/keepalived-e4-bb-8b-e7-bb-8d/">
+
+
+
+
+
+  <title>Keepalived介绍 | magicwt的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">magicwt的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2013/06/30/keepalived-e4-bb-8b-e7-bb-8d/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="magicwt">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="magicwt的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Keepalived介绍</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2013-06-30T12:43:49+08:00">
+                2013-06-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/服务器/" itemprop="url" rel="index">
+                    <span itemprop="name">服务器</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Keepalived介绍"><a href="#Keepalived介绍" class="headerlink" title="Keepalived介绍"></a>Keepalived介绍</h2><p>Keepalived是一款高可用软件，它的功能主要包括两方面：<br>1）通过IP漂移，实现服务的高可用：服务器集群共享一个虚拟IP，同一时间只有一个服务器占有虚拟IP并对外提供服务，若该服务器不可用，则虚拟IP漂移至另一台服务器并对外提供服务；<br>2）对LVS应用服务层的应用服务器集群进行状态监控：若应用服务器不可用，则keepalived将其从集群中摘除，若应用服务器恢复，则keepalived将其重新加入集群中。<br>Keepalived可以单独使用，即通过IP漂移实现服务的高可用，也可以结合LVS使用，即一方面通过IP漂移实现LVS负载均衡层的高可用，另一方面实现LVS应用服务层的状态监控，如图所示：<br><a href="http://magicwt.com/wp-content/uploads/2015/11/13.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/11/13-300x242.png" alt="1"></a></p>
+<h2 id="Keepalived原理"><a href="#Keepalived原理" class="headerlink" title="Keepalived原理"></a>Keepalived原理</h2><p>Keepalived的实现基于VRRP（Virtual Router Redundancy Protocol，虚拟路由器冗余协议），而VRRP是为了解决静态路由的高可用。VRRP的基本架构如图所示：<br><a href="http://magicwt.com/wp-content/uploads/2015/11/21.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/11/21-300x282.png" alt="2"></a><br>虚拟路由器由多个VRRP路由器组成，每个VRRP路由器都有各自的IP和共同的VRID(0-255)，其中一个VRRP路由器通过竞选成为MASTER，占有VIP，对外提供路由服务，其他成为BACKUP，MASTER以IP组播（组播地址：224.0.0.18）形式发送VRRP协议包，与BACKUP保持心跳连接，若MASTER不可用（或BACKUP接收不到VRRP协议包），则BACKUP通过竞选产生新的MASTER并继续对外提供路由服务，从而实现高可用。</p>
+<h2 id="Keepalived安装配置"><a href="#Keepalived安装配置" class="headerlink" title="Keepalived安装配置"></a>Keepalived安装配置</h2><p>下载地址：<a href="http://www.keepalived.org/download.html" target="_blank" rel="noopener">http://www.keepalived.org/download.html</a><br>Linux下以默认配置安装：<br>[blockquote]tar –zxvf keepalived-1.2.7.tar.gz<br>cd keepalived-1.2.7<br>./configure<br>make<br>make install[/blockquote]<br>或：<br>[blockquote]yum install keepalived[/blockquote]<br>执行脚本：<br>[blockquote]/etc/init.d/keepalived start|stop|restart[/blockquote]<br>由于keepalived服务之间需要使用VRRP协议进行通信，因此需要进行防火墙配置：<br>[blockquote]iptables –I INPUT –i eth0 –d 224.0.0.0/8 –j ACCEPT<br>iptables –A INPUT –i eth0 –p vrrp –j ACCEPT<br>iptables –A OUTPUT –p vrrp –o eth0 –j ACCEPT[/blockquote]<br>配置文件：<br>[blockquote]/etc/keepalived/keepalived.conf[/blockquote]<br>Keeaplived的配置包含三部分：<br>1）全局配置，配置邮件等；<br>2）VRRPD配置，配置VRRP实例；<br>3）LVS配置，配置LVS的应用服务器；<br>若只是单独使用keepalived，通过IP漂移实现服务的高可用，则只需要配置前两部分就可以，若结合LVS使用，实现LVS负载均衡层的高可用、应用服务层的状态监控，则还需要配置第三部分。</p>
+<h2 id="Keepalived应用示例"><a href="#Keepalived应用示例" class="headerlink" title="Keepalived应用示例"></a>Keepalived应用示例</h2><h3 id="1）单独使用（IP漂移）"><a href="#1）单独使用（IP漂移）" class="headerlink" title="1）单独使用（IP漂移）"></a>1）单独使用（IP漂移）</h3><p><a href="http://magicwt.com/wp-content/uploads/2015/11/31.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/11/31-300x254.png" alt="3"></a><br>如图所示，两台机器192.168.80.128、192.168.80.129共享虚拟IP 192.168.80.130，192.168.80.128、192.168.80.129的keepalived配置分别如下所示：<br>[blockquote]global_defs {<br>router_id LVS_DEVEL<br>}</p>
+<p>vrrp_instance_VI_1{<br><span style="color: #ff0000;">state MASTER</span><br>interface eth0<br>virtual_router_id 201<br><span style="color: #ff0000;">priority 100</span><br>advert_int 1<br>authentication {<br>auth_type PASS<br>auth_pass 1111<br>}<br>virtual_ipaddress {<br>192.168.80.130/24 dev eth0<br>}<br>}[/blockquote]<br>[blockquote]global_defs {<br>router_id LVS_DEVEL<br>}</p>
+<p>vrrp_instance_VI_1{<br><span style="color: #ff0000;">state BACKUP</span><br>interface eth0<br>virtual_router_id 201<br><span style="color: #ff0000;">priority 50</span><br>advert_int 1<br>authentication {<br>auth_type PASS<br>auth_pass 1111<br>}<br>virtual_ipaddress {<br>192.168.80.130/24 dev eth0<br>}<br>}[/blockquote]<br>•启动192.168.80.128、192.168.80.129上的keepalived<br>192.168.80.128成为MASTER，占有VIP 192.168.80.130并对外组播VRRP协议包<br><a href="http://magicwt.com/wp-content/uploads/2015/11/41.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/11/41-300x43.png" alt="4"></a><br><a href="http://magicwt.com/wp-content/uploads/2015/11/51.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/11/51-300x22.png" alt="5"></a><br>192.168.80.129无变化<br><a href="http://magicwt.com/wp-content/uploads/2015/11/61.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/11/61-300x34.png" alt="6"></a><br>•关闭192.168.80.128上的keepalived<br>192.168.80.128不再占有VIP 192.168.80.130<br><a href="http://magicwt.com/wp-content/uploads/2015/11/71.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/11/71-300x36.png" alt="7"></a><br>192.168.80.129成为MASTER，占有VIP 192.168.80.130并对外组播VRRP协议包<br><a href="http://magicwt.com/wp-content/uploads/2015/11/81.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/11/81-300x41.png" alt="8"></a><br><a href="http://magicwt.com/wp-content/uploads/2015/11/91.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/11/91-300x21.png" alt="9"></a></p>
+<h3 id="2）结合LVS使用"><a href="#2）结合LVS使用" class="headerlink" title="2）结合LVS使用"></a>2）结合LVS使用</h3><p><a href="http://magicwt.com/wp-content/uploads/2015/11/101.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/11/101-295x300.png" alt="10"></a><br>LVS高可用集群通过VIP 192.168.80.130对外提供服务，负载均衡层有两台服务器192.168.80.132、192.168.80.135，负责分发服务请求至应用服务层，通过keepalived实现这两台服务器的负载均衡高可用（和单独使用keepalived的应用示例相同），应用服务层也有两台服务器192.168.80.133、192.168.80.134，负责对外提供Web应用服务，通过keepalived实现这两台服务器的状态监控。<br>192.168.80.132、192.168.80.135上的keepalived配置在全局配置、VRRPD配置上和单独使用keepalived的应用示例相同，但需要添加LVS配置，如下所示：<br>[blockquote]virtual_server 192.168.80.130 80 {<br>delay_loop 6<br>lb_algowlc<br>lb_kind DR<br>persistence_timeout 50<br>protocolTCP<br><span style="color: #ff0000;">real_server 192.168.80.133 80</span> {<br>weight1<br>TCP_CHECK{<br>connect_timeout 3<br>nb_get_retry 3<br>delay_before_retry 3<br>}<br>}<br><span style="color: #ff0000;">real_server 192.168.80.134 80</span> {<br>weight 1<br>TCP_CHECK{<br>connect_timeout 3<br>nb_get_retry 3<br>delay_before_retry 3<br>}<br>}<br>}[/blockquote]<br>启动服务后，负载均衡层通过VIP对外提供服务，并将服务请求转发至133和134这两台应用服务器上：<br><a href="http://magicwt.com/wp-content/uploads/2015/11/111.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/11/111-300x65.png" alt="11"></a><br><a href="http://magicwt.com/wp-content/uploads/2015/11/121.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/11/121-300x75.png" alt="12"></a><br>132和135这两台负载均衡服务器中，132占有VIP 130，并对133和134进行状态监控：<br><a href="http://magicwt.com/wp-content/uploads/2015/11/131.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/11/131-300x102.png" alt="13"></a><br>•应用服务状态监控<br>若133和134这两台应用服务器中，134服务不可用，则keepalived将其从应用服务器集群中摘除，待其恢复后，又重新加入，在其恢复前，负载均衡层将应用请求均转发至133，保证服务可用。<br><a href="http://magicwt.com/wp-content/uploads/2015/11/14.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/11/14-300x28.png" alt="14"></a><br><a href="http://magicwt.com/wp-content/uploads/2015/11/15.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/11/15.png" alt="15"></a><br>•负载均衡服务高可用<br>若132和135这两台负载均衡服务器中，132服务不可用，则keepalived将VIP 130漂移至135，由135负责应用请求转发，保证服务可用。<br><a href="http://magicwt.com/wp-content/uploads/2015/11/16.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/11/16-300x42.png" alt="16"></a><br><a href="http://magicwt.com/wp-content/uploads/2015/11/17.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/11/17.png" alt="17"></a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Keepalived/" rel="tag"># Keepalived</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/01/06/157/" rel="next" title="ActiveMQ的PHP、Python客户端">
+                <i class="fa fa-chevron-left"></i> ActiveMQ的PHP、Python客户端
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013/07/09/hibernate-e7-9a-84-e5-bb-b6-e8-bf-9f-e5-8a-a0-e8-bd-bd/" rel="prev" title="Hibernate的延迟加载">
+                Hibernate的延迟加载 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">magicwt</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">90</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/magicwt" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:wang-t04@mails.tsinghua.edu.cn" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Keepalived介绍"><span class="nav-number">1.</span> <span class="nav-text">Keepalived介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Keepalived原理"><span class="nav-number">2.</span> <span class="nav-text">Keepalived原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Keepalived安装配置"><span class="nav-number">3.</span> <span class="nav-text">Keepalived安装配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Keepalived应用示例"><span class="nav-number">4.</span> <span class="nav-text">Keepalived应用示例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1）单独使用（IP漂移）"><span class="nav-number">4.1.</span> <span class="nav-text">1）单独使用（IP漂移）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2）结合LVS使用"><span class="nav-number">4.2.</span> <span class="nav-text">2）结合LVS使用</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">magicwt</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="PostGIS,PostgreSQL,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="PostgreSQL(http://www.postgresql.org/)与MySQL类似，也是一款开源、免费数据库。PostGIS(http://www.postgis.org/)是一款PostgreSQL插件，为PostgreSQL提供GIS支持。在开发页面点击热力图时，需要以(x,y)坐标方式存储点击位置，所以使用PostgreSQL+PostGIS存储点击数据。 安装PostgreSQL">
+<meta name="keywords" content="PostGIS,PostgreSQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PostgreSQL+PostGIS安装">
+<meta property="og:url" content="http://yoursite.com/2015/08/24/postgresqlpostgis-e5-ae-89-e8-a3-85/index.html">
+<meta property="og:site_name" content="magicwt的博客">
+<meta property="og:description" content="PostgreSQL(http://www.postgresql.org/)与MySQL类似，也是一款开源、免费数据库。PostGIS(http://www.postgis.org/)是一款PostgreSQL插件，为PostgreSQL提供GIS支持。在开发页面点击热力图时，需要以(x,y)坐标方式存储点击位置，所以使用PostgreSQL+PostGIS存储点击数据。 安装PostgreSQL">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/11/110-300x31.png">
+<meta property="og:updated_time" content="2018-12-04T10:47:42.323Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="PostgreSQL+PostGIS安装">
+<meta name="twitter:description" content="PostgreSQL(http://www.postgresql.org/)与MySQL类似，也是一款开源、免费数据库。PostGIS(http://www.postgis.org/)是一款PostgreSQL插件，为PostgreSQL提供GIS支持。在开发页面点击热力图时，需要以(x,y)坐标方式存储点击位置，所以使用PostgreSQL+PostGIS存储点击数据。 安装PostgreSQL">
+<meta name="twitter:image" content="http://magicwt.com/wp-content/uploads/2015/11/110-300x31.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2015/08/24/postgresqlpostgis-e5-ae-89-e8-a3-85/">
+
+
+
+
+
+  <title>PostgreSQL+PostGIS安装 | magicwt的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">magicwt的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/08/24/postgresqlpostgis-e5-ae-89-e8-a3-85/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="magicwt">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="magicwt的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">PostgreSQL+PostGIS安装</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-08-24T20:08:39+08:00">
+                2015-08-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/关系数据库/" itemprop="url" rel="index">
+                    <span itemprop="name">关系数据库</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>PostgreSQL(<a href="http://www.postgresql.org/)与MySQL类似，也是一款开源、免费数据库。PostGIS(http://www.postgis.org/)是一款PostgreSQL插件，为PostgreSQL提供GIS支持。在开发页面点击热力图时，需要以(x,y)坐标方式存储点击位置，所以使用PostgreSQL+PostGIS存储点击数据。" target="_blank" rel="noopener">http://www.postgresql.org/)与MySQL类似，也是一款开源、免费数据库。PostGIS(http://www.postgis.org/)是一款PostgreSQL插件，为PostgreSQL提供GIS支持。在开发页面点击热力图时，需要以(x,y)坐标方式存储点击位置，所以使用PostgreSQL+PostGIS存储点击数据。</a></p>
+<h2 id="安装PostgreSQL"><a href="#安装PostgreSQL" class="headerlink" title="安装PostgreSQL"></a>安装PostgreSQL</h2><p>[blockquote]groupadd postgres<br>useradd -g postgres postgres<br>passwd postgres<br>tar -zxvf postgresql-9.5alpha2.tar.gz<br>cd postgresql-9.5alpha2<br>./configure –prefix=/opt/postgresql<br>make<br>make install<br>cd /opt/<br>chown -R postgres:postgres postgresql<br>su - postgres<br>/opt/postgresql/bin/initdb -D /opt/postgresql/data<br>/opt/postgresql/bin/pg_ctl -D /opt/postgresql/data -l /opt/postgresql/logfile start[/blockquote]<br><a href="http://magicwt.com/wp-content/uploads/2015/11/110.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/11/110-300x31.png" alt="1"></a><br>使用“/opt/postgresql/bin/psql -U postgres”可以登录数据库，执行相关操作。</p>
+<h2 id="安装PostGIS"><a href="#安装PostGIS" class="headerlink" title="安装PostGIS"></a>安装PostGIS</h2><p>从源码安装，需要先安装GEOS，Proj.4，GDAL，LibXML2和JSON-C(<a href="http://postgis.net/source/)。" target="_blank" rel="noopener">http://postgis.net/source/)。</a><br>[blockquote]tar -jxvf geos-3.5.0.tar.bz2<br>cd geos-3.5.0<br>./configure<br>make<br>make install<br>tar -zxvf proj.4-4.9.1.tar.gz<br>cd proj.4-4.9.1<br>./configure<br>make<br>make install<br>tar -zxvf gdal-1.10.0.tar.gz<br>cd gdal-1.10.0<br>./configure<br>make<br>make install<br>tar -zxvf libxml2-2.9.2.tar.gz<br>cd libxml2-2.9.2<br>./configure<br>make<br>make install<br>tar -zxvf json-c-json-c-0.11-20130402.tar.gz<br>cd json-c-json-c-0.11-20130402<br>./configure<br>make<br>make install<br>tar -zxvf postgis-2.1.8.tar.gz<br>cd postgis-2.1.8<br>./configure –with-pgconfig=/opt/postgresql/bin/pg_config<br>make<br>make install<br>su - postgres<br>/opt/postgresql/bin/createdb postgis<br>/opt/postgresql/bin/psql -d postgis -U postgres -f /opt/postgresql/share/contrib/postgis-2.1/postgis.sql[/blockquote]<br>执行上述语句有可能报错，打开日志文件/opt/postgresql/logfile，会有如下错误：<br>[blockquote]ERROR: could not load library “/opt/postgresql/lib/postgis-2.1.so”: libgeos_c.so.1: cannot open shared object file: No such file or directory[/blockquote]<br>执行“ldd /opt/postgresql/lib/postgis-2.1.so”，缺少两个so文件：<br>[blockquote]linux-vdso.so.1 =&gt; (0x00007fff3d1fe000)<br>libgeos_c.so.1 =&gt; not found<br>libproj.so.9 =&gt; not found<br>libjson-c.so.2 =&gt; /lib64/libjson-c.so.2 (0x00007fb8f08f1000)<br>libxml2.so.2 =&gt; /lib64/libxml2.so.2 (0x00007fb8f0588000)<br>libm.so.6 =&gt; /lib64/libm.so.6 (0x00007fb8f0285000)<br>libc.so.6 =&gt; /lib64/libc.so.6 (0x00007fb8efec4000)<br>libdl.so.2 =&gt; /lib64/libdl.so.2 (0x00007fb8efcc0000)<br>libz.so.1 =&gt; /lib64/libz.so.1 (0x00007fb8efaa9000)<br>liblzma.so.5 =&gt; /lib64/liblzma.so.5 (0x00007fb8ef884000)<br>/lib64/ld-linux-x86-64.so.2 (0x00007fb8f0dac000)<br>libpthread.so.0 =&gt; /lib64/libpthread.so.0 (0x00007fb8ef668000)[/blockquote]<br>执行以下语句可解决：<br>[blockquote]ln -s /usr/local/lib/libgeos_c.so.1 /lib64/libgeos_c.so.1<br>ln -s /usr/local/lib/libproj.so.9 /lib64/libproj.so.9[/blockquote]</p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>[blockquote]postgis=# CREATE TABLE IF NOT EXISTS click (id int primary key,pt geometry);<br>postgis=# insert into click values (1,’POINT(30 40)’);<br>postgis=# select * from click;<br> id |                     pt<br>—-+——————————————–<br>  1 | 01010000000000000000003E400000000000004440 [/blockquote]</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/PostGIS/" rel="tag"># PostGIS</a>
+          
+            <a href="/tags/PostgreSQL/" rel="tag"># PostgreSQL</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/08/15/storm-e8-af-bb-e4-b9-a6-e7-ac-94-e8-ae-b0/" rel="next" title="storm读书笔记">
+                <i class="fa fa-chevron-left"></i> storm读书笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/10/01/e4-bd-bf-e7-94-a8daemontools-e5-ae-9e-e7-8e-b0storm-e8-bf-9b-e7-a8-8b-e7-9b-91-e6-8e-a7/" rel="prev" title="使用daemontools实现Storm进程监控">
+                使用daemontools实现Storm进程监控 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">magicwt</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">90</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/magicwt" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:wang-t04@mails.tsinghua.edu.cn" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装PostgreSQL"><span class="nav-number">1.</span> <span class="nav-text">安装PostgreSQL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装PostGIS"><span class="nav-number">2.</span> <span class="nav-text">安装PostGIS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用"><span class="nav-number">3.</span> <span class="nav-text">使用</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">magicwt</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

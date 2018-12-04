@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Lucene,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Lucene是Apache基金会下的一个开源项目，提供能够实现全文索引和检索的Java API。Lucene包含索引引擎和检索引擎两部分。对于包含多个字段（Field）的文档（Document），可以通过Lucene的索引引擎对文档字段中的文本内容进行分词处理，构建关键字索引。当索引构建完成后，可以通过Lucene的检索引擎对特定字段进行基于关键字的查询。Lucene支持多种查询方式，包括模糊检索">
+<meta name="keywords" content="Lucene">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Lucene简介">
+<meta property="og:url" content="http://yoursite.com/2012/06/09/lucene-e7-ae-80-e4-bb-8b/index.html">
+<meta property="og:site_name" content="magicwt的博客">
+<meta property="og:description" content="Lucene是Apache基金会下的一个开源项目，提供能够实现全文索引和检索的Java API。Lucene包含索引引擎和检索引擎两部分。对于包含多个字段（Field）的文档（Document），可以通过Lucene的索引引擎对文档字段中的文本内容进行分词处理，构建关键字索引。当索引构建完成后，可以通过Lucene的检索引擎对特定字段进行基于关键字的查询。Lucene支持多种查询方式，包括模糊检索">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/11/145058597-300x129.jpg">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2012/06/145246460-300x187.jpg">
+<meta property="og:updated_time" content="2018-12-04T10:47:42.319Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Lucene简介">
+<meta name="twitter:description" content="Lucene是Apache基金会下的一个开源项目，提供能够实现全文索引和检索的Java API。Lucene包含索引引擎和检索引擎两部分。对于包含多个字段（Field）的文档（Document），可以通过Lucene的索引引擎对文档字段中的文本内容进行分词处理，构建关键字索引。当索引构建完成后，可以通过Lucene的检索引擎对特定字段进行基于关键字的查询。Lucene支持多种查询方式，包括模糊检索">
+<meta name="twitter:image" content="http://magicwt.com/wp-content/uploads/2015/11/145058597-300x129.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2012/06/09/lucene-e7-ae-80-e4-bb-8b/">
+
+
+
+
+
+  <title>Lucene简介 | magicwt的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">magicwt的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2012/06/09/lucene-e7-ae-80-e4-bb-8b/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="magicwt">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="magicwt的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Lucene简介</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2012-06-09T14:54:42+08:00">
+                2012-06-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/后端/" itemprop="url" rel="index">
+                    <span itemprop="name">后端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Lucene是Apache基金会下的一个开源项目，提供能够实现全文索引和检索的Java API。Lucene包含索引引擎和检索引擎两部分。对于包含多个字段（Field）的文档（Document），可以通过Lucene的索引引擎对文档字段中的文本内容进行分词处理，构建关键字索引。当索引构建完成后，可以通过Lucene的检索引擎对特定字段进行基于关键字的查询。Lucene支持多种查询方式，包括模糊检索、分组查询等。对于查询结果，Lucene使用基于向量空间模型的排名算法计算得出查询结果的排名。</p>
+<h2 id="1-1-倒排索引"><a href="#1-1-倒排索引" class="headerlink" title="1.1 倒排索引"></a>1.1 倒排索引</h2><p>倒排索引（Inverted Index）是一种索引数据结构。在倒排索引中，词语被映射到包含该词语的文档。通过使用倒排索引，可以实现快速的全文搜索。一个简单的倒排索引及其构建过程如图1.1所示，其中文档d1和d2的内容分别是“home sales rise in July”和“increase in home sales in July”。<br>对于文档d1和d2，首先进行分词处理，将文本内容划分为词语集。因为在英文文本中，单词之间均有空格，所以使用空格作为分隔符进行分词处理，得到词语集，如图1.1中左侧一列。对于划分后的词语集，进行统计，统计词语及其出现的次数和位置，如图1.1中右侧一列，构成倒排索引。</p>
+<p><a href="http://magicwt.com/wp-content/uploads/2015/11/145058597.jpg" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/11/145058597-300x129.jpg" alt="145058597"></a><br>图1.1 倒排索引及其构建过程</p>
+<h2 id="1-2-Lucene工作原理"><a href="#1-2-Lucene工作原理" class="headerlink" title="1.2 Lucene工作原理"></a>1.2 Lucene工作原理</h2><p><a href="http://magicwt.com/wp-content/uploads/2012/06/145246460.jpg" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2012/06/145246460-300x187.jpg" alt="145246460"></a></p>
+<p>Lucene中包含了以下6个核心包：<br>1）org.apache.lucene.document包，包含了用于表示文档及其内容的类，如表示文档的Document类，表示文档中字段的Field类。<br>2）org.apache.lucene.index包，包含了用于构建、读取索引的类。<br>3）org.apache.lucene.analysis包，包含了用于对文档中的自然语言文本进行分词处理的类。<br>4）org.apache.lucene.store包，包含了用于存储索引的类。<br>5）org.apache.lucene.search包，包含了用于查询索引的类。<br>6）org.apache.lucene.queryParser包，包含了用于构建、解析查询条件的类。<br>在Lucene的倒排索引中，包含字段（Field）、文档（Document）、关键字（Term）这三个部分。每一个关键字均与一个集合相映射。集合中的每一个元素为一个二元组（Document，Field），表示该文档的该字段包含此关键字。Lucene的工作原理如图所示，主要分为以下6个步骤：<br>1）为每一个待检索的文件构建Document类对象，将文件中各部分内容作为Field类对象。<br>2）使用Analyzer类实现对文档中的自然语言文本进行分词处理，并使用IndexWriter类构建索引。<br>3）使用FSDirectory类设定索引存储的方式和位置，实现索引的存储。<br>4）使用IndexReader类读取索引。<br>5）使用Term类表示用户所查找的关键字以及关键字所在的字段，使用QueryParser类表示用户的查询条件。<br>6）使用IndexSearcher类检索索引，返回符合查询条件的Document类对象。</p>
+<h2 id="1-2-Lucene应用示例"><a href="#1-2-Lucene应用示例" class="headerlink" title="1.2 Lucene应用示例"></a>1.2 Lucene应用示例</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">package com.wt.testlucene.main; </span><br><span class="line"></span><br><span class="line">import java.io.File; </span><br><span class="line">import java.io.FileReader; </span><br><span class="line">import java.io.IOException; </span><br><span class="line"></span><br><span class="line">import org.apache.lucene.analysis.standard.StandardAnalyzer; </span><br><span class="line">import org.apache.lucene.document.Document; </span><br><span class="line">import org.apache.lucene.document.Field; </span><br><span class="line">import org.apache.lucene.index.CorruptIndexException; </span><br><span class="line">import org.apache.lucene.index.IndexWriter; </span><br><span class="line">import org.apache.lucene.index.IndexWriter.MaxFieldLength; </span><br><span class="line">import org.apache.lucene.queryParser.ParseException; </span><br><span class="line">import org.apache.lucene.queryParser.QueryParser; </span><br><span class="line">import org.apache.lucene.search.IndexSearcher; </span><br><span class="line">import org.apache.lucene.search.Query; </span><br><span class="line">import org.apache.lucene.search.ScoreDoc; </span><br><span class="line">import org.apache.lucene.search.TopDocs; </span><br><span class="line">import org.apache.lucene.store.FSDirectory; </span><br><span class="line">import org.apache.lucene.store.LockObtainFailedException; </span><br><span class="line">import org.apache.lucene.util.Version; </span><br><span class="line"></span><br><span class="line">public class TestLucene &#123; </span><br><span class="line"></span><br><span class="line">    private static final String indexDir = &quot;J:\\tempIndex&quot;; </span><br><span class="line">    private static final String dataDir = &quot;J:\\tempData&quot;; </span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) throws CorruptIndexException, </span><br><span class="line">            LockObtainFailedException, IOException, ParseException &#123; </span><br><span class="line">        /******************* 写入索引 *******************/ </span><br><span class="line">        // IndexWriter用于写入索引 </span><br><span class="line">        // FSDirectory表示索引存储于磁盘 </span><br><span class="line">        // StandardAnalyzer表示采用标准的词法分析器进行分词处理 </span><br><span class="line">        IndexWriter indexWriter = new IndexWriter(FSDirectory.open(new File( </span><br><span class="line">                indexDir)), new StandardAnalyzer(Version.LUCENE_CURRENT), true, </span><br><span class="line">                MaxFieldLength.UNLIMITED); </span><br><span class="line">        indexWriter.setUseCompoundFile(false); </span><br><span class="line"></span><br><span class="line">        File[] files = new File(dataDir).listFiles(); </span><br><span class="line">        for (int i = 0; i &lt; files.length; i++) &#123; </span><br><span class="line">            // Document表示索引中的文档 </span><br><span class="line">            Document document = new Document(); </span><br><span class="line">            // Field表示文档中的域，对于域有不同的处理方法 </span><br><span class="line">            // Field.Store用于设置存储属性 </span><br><span class="line">            // YES:存储 </span><br><span class="line">            // NO :不存储 </span><br><span class="line">            // Field.Index用于设置存储属性 </span><br><span class="line">            // NO :不索引 </span><br><span class="line">            // ANALYZED :索引且保存NORMS信息 </span><br><span class="line">            // ANALYZED_NO_NORMS :索引但不保存NORMS信息 </span><br><span class="line">            // NOT_ANALYZED :不索引但保存NORMS信息 </span><br><span class="line">            // NOT_ANALYZED_NO_NORMS:不索引且不保存NORMS信息 </span><br><span class="line">            // 存储name的域保存、索引但不分词 </span><br><span class="line">            document.add(new Field(&quot;name&quot;, files[i].getName(), Field.Store.YES, </span><br><span class="line">                    Field.Index.NOT_ANALYZED)); </span><br><span class="line">            // 存储content的域保存、索引且分词 </span><br><span class="line">            document.add(new Field(&quot;content&quot;, new FileReader(files[i]))); </span><br><span class="line">            // 存储path的域保存、不索引 </span><br><span class="line">            document.add(new Field(&quot;path&quot;, files[i].getAbsolutePath(), </span><br><span class="line">                    Field.Store.YES, Field.Index.NO)); </span><br><span class="line">            // 加入文档 </span><br><span class="line">            indexWriter.addDocument(document); </span><br><span class="line">        &#125; </span><br><span class="line">        // 优化 </span><br><span class="line">        indexWriter.optimize(); </span><br><span class="line">        // 提交 </span><br><span class="line">        indexWriter.commit(); </span><br><span class="line">        // 关闭 </span><br><span class="line">        indexWriter.close(); </span><br><span class="line"></span><br><span class="line">        /******************* 查询索引 *******************/ </span><br><span class="line">        // IndexSearcher用于查询索引 </span><br><span class="line">        IndexSearcher indexSearcher = new IndexSearcher(FSDirectory </span><br><span class="line">                .open(new File(indexDir))); </span><br><span class="line">        String queryString = &quot;TEST&quot;; </span><br><span class="line">        // QueryParser用于解析查询语句生成相应的查询 </span><br><span class="line">        QueryParser parser = new QueryParser(Version.LUCENE_CURRENT, &quot;content&quot;, </span><br><span class="line">                new StandardAnalyzer(Version.LUCENE_CURRENT)); </span><br><span class="line">        Query query = parser.parse(queryString); </span><br><span class="line">        // 返回最符合查询条件的前10个结果 </span><br><span class="line">        TopDocs topDocs = indexSearcher.search(query, 10); </span><br><span class="line">        ScoreDoc[] list = topDocs.scoreDocs; </span><br><span class="line">        for (int i = 0; i &lt; list.length; i++) &#123; </span><br><span class="line">            ScoreDoc scoreDoc = list[i]; </span><br><span class="line">            Document document = indexSearcher.doc(scoreDoc.doc); </span><br><span class="line">            // 输出文件序号、得分和名称 </span><br><span class="line">            System.out.println(scoreDoc.doc + &quot;\t&quot; + scoreDoc.score + &quot;\t&quot; </span><br><span class="line">                    + document.get(&quot;name&quot;)); </span><br><span class="line">        &#125; </span><br><span class="line">        indexSearcher.close(); </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Lucene/" rel="tag"># Lucene</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2012/06/06/e6-b1-82-e8-a7-a3-e4-ba-8c-e5-8f-89-e6-a0-91-e7-9a-84-e6-b7-b1-e5-ba-a6/" rel="next" title="求解二叉树的深度">
+                <i class="fa fa-chevron-left"></i> 求解二叉树的深度
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2012/06/12/e4-b8-80-e9-81-93-e6-9c-89-e5-85-b3-e9-a3-9e-e6-9c-ba-e7-bb-95-e8-b5-a4-e9-81-93-e9-a3-9e-e8-a1-8c-e7-9a-84-e9-9d-a2-e8-af-95-e9-a2-98/" rel="prev" title="一道有关飞机绕赤道飞行的面试题">
+                一道有关飞机绕赤道飞行的面试题 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">magicwt</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">90</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/magicwt" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:wang-t04@mails.tsinghua.edu.cn" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-倒排索引"><span class="nav-number">1.</span> <span class="nav-text">1.1 倒排索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-Lucene工作原理"><span class="nav-number">2.</span> <span class="nav-text">1.2 Lucene工作原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-Lucene应用示例"><span class="nav-number">3.</span> <span class="nav-text">1.2 Lucene应用示例</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">magicwt</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

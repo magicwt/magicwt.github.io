@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="PhantomJS,Selenium,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="介绍SeleniumSelenium（http://docs.seleniumhq.org/）是一个Web应用自动化测试工具集，可以在多个浏览器平台上执行测试用例。Selenium包含以下几个工具：1）Selenium 1 (Selenium RC or Remote Control)：Selenium 1的核心是一个JavaScript库，通过该库可以和浏览器中的页面进行交互。Selenium">
+<meta name="keywords" content="PhantomJS,Selenium">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于Selenium+PhantomJS模拟浏览器访问">
+<meta property="og:url" content="http://yoursite.com/2015/08/07/e5-9f-ba-e4-ba-8eseleniumphantomjs-e6-a8-a1-e6-8b-9f-e6-b5-8f-e8-a7-88-e5-99-a8-e8-ae-bf-e9-97-ae/index.html">
+<meta property="og:site_name" content="magicwt的博客">
+<meta property="og:description" content="介绍SeleniumSelenium（http://docs.seleniumhq.org/）是一个Web应用自动化测试工具集，可以在多个浏览器平台上执行测试用例。Selenium包含以下几个工具：1）Selenium 1 (Selenium RC or Remote Control)：Selenium 1的核心是一个JavaScript库，通过该库可以和浏览器中的页面进行交互。Selenium">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-12-04T10:47:42.326Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于Selenium+PhantomJS模拟浏览器访问">
+<meta name="twitter:description" content="介绍SeleniumSelenium（http://docs.seleniumhq.org/）是一个Web应用自动化测试工具集，可以在多个浏览器平台上执行测试用例。Selenium包含以下几个工具：1）Selenium 1 (Selenium RC or Remote Control)：Selenium 1的核心是一个JavaScript库，通过该库可以和浏览器中的页面进行交互。Selenium">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2015/08/07/e5-9f-ba-e4-ba-8eseleniumphantomjs-e6-a8-a1-e6-8b-9f-e6-b5-8f-e8-a7-88-e5-99-a8-e8-ae-bf-e9-97-ae/">
+
+
+
+
+
+  <title>基于Selenium+PhantomJS模拟浏览器访问 | magicwt的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">magicwt的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/08/07/e5-9f-ba-e4-ba-8eseleniumphantomjs-e6-a8-a1-e6-8b-9f-e6-b5-8f-e8-a7-88-e5-99-a8-e8-ae-bf-e9-97-ae/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="magicwt">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="magicwt的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">基于Selenium+PhantomJS模拟浏览器访问</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-08-07T23:42:34+08:00">
+                2015-08-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/后端/" itemprop="url" rel="index">
+                    <span itemprop="name">后端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><h3 id="Selenium"><a href="#Selenium" class="headerlink" title="Selenium"></a>Selenium</h3><p>Selenium（<a href="http://docs.seleniumhq.org/）是一个Web应用自动化测试工具集，可以在多个浏览器平台上执行测试用例。Selenium包含以下几个工具：" target="_blank" rel="noopener">http://docs.seleniumhq.org/）是一个Web应用自动化测试工具集，可以在多个浏览器平台上执行测试用例。Selenium包含以下几个工具：</a><br>1）Selenium 1 (Selenium RC or Remote Control)：Selenium 1的核心是一个JavaScript库，通过该库可以和浏览器中的页面进行交互。Selenium RC基于该库，可以使用多种语言开发测试用例，在多个浏览器平台上执行测试用例。<br>2）Selenium 2 (Selenium WebDriver)：Selenium 1基于JavaScript库，因此受限于浏览器对于JavaScript的安全限制，Selenium 1对于浏览器中的页面交互也存在着很多限制。Selenium 2基于WebDriver，而WebDriver基于浏览器和操作系统提供的原生方法，因此Selenium 2可以直接操作浏览器，避免了JavaScript的安全限制。Selenium 2也可以使用多种语言开发测试用例，在多个浏览器平台上执行测试用例。<br>3）Selenium IDE：Selenium IDE是一个FireFox插件，可以记录用户操作并导出成可重复执行的脚本。<br>4）Selenium-Grid：Selenium-Grid可以用来扩展Selenium RC，例如可以在不同的机器上并行执行测试用例。<br>由于存在较多限制，已不推荐使用Selenium RC，而推荐使用Selenium WebDriver。Selenium WebDriver支持的浏览器有：<br>1）Google Chrome；<br>2）Internet Explorer 6, 7, 8, 9, 10；<br>3）Firefox；<br>4）Safari；<br>5）Opera；<br>6）HtmlUnit；<br>7）PhantomJS；<br>8）Android；<br>9）iOS。</p>
+<h3 id="PhantomJS"><a href="#PhantomJS" class="headerlink" title="PhantomJS"></a>PhantomJS</h3><p>PhantomJS（<a href="http://phantomjs.org/）是一个基于WebKit的JavaScript" target="_blank" rel="noopener">http://phantomjs.org/）是一个基于WebKit的JavaScript</a> API，它原生支持各种Web标准，例如DOM解析、CSS选择器、JSON、Canvas、SVG等。PhantomJS可用于：<br>1）无GUI浏览器下的Web站点测试；<br>2）网页截屏；<br>3）基于DOM API访问和操作网页；<br>4）监控网页加载。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="Selenium-1"><a href="#Selenium-1" class="headerlink" title="Selenium"></a>Selenium</h3><p>Selenium支持的语言有：<br>1）Java；<br>2）C#；<br>3）Python；<br>4）Ruby；<br>5）PHP；<br>6）Perl；<br>7）JavaScript。<br>这里介绍Python Selenium包的安装。操作系统为Linux，并已安装Python 2.7.5和pip，直接使用pip安装Selenium：<br>[blockquote]pip install selenium[/blockquote]</p>
+<h3 id="PhantomJS-1"><a href="#PhantomJS-1" class="headerlink" title="PhantomJS"></a>PhantomJS</h3><p>下载PhantomJS的可执行包phantomjs-1.9.8-linux-x86_64.bz2，解压后将bin/phantomjs拷贝至/bin下即可。Shell中输入phantomjs可打开REPL，也可以使用phantomjs执行代码文件：<br>[blockquote]phantomjs hello.js[/blockquote]<br>hello.js代码如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">console.log(&apos;Hello, world!&apos;);</span><br><span class="line">phantom.exit();</span><br></pre></td></tr></table></figure></p>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><p>基于Selenium+PhantomJS模拟浏览器访问网页，输入用户名和密码并点击登录按钮，网页HTML代码如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;tr&gt;</span><br><span class="line">  &lt;td&gt;用户名：&lt;/td&gt;</span><br><span class="line">  &lt;td&gt;&lt;input type=&quot;text&quot; id=&quot;username&quot; placeholder=&quot;用户名&quot;&gt;&lt;/td&gt;</span><br><span class="line">&lt;/tr&gt;</span><br><span class="line">&lt;tr&gt;</span><br><span class="line">  &lt;td&gt;密码：&lt;/td&gt;</span><br><span class="line">  &lt;td&gt;&lt;input type=&quot;password&quot; id=&quot;password&quot; placeholder=&quot;密码&quot;&gt;&lt;/td&gt;</span><br><span class="line">&lt;/tr&gt;</span><br><span class="line">&lt;tr&gt;</span><br><span class="line">  &lt;td colspan=&quot;2&quot;&gt;&lt;button id=&quot;logon&quot;&gt;登录&lt;/button&gt;&lt;/td&gt;</span><br><span class="line">&lt;/tr&gt;</span><br></pre></td></tr></table></figure></p>
+<p>Python代码如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line"></span><br><span class="line">from selenium import webdriver</span><br><span class="line"></span><br><span class="line">driver = webdriver.PhantomJS()</span><br><span class="line">driver.set_page_load_timeout(300)</span><br><span class="line">driver.get(&apos;http://xxx.xxx.xxx.xxx/login.html&apos;)</span><br><span class="line">driver.find_element_by_id(&apos;username&apos;).send_keys(u&apos;username&apos;)</span><br><span class="line">driver.find_element_by_id(&apos;password&apos;).send_keys(u&apos;password&apos;)</span><br><span class="line">driver.find_element_by_id(&apos;logon&apos;).click()</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/PhantomJS/" rel="tag"># PhantomJS</a>
+          
+            <a href="/tags/Selenium/" rel="tag"># Selenium</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/08/05/simpledateformat-e7-ba-bf-e7-a8-8b-e5-ae-89-e5-85-a8-e9-97-ae-e9-a2-98/" rel="next" title="SimpleDateFormat线程安全问题">
+                <i class="fa fa-chevron-left"></i> SimpleDateFormat线程安全问题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/08/15/storm-e8-af-bb-e4-b9-a6-e7-ac-94-e8-ae-b0/" rel="prev" title="storm读书笔记">
+                storm读书笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">magicwt</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">90</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/magicwt" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:wang-t04@mails.tsinghua.edu.cn" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#介绍"><span class="nav-number">1.</span> <span class="nav-text">介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Selenium"><span class="nav-number">1.1.</span> <span class="nav-text">Selenium</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PhantomJS"><span class="nav-number">1.2.</span> <span class="nav-text">PhantomJS</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">2.</span> <span class="nav-text">安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Selenium-1"><span class="nav-number">2.1.</span> <span class="nav-text">Selenium</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PhantomJS-1"><span class="nav-number">2.2.</span> <span class="nav-text">PhantomJS</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用"><span class="nav-number">3.</span> <span class="nav-text">应用</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">magicwt</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
