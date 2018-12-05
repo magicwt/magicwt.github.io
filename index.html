@@ -1914,7 +1914,7 @@
 
       
         
-          <h2 id="整体架构"><a href="#整体架构" class="headerlink" title="整体架构"></a>整体架构</h2><p>在分布式架构中，各模块采用多节点部署，对外提供服务，节点数量和服务地址不断会有变化，因此，对于服务调用者，需要动态获取服务地址。ZooKeeper（<a href="http://zookeeper.apache.org/）" target="_blank" rel="noopener">http://zookeeper.apache.org/）</a> 提供分布式协调服务，服务提供者可以将服务注册至ZooKeeper规定路径中，服务调用者再从ZooKeeper规定路径中动态发现服务，如图所示：</p>
+          <h2 id="整体架构"><a href="#整体架构" class="headerlink" title="整体架构"></a>整体架构</h2><p>在分布式架构中，各模块采用多节点部署，对外提供服务，节点数量和服务地址不断会有变化，因此，对于服务调用者，需要动态获取服务地址。<a href="http://zookeeper.apache.org/" target="_blank" rel="noopener">ZooKeeper</a> 提供分布式协调服务，服务提供者可以将服务注册至ZooKeeper规定路径中，服务调用者再从ZooKeeper规定路径中动态发现服务，如图所示：</p>
 <p><img src="http://magicwt.com/wp-content/uploads/2016/01/注册发现服务架构.png" alt="注册发现服务架构"><br>
           <!--noindex-->
           <div class="post-button text-center">
