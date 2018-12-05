@@ -819,17 +819,17 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[链表反转的递归和非递归]]></title>
-    <url>%2F2012%2F06%2F01%2Fe9-93-be-e8-a1-a8-e5-8f-8d-e8-bd-ac-e7-9a-84-e9-80-92-e5-bd-92-e5-92-8c-e9-9d-9e-e9-80-92-e5-bd-92%2F</url>
-    <content type="text"><![CDATA[如题，给出链表反转的递归和非递归算法： 123456789101112131415161718Node *reverse (Node *head)&#123; Node *p1=NULL,*p2=NULL,*p3=NULL; if(NULL == head || NULL == head-&gt;next) return head; p1=head; p2=p1-&gt;next; head-&gt;next=NULL; while(!p2) &#123; p3=p2-&gt;next; p2-&gt;next=p1; p1=p2; p2=p3; &#125; return p2;&#125;; &nbsp;123456789101112Node *reverse_recursive(Node *head)&#123; if(NULL==head || NULL==head-&gt;next) return head; Node *p,*q; p=head-&gt;next; q=reverse_recursive(head-&gt;next); p-&gt;next=head; head-&gt;next=NULL; return q;&#125;]]></content>
+    <title><![CDATA[多叉树的宽度优先搜索BFS]]></title>
+    <url>%2F2012%2F06%2F01%2Fe5-a4-9a-e5-8f-89-e6-a0-91-e7-9a-84-e5-ae-bd-e5-ba-a6-e4-bc-98-e5-85-88-e6-90-9c-e7-b4-a2bfs%2F</url>
+    <content type="text"><![CDATA[首先，选择一个合适的数据结构存储多叉树，我使用了“左孩子右兄弟”的方法，使用二叉树来存储多叉树，便于实现和遍历。其次，宽度优先搜索时：1.用队列（先进先出）保存遍历路径。2.搜索顺序：对节点A，先访问节点的左节点（第一个孩子节点），从该左节点开始一直向右遍历直到最右叶子节点（所有兄弟节点），此时遍历完A的所有直接孩子。遍历的同时，节点入队列。3.遍历完A的孩子后，取队列中的下一个节点，继续遍历其孩子节点。直到队列为空。代码用C++实现，省略了类Queue, Node的实现：123456789101112131415161718192021222324252627282930313233343536373839404142class Tree &#123; public: Node *root; Tree() &#123; root=NULL; &#125; void BFS() &#123; Queue *queue=new Queue(); Node *p=root; if(p == NULL) return; //首先打印根节点 printf(&quot;%d\t&quot;,p-&gt;data); //第一个孩子节点 p = p-&gt;left; while(p != NULL) &#123; //p打印，并入栈 queue-&gt;push(p); printf(&quot;%d\t&quot;,p-&gt;data); //如果有右孩子，一直入栈 p=p-&gt;right; while(p!= NULL) &#123; queue-&gt;push(p); printf(&quot;%d\t&quot;,p-&gt;data); p=p-&gt;right; &#125; p=(Node *)queue-&gt;getFront(); if(p == NULL) break; //从队列中取出下一个节点，访问它的所有孩子节点 queue-&gt;pop(); p=p-&gt;left; &#125; &#125; &#125;;]]></content>
       <categories>
         <category>数据结构与算法</category>
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[多叉树的宽度优先搜索BFS]]></title>
-    <url>%2F2012%2F06%2F01%2Fe5-a4-9a-e5-8f-89-e6-a0-91-e7-9a-84-e5-ae-bd-e5-ba-a6-e4-bc-98-e5-85-88-e6-90-9c-e7-b4-a2bfs%2F</url>
-    <content type="text"><![CDATA[首先，选择一个合适的数据结构存储多叉树，我使用了“左孩子右兄弟”的方法，使用二叉树来存储多叉树，便于实现和遍历。其次，宽度优先搜索时：1.用队列（先进先出）保存遍历路径。2.搜索顺序：对节点A，先访问节点的左节点（第一个孩子节点），从该左节点开始一直向右遍历直到最右叶子节点（所有兄弟节点），此时遍历完A的所有直接孩子。遍历的同时，节点入队列。3.遍历完A的孩子后，取队列中的下一个节点，继续遍历其孩子节点。直到队列为空。代码用C++实现，省略了类Queue, Node的实现：123456789101112131415161718192021222324252627282930313233343536373839404142class Tree &#123; public: Node *root; Tree() &#123; root=NULL; &#125; void BFS() &#123; Queue *queue=new Queue(); Node *p=root; if(p == NULL) return; //首先打印根节点 printf(&quot;%d\t&quot;,p-&gt;data); //第一个孩子节点 p = p-&gt;left; while(p != NULL) &#123; //p打印，并入栈 queue-&gt;push(p); printf(&quot;%d\t&quot;,p-&gt;data); //如果有右孩子，一直入栈 p=p-&gt;right; while(p!= NULL) &#123; queue-&gt;push(p); printf(&quot;%d\t&quot;,p-&gt;data); p=p-&gt;right; &#125; p=(Node *)queue-&gt;getFront(); if(p == NULL) break; //从队列中取出下一个节点，访问它的所有孩子节点 queue-&gt;pop(); p=p-&gt;left; &#125; &#125; &#125;;]]></content>
+    <title><![CDATA[链表反转的递归和非递归]]></title>
+    <url>%2F2012%2F06%2F01%2Fe9-93-be-e8-a1-a8-e5-8f-8d-e8-bd-ac-e7-9a-84-e9-80-92-e5-bd-92-e5-92-8c-e9-9d-9e-e9-80-92-e5-bd-92%2F</url>
+    <content type="text"><![CDATA[如题，给出链表反转的递归和非递归算法： 123456789101112131415161718Node *reverse (Node *head)&#123; Node *p1=NULL,*p2=NULL,*p3=NULL; if(NULL == head || NULL == head-&gt;next) return head; p1=head; p2=p1-&gt;next; head-&gt;next=NULL; while(!p2) &#123; p3=p2-&gt;next; p2-&gt;next=p1; p1=p2; p2=p3; &#125; return p2;&#125;; &nbsp;123456789101112Node *reverse_recursive(Node *head)&#123; if(NULL==head || NULL==head-&gt;next) return head; Node *p,*q; p=head-&gt;next; q=reverse_recursive(head-&gt;next); p-&gt;next=head; head-&gt;next=NULL; return q;&#125;]]></content>
       <categories>
         <category>数据结构与算法</category>
       </categories>

@@ -1075,7 +1075,8 @@
 <h2 id="分布式缓存特性："><a href="#分布式缓存特性：" class="headerlink" title="分布式缓存特性："></a>分布式缓存特性：</h2><ol>
 <li>高性能：当传统数据库面临大规模数据访问时，磁盘I/O往往成为性能瓶颈，从而导致过高的响应延迟。分布式缓存将高速内存作为数据对象的存储介质，数据以key/value形式存储，理想情况下可以获得DRAM级的读写性能；</li>
 <li>动态扩展性：支持弹性扩展，通过动态增加或减少节点应对变化的数据访问负载，提供可预测的性能与扩展性；同时，最大限度地提高资源利用率；</li>
-<li>高可用性：可用性包含数据可用性与服务可用性两方面。基于冗余机制实现高可用性，无单点失效（single point of failure），支持故障的自动发现，透明地实施故障切换，不会因服务器故障而导致缓存服务中断或数据丢失。动态扩展时自动均衡数据分区，同时保障缓存服务持续可用；
+<li>高可用性：可用性包含数据可用性与服务可用性两方面。基于冗余机制实现高可用性，无单点失效（single point of failure），支持故障的自动发现，透明地实施故障切换，不会因服务器故障而导致缓存服务中断或数据丢失。动态扩展时自动均衡数据分区，同时保障缓存服务持续可用；</li>
+</ol>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2016/02/26/e8-bd-ac-e5-88-86-e5-b8-83-e5-bc-8f-e7-bc-93-e5-ad-98-e9-9b-86-e7-be-a4-e6-96-b9-e6-a1-88-e7-89-b9-e6-80-a7-e3-80-81-e5-ba-94-e7-94-a8-e5-9c-ba-e6-99-af-e3-80-81-e4-bc-98-e7-bc-ba-e7-82-b9-e5-af-b9/#more" rel="contents">
@@ -1085,7 +1086,7 @@
           <!--/noindex-->
         
       
-    </li></ol></div>
+    </div>
     
     
     
@@ -1242,9 +1243,7 @@
 
       
         
-          
-          配置使用Keepalived+Redis搭建Redis高可用主从，其中Keepalived配置为每隔2秒执行脚本检查Redis服务是否可用：12345vrrp_script chk_redis &#123;    script &quot;/usr/local/keepalived/scripts/
-          ...
+          <h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>使用Keepalived+Redis搭建Redis高可用主从，其中Keepalived配置为每隔2秒执行脚本检查Redis服务是否可用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vrrp_script chk_redis &#123;</span><br><span class="line">    script &quot;/usr/local/keepalived/scripts/redis_check.sh 127.0.0.1 6379&quot;</span><br><span class="line">    interval 2</span><br><span class="line">    weight -2</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2016/02/23/keepalivedredis-e9-ab-98-e5-8f-af-e7-94-a8-e4-b8-bb-e4-bb-8e-e8-99-9aip-e7-bb-8f-e5-b8-b8-e6-bc-82-e7-a7-bb-e7-9a-84-e9-97-ae-e9-a2-98/#more" rel="contents">
