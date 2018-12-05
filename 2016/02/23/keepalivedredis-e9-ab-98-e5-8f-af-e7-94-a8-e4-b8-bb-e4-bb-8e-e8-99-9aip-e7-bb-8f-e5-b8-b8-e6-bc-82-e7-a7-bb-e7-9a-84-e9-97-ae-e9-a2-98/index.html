@@ -79,19 +79,19 @@
 
 
 
-<meta name="description" content="使用Keepalived+Redis搭建Redis高可用主从，其中Keepalived配置为每隔2秒执行脚本检查Redis服务是否可用：12345678vrrp_script chk_redis &amp;#123;    script &amp;quot;/usr/local/keepalived/scripts/redis_check.sh 127.0.0.1 6379&amp;quot;    interval 2">
+<meta name="description" content="配置使用Keepalived+Redis搭建Redis高可用主从，其中Keepalived配置为每隔2秒执行脚本检查Redis服务是否可用：12345vrrp_script chk_redis &amp;#123;    script &amp;quot;/usr/local/keepalived/scripts/redis_check.sh 127.0.0.1 6379&amp;quot;    interval 2">
 <meta name="keywords" content="Keepalived,Redis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Keepalived+Redis高可用主从虚IP经常漂移的问题">
 <meta property="og:url" content="http://yoursite.com/2016/02/23/keepalivedredis-e9-ab-98-e5-8f-af-e7-94-a8-e4-b8-bb-e4-bb-8e-e8-99-9aip-e7-bb-8f-e5-b8-b8-e6-bc-82-e7-a7-bb-e7-9a-84-e9-97-ae-e9-a2-98/index.html">
 <meta property="og:site_name" content="不积跬步，无以至千里">
-<meta property="og:description" content="使用Keepalived+Redis搭建Redis高可用主从，其中Keepalived配置为每隔2秒执行脚本检查Redis服务是否可用：12345678vrrp_script chk_redis &amp;#123;    script &amp;quot;/usr/local/keepalived/scripts/redis_check.sh 127.0.0.1 6379&amp;quot;    interval 2">
+<meta property="og:description" content="配置使用Keepalived+Redis搭建Redis高可用主从，其中Keepalived配置为每隔2秒执行脚本检查Redis服务是否可用：12345vrrp_script chk_redis &amp;#123;    script &amp;quot;/usr/local/keepalived/scripts/redis_check.sh 127.0.0.1 6379&amp;quot;    interval 2">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://magicwt.com/wp-content/uploads/2016/02/1-7.png">
-<meta property="og:updated_time" content="2018-12-04T10:47:42.327Z">
+<meta property="og:updated_time" content="2018-12-05T16:37:04.787Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Keepalived+Redis高可用主从虚IP经常漂移的问题">
-<meta name="twitter:description" content="使用Keepalived+Redis搭建Redis高可用主从，其中Keepalived配置为每隔2秒执行脚本检查Redis服务是否可用：12345678vrrp_script chk_redis &amp;#123;    script &amp;quot;/usr/local/keepalived/scripts/redis_check.sh 127.0.0.1 6379&amp;quot;    interval 2">
+<meta name="twitter:description" content="配置使用Keepalived+Redis搭建Redis高可用主从，其中Keepalived配置为每隔2秒执行脚本检查Redis服务是否可用：12345vrrp_script chk_redis &amp;#123;    script &amp;quot;/usr/local/keepalived/scripts/redis_check.sh 127.0.0.1 6379&amp;quot;    interval 2">
 <meta name="twitter:image" content="http://magicwt.com/wp-content/uploads/2016/02/1-7.png">
 
 
@@ -397,8 +397,9 @@
       
 
       
-        <p>使用Keepalived+Redis搭建Redis高可用主从，其中Keepalived配置为每隔2秒执行脚本检查Redis服务是否可用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">vrrp_script chk_redis &#123;</span><br><span class="line">    script &quot;/usr/local/keepalived/scripts/redis_check.sh 127.0.0.1 6379&quot;</span><br><span class="line">    interval 2</span><br><span class="line">    weight -2</span><br><span class="line">&#125;</span><br><span class="line">``` </span><br><span class="line">redis_check.sh脚本如下所示：</span><br></pre></td></tr></table></figure></p>
-<p>#!/bin/bash<br>LOGFILE=”/var/log/keepalived-redis-check.log”<br>if [ “<code>/usr/local/bin/redis-cli -h $1 -p $2 PING</code>“ == “PONG” ]; then :<br>   exit 0<br>else<br>   sleep 1<br>   if [ “<code>/usr/local/bin/redis-cli -h $1 -p $2 PING</code>“ == “PONG” ]; then :<br>      exit 0<br>   else<br>      date &gt;&gt; $LOGFILE<br>      echo “Failed:redis-cli -h $1 -p $2 PING” &gt;&gt; $LOGFILE 2&gt;&amp;1<br>      exit 1<br>   fi<br>fi<br><code>`</code><br>使用过程中发现虚IP会经常从主服务器漂移至从服务器，而此时主服务器Keepalived和Redis进程都在。查看/var/log/messages中的Keepalived日志：<br><a href="http://magicwt.com/wp-content/uploads/2016/02/1-7.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2016/02/1-7.png" alt="1"></a><br>发现是由于检查Redis服务是否可用的脚本超时，减少了主服务器Keepalived的权重，从而导致主从服务器状态切换、虚IP漂移，而脚本执行超时时间默认与执行间隔相等（2秒）。脚本主要执行Redis的PING操作，为什么有时候执行PING操作会超过2秒，进一步检查发现是该Redis在某些时间段读写频率非常高，QPS达到6万，造成PING操作响应慢。<br>针对这个问题，解决方法就是搭建多个Redis主从，通过代理或直接在客户端将请求分摊到各个Redis主从上，减少单个Redis主从压力，避免PING操作响应慢，另外就是增大脚本执行间隔，增大执行超时时间。</p>
+        <h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>使用Keepalived+Redis搭建Redis高可用主从，其中Keepalived配置为每隔2秒执行脚本检查Redis服务是否可用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vrrp_script chk_redis &#123;</span><br><span class="line">    script &quot;/usr/local/keepalived/scripts/redis_check.sh 127.0.0.1 6379&quot;</span><br><span class="line">    interval 2</span><br><span class="line">    weight -2</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>redis_check.sh脚本如下所示：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/bash</span><br><span class="line">LOGFILE="/var/log/keepalived-redis-check.log"</span><br><span class="line">if [ "`/usr/local/bin/redis-cli -h $1 -p $2 PING`" == "PONG" ]; then :</span><br><span class="line">   exit 0</span><br><span class="line">else</span><br><span class="line">   sleep 1</span><br><span class="line">   if [ "`/usr/local/bin/redis-cli -h $1 -p $2 PING`" == "PONG" ]; then :</span><br><span class="line">      exit 0</span><br><span class="line">   else</span><br><span class="line">      date &gt;&gt; $LOGFILE</span><br><span class="line">      echo "Failed:redis-cli -h $1 -p $2 PING" &gt;&gt; $LOGFILE 2&gt;&amp;1</span><br><span class="line">      exit 1</span><br><span class="line">   fi</span><br><span class="line">fi</span><br></pre></td></tr></table></figure></p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>使用过程中发现虚IP会经常从主服务器漂移至从服务器，而此时主服务器Keepalived和Redis进程都在。查看/var/log/messages中的Keepalived日志：<br><img src="http://magicwt.com/wp-content/uploads/2016/02/1-7.png" alt="1"><br>发现是由于检查Redis服务是否可用的脚本超时，减少了主服务器Keepalived的权重，从而导致主从服务器状态切换、虚IP漂移，而脚本执行超时时间默认与执行间隔相等（2秒）。脚本主要执行Redis的PING操作，为什么有时候执行PING操作会超过2秒，进一步检查发现是该Redis在某些时间段读写频率非常高，QPS达到6万，造成PING操作响应慢。<br>针对这个问题，解决方法就是搭建多个Redis主从，通过代理或直接在客户端将请求分摊到各个Redis主从上，减少单个Redis主从压力，避免PING操作响应慢，另外就是增大脚本执行间隔，增大执行超时时间。</p>
 
       
     </div>
@@ -498,8 +499,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -577,6 +587,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#配置"><span class="nav-number">1.</span> <span class="nav-text">配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题"><span class="nav-number">2.</span> <span class="nav-text">问题</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
