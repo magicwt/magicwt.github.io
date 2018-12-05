@@ -394,9 +394,8 @@
 
       
         
-          
-          小程序端开发微信小程序支持通过基于WebSocket进行消息推送，提供了相应的API，例如创建连接示例代码：1234567891011wx.connectSocket(&#123;  url: 'test.php',  data:&#123;    x: '',    y: ''  &#125;, 
-          ...
+          <h2 id="小程序端开发"><a href="#小程序端开发" class="headerlink" title="小程序端开发"></a>小程序端开发</h2><p>微信小程序支持通过基于WebSocket进行消息推送，提供了相应的API，例如创建连接示例代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">wx.connectSocket(&#123;</span><br><span class="line">  url: <span class="string">'test.php'</span>,</span><br><span class="line">  data:&#123;</span><br><span class="line">    x: <span class="string">''</span>,</span><br><span class="line">    y: <span class="string">''</span></span><br><span class="line">  &#125;,</span><br><span class="line">  header:&#123; </span><br><span class="line">    <span class="string">'content-type'</span>: <span class="string">'application/json'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  method:<span class="string">"GET"</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>API详细说明可参见<a href="https://mp.weixin.qq.com/debug/wxadoc/dev/api/network-socket.html#wxconnectsocketobject" target="_blank" rel="noopener">微信API文档</a>，这里主要讲解服务端如何实现基于WebSocket的消息推送。<br>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/03/18/e5-9f-ba-e4-ba-8ewebsocket-e5-ae-9e-e7-8e-b0-e5-be-ae-e4-bf-a1-e5-b0-8f-e7-a8-8b-e5-ba-8f-e7-9a-84-e6-b6-88-e6-81-af-e6-8e-a8-e9-80-81/#more" rel="contents">
@@ -406,7 +405,7 @@
           <!--/noindex-->
         
       
-    </div>
+    </p></div>
     
     
     
