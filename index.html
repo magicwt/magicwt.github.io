@@ -903,9 +903,8 @@
 
       
         
-          
-          SSDB是一个C/C++语言开发的高性能NoSQL数据库，支持KV，list，map（hash），zset（sorted set）等数据结构，用来替代或者与Redis配合存储十亿级别列表的数据。与Redis相比，SSDB的存储基于文件，因此可以存储更多的数据，而不受限于内存的大小。在实际应用中，我们
-          ...
+          <h2 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h2><p>SSDB是一个C/C++语言开发的高性能NoSQL数据库，支持KV，list，map（hash），zset（sorted set）等数据结构，用来替代或者与Redis配合存储十亿级别列表的数据。与Redis相比，SSDB的存储基于文件，因此可以存储更多的数据，而不受限于内存的大小。在实际应用中，我们使用SSDB存储网站实时流量数据。本文主要介绍如何搭建SSDB双主，并使用Keepalived做IP漂移，使得双主对客户端透明。只要双主中有一个服务正常，客户端就可以正常读写，并保证数据不会丢失。其结构如图所示：</p>
+<p><img src="http://magicwt.com/wp-content/uploads/2016/03/keepalivedssdb.png" alt="keepalived+ssdb"><br>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2016/03/05/keepalivedssdb-e5-8f-8c-e4-b8-bb-e9-ab-98-e5-8f-af-e7-94-a8/#more" rel="contents">
@@ -915,7 +914,7 @@
           <!--/noindex-->
         
       
-    </div>
+    </p></div>
     
     
     
