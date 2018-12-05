@@ -79,23 +79,23 @@
 
 
 
-<meta name="description" content="对服务进行集群部署，前端进行负载均衡时，需要实现会话保持，对于同一会话的多个请求，通过集群中的一个节点来提供服务。系统的部署结构如图所示，通过Resin部署Web应用提供服务，通过Nginx进行负载均衡。基于nginx-sticky-module-ng实现会话保持。">
+<meta name="description" content="方案对服务进行集群部署，前端进行负载均衡时，需要实现会话保持，对于同一会话的多个请求，通过集群中的一个节点来提供服务。系统的部署结构如图所示，通过Resin部署Web应用提供服务，通过Nginx进行负载均衡。基于nginx-sticky-module-ng实现会话保持。">
 <meta name="keywords" content="Nginx">
 <meta property="og:type" content="article">
-<meta property="og:title" content="基于nginx-sticky-module-ng实现会话保持（Sticky Sessions）">
+<meta property="og:title" content="基于nginx-sticky-module-ng实现会话保持">
 <meta property="og:url" content="http://yoursite.com/2016/05/15/e5-9f-ba-e4-ba-8enginx-sticky-module-ng-e5-ae-9e-e7-8e-b0-e4-bc-9a-e8-af-9d-e4-bf-9d-e6-8c-81-ef-bc-88sticky-sessions-ef-bc-89/index.html">
 <meta property="og:site_name" content="不积跬步，无以至千里">
-<meta property="og:description" content="对服务进行集群部署，前端进行负载均衡时，需要实现会话保持，对于同一会话的多个请求，通过集群中的一个节点来提供服务。系统的部署结构如图所示，通过Resin部署Web应用提供服务，通过Nginx进行负载均衡。基于nginx-sticky-module-ng实现会话保持。">
+<meta property="og:description" content="方案对服务进行集群部署，前端进行负载均衡时，需要实现会话保持，对于同一会话的多个请求，通过集群中的一个节点来提供服务。系统的部署结构如图所示，通过Resin部署Web应用提供服务，通过Nginx进行负载均衡。基于nginx-sticky-module-ng实现会话保持。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://magicwt.com/wp-content/uploads/2016/05/未命名.png">
-<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2016/05/1-300x142.png">
-<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2016/05/2-300x142.png">
-<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2016/05/1-300x142.png">
-<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2016/05/2-300x142.png">
-<meta property="og:updated_time" content="2018-12-04T13:02:38.898Z">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2016/05/1.png">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2016/05/2.png">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2016/05/1.png">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2016/05/2.png">
+<meta property="og:updated_time" content="2018-12-05T16:04:25.855Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="基于nginx-sticky-module-ng实现会话保持（Sticky Sessions）">
-<meta name="twitter:description" content="对服务进行集群部署，前端进行负载均衡时，需要实现会话保持，对于同一会话的多个请求，通过集群中的一个节点来提供服务。系统的部署结构如图所示，通过Resin部署Web应用提供服务，通过Nginx进行负载均衡。基于nginx-sticky-module-ng实现会话保持。">
+<meta name="twitter:title" content="基于nginx-sticky-module-ng实现会话保持">
+<meta name="twitter:description" content="方案对服务进行集群部署，前端进行负载均衡时，需要实现会话保持，对于同一会话的多个请求，通过集群中的一个节点来提供服务。系统的部署结构如图所示，通过Resin部署Web应用提供服务，通过Nginx进行负载均衡。基于nginx-sticky-module-ng实现会话保持。">
 <meta name="twitter:image" content="http://magicwt.com/wp-content/uploads/2016/05/未命名.png">
 
 
@@ -132,7 +132,7 @@
 
 
 
-  <title>基于nginx-sticky-module-ng实现会话保持（Sticky Sessions） | 不积跬步，无以至千里</title>
+  <title>基于nginx-sticky-module-ng实现会话保持 | 不积跬步，无以至千里</title>
   
 
 
@@ -308,7 +308,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">基于nginx-sticky-module-ng实现会话保持（Sticky Sessions）</h1>
+          <h1 class="post-title" itemprop="name headline">基于nginx-sticky-module-ng实现会话保持</h1>
         
 
         <div class="post-meta">
@@ -370,7 +370,7 @@
 
           
           
-             <span id="/2016/05/15/e5-9f-ba-e4-ba-8enginx-sticky-module-ng-e5-ae-9e-e7-8e-b0-e4-bc-9a-e8-af-9d-e4-bf-9d-e6-8c-81-ef-bc-88sticky-sessions-ef-bc-89/" class="leancloud_visitors" data-flag-title="基于nginx-sticky-module-ng实现会话保持（Sticky Sessions）">
+             <span id="/2016/05/15/e5-9f-ba-e4-ba-8enginx-sticky-module-ng-e5-ae-9e-e7-8e-b0-e4-bc-9a-e8-af-9d-e4-bf-9d-e6-8c-81-ef-bc-88sticky-sessions-ef-bc-89/" class="leancloud_visitors" data-flag-title="基于nginx-sticky-module-ng实现会话保持">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -401,10 +401,10 @@
       
 
       
-        <p>对服务进行集群部署，前端进行负载均衡时，需要实现会话保持，对于同一会话的多个请求，通过集群中的一个节点来提供服务。系统的部署结构如图所示，通过Resin部署Web应用提供服务，通过Nginx进行负载均衡。基于nginx-sticky-module-ng实现会话保持。<br><a href="http://magicwt.com/wp-content/uploads/2016/05/未命名.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2016/05/未命名.png" alt="未命名"></a><br><a id="more"></a></p>
+        <h2 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h2><p>对服务进行集群部署，前端进行负载均衡时，需要实现会话保持，对于同一会话的多个请求，通过集群中的一个节点来提供服务。系统的部署结构如图所示，通过Resin部署Web应用提供服务，通过Nginx进行负载均衡。基于nginx-sticky-module-ng实现会话保持。<br><img src="http://magicwt.com/wp-content/uploads/2016/05/未命名.png" alt="方案"><br><a id="more"></a></p>
 <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>Nginx已安装（版本为1.7.9），此处介绍如何添加nginx-sticky-module-ng。</p>
 <ol>
-<li>从<a href="https://bitbucket.org/nginx-goodies/nginx-sticky-module-ng" target="_blank" rel="noopener">https://bitbucket.org/nginx-goodies/nginx-sticky-module-ng</a> 下载源码压缩包并解压；</li>
+<li>从<a href="https://bitbucket.org/nginx-goodies/nginx-sticky-module-ng" target="_blank" rel="noopener">nginx-sticky-module-ng</a>下载源码压缩包并解压；</li>
 <li><p>“nginx -V”查看原先安装Nginx时的配置信息： </p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> /usr/local/nginx/sbin/nginx -V</span><br><span class="line">nginx version: nginx/1.7.9</span><br><span class="line">built by gcc 4.8.2 20140120 (Red Hat 4.8.2-16) (GCC) </span><br><span class="line">configure arguments: --prefix=/usr/local/nginx --with-pcre=/opt/soft/pcre-8.36 --with-zlib=/opt/soft/zlib-1.2.8</span><br></pre></td></tr></table></figure>
 </li>
@@ -419,9 +419,9 @@
 <h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>使用Resin启动两个Web应用进程，端口分别是8082和8089，两个Web应用中都包含一个jsp页面session_sticky/test.jsp：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">%@</span> <span class="attr">page</span> <span class="attr">contentType</span>=<span class="string">"text/html;charset=UTF-8"</span> <span class="attr">language</span>=<span class="string">"java"</span> %&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>测试Session Sticky<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">Service 1</span><br><span class="line"></span><br><span class="line">Session Id: <span class="tag">&lt;<span class="name">%=request.getSession().getId()%</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
 <p>test.jsp在两个Web应用中的不同在于一个输出“Service 1”，另一个输出“Service 2”。<br>在Nginx中配置upstream和location，实现反向代理和会话保持：<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="attribute">upstream</span> session_sticky-server &#123;</span><br><span class="line">    sticky;</span><br><span class="line">    <span class="attribute">server</span> xx.xx.xx.xx:<span class="number">8082</span>;</span><br><span class="line">    <span class="attribute">server</span> xx.xx.xx.xx:<span class="number">8089</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="attribute">location</span><span class="regexp"> ^~/session_sticky/</span> &#123;</span><br><span class="line">    <span class="attribute">proxy_pass</span> http://session_sticky-server;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><ol>
-<li>删除upstream中的“sticky”，使用默认的轮询方式进行反向代理，访问test.jsp，页面输出中交替出现“Service 1”和“Service 2”，说明请求交替发往两个Web应用，会话未保持：<br><a href="http://magicwt.com/wp-content/uploads/2016/05/1.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2016/05/1-300x142.png" alt="1"></a><br><a href="http://magicwt.com/wp-content/uploads/2016/05/2.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2016/05/2-300x142.png" alt="2"></a></li>
-<li>在upstream中添加“sticky”，访问test.jsp，页面输出中一直出现“Service 1”，说明请求发往第一个应用，会话保持：<br><a href="http://magicwt.com/wp-content/uploads/2016/05/1.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2016/05/1-300x142.png" alt="1"></a></li>
-<li>在2的基础上，停掉第一个应用，继续访问test.jsp，页面仍有响应，输出中一直出现“Service 2”，说明请求在检测到失败后，会自动发往第二个应用，并在第二个应用会话保持：<br><a href="http://magicwt.com/wp-content/uploads/2016/05/2.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2016/05/2-300x142.png" alt="2"></a></li>
+<li>删除upstream中的“sticky”，使用默认的轮询方式进行反向代理，访问test.jsp，页面输出中交替出现“Service 1”和“Service 2”，说明请求交替发往两个Web应用，会话未保持：<br><img src="http://magicwt.com/wp-content/uploads/2016/05/1.png" alt="1"><br><img src="http://magicwt.com/wp-content/uploads/2016/05/2.png" alt="2"></li>
+<li>在upstream中添加“sticky”，访问test.jsp，页面输出中一直出现“Service 1”，说明请求发往第一个应用，会话保持：<br><img src="http://magicwt.com/wp-content/uploads/2016/05/1.png" alt="1"></li>
+<li>在2的基础上，停掉第一个应用，继续访问test.jsp，页面仍有响应，输出中一直出现“Service 2”，说明请求在检测到失败后，会自动发往第二个应用，并在第二个应用会话保持：<br><img src="http://magicwt.com/wp-content/uploads/2016/05/2.png" alt="2"></li>
 </ol>
 
       
@@ -618,7 +618,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置"><span class="nav-number">2.</span> <span class="nav-text">配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试"><span class="nav-number">3.</span> <span class="nav-text">测试</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#方案"><span class="nav-number">1.</span> <span class="nav-text">方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">2.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置"><span class="nav-number">3.</span> <span class="nav-text">配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试"><span class="nav-number">4.</span> <span class="nav-text">测试</span></a></li></ol></div>
             
 
           </div>
