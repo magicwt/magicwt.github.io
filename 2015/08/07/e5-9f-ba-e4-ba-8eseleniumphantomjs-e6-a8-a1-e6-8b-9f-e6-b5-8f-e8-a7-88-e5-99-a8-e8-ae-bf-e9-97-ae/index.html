@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="介绍SeleniumSelenium（http://docs.seleniumhq.org/） 是一个Web应用自动化测试工具集，可以在多个浏览器平台上执行测试用例。">
+<meta name="description" content="介绍SeleniumSelenium 是一个Web应用自动化测试工具集，可以在多个浏览器平台上执行测试用例。">
 <meta name="keywords" content="PhantomJS,Selenium">
 <meta property="og:type" content="article">
 <meta property="og:title" content="基于Selenium+PhantomJS模拟浏览器访问">
 <meta property="og:url" content="http://yoursite.com/2015/08/07/e5-9f-ba-e4-ba-8eseleniumphantomjs-e6-a8-a1-e6-8b-9f-e6-b5-8f-e8-a7-88-e5-99-a8-e8-ae-bf-e9-97-ae/index.html">
 <meta property="og:site_name" content="不积跬步，无以至千里">
-<meta property="og:description" content="介绍SeleniumSelenium（http://docs.seleniumhq.org/） 是一个Web应用自动化测试工具集，可以在多个浏览器平台上执行测试用例。">
+<meta property="og:description" content="介绍SeleniumSelenium 是一个Web应用自动化测试工具集，可以在多个浏览器平台上执行测试用例。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-12-04T13:06:12.336Z">
+<meta property="og:updated_time" content="2018-12-06T14:32:26.330Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于Selenium+PhantomJS模拟浏览器访问">
-<meta name="twitter:description" content="介绍SeleniumSelenium（http://docs.seleniumhq.org/） 是一个Web应用自动化测试工具集，可以在多个浏览器平台上执行测试用例。">
+<meta name="twitter:description" content="介绍SeleniumSelenium 是一个Web应用自动化测试工具集，可以在多个浏览器平台上执行测试用例。">
 
 
 
@@ -395,12 +395,15 @@
       
 
       
-        <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><h3 id="Selenium"><a href="#Selenium" class="headerlink" title="Selenium"></a>Selenium</h3><p>Selenium（<a href="http://docs.seleniumhq.org/）" target="_blank" rel="noopener">http://docs.seleniumhq.org/）</a> 是一个Web应用自动化测试工具集，可以在多个浏览器平台上执行测试用例。<br><a id="more"></a><br>Selenium包含以下几个工具：</p>
+        <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><h3 id="Selenium"><a href="#Selenium" class="headerlink" title="Selenium"></a>Selenium</h3><p><a href="http://docs.seleniumhq.org/" target="_blank" rel="noopener">Selenium</a> 是一个Web应用自动化测试工具集，可以在多个浏览器平台上执行测试用例。<br><a id="more"></a><br>Selenium包含以下几个工具：</p>
 <ol>
 <li>Selenium 1 (Selenium RC or Remote Control)：Selenium 1的核心是一个JavaScript库，通过该库可以和浏览器中的页面进行交互。Selenium RC基于该库，可以使用多种语言开发测试用例，在多个浏览器平台上执行测试用例。</li>
 <li>Selenium 2 (Selenium WebDriver)：Selenium 1基于JavaScript库，因此受限于浏览器对于JavaScript的安全限制，Selenium 1对于浏览器中的页面交互也存在着很多限制。Selenium 2基于WebDriver，而WebDriver基于浏览器和操作系统提供的原生方法，因此Selenium 2可以直接操作浏览器，避免了JavaScript的安全限制。Selenium 2也可以使用多种语言开发测试用例，在多个浏览器平台上执行测试用例。</li>
 <li>Selenium IDE：Selenium IDE是一个FireFox插件，可以记录用户操作并导出成可重复执行的脚本。</li>
-<li>Selenium-Grid：Selenium-Grid可以用来扩展Selenium RC，例如可以在不同的机器上并行执行测试用例。<br>由于存在较多限制，已不推荐使用Selenium RC，而推荐使用Selenium WebDriver。Selenium WebDriver支持的浏览器有：<ol>
+<li>Selenium-Grid：Selenium-Grid可以用来扩展Selenium RC，例如可以在不同的机器上并行执行测试用例。</li>
+</ol>
+<p>由于存在较多限制，已不推荐使用Selenium RC，而推荐使用Selenium WebDriver。Selenium WebDriver支持的浏览器有：</p>
+<ol>
 <li>Google Chrome；</li>
 <li>Internet Explorer 6, 7, 8, 9, 10；</li>
 <li>Firefox；</li>
@@ -409,24 +412,29 @@
 <li>HtmlUnit；</li>
 <li>PhantomJS；</li>
 <li>Android；</li>
-<li>iOS。<h3 id="PhantomJS"><a href="#PhantomJS" class="headerlink" title="PhantomJS"></a>PhantomJS</h3>PhantomJS（<a href="http://phantomjs.org/）" target="_blank" rel="noopener">http://phantomjs.org/）</a> 是一个基于WebKit的JavaScript API，它原生支持各种Web标准，例如DOM解析、CSS选择器、JSON、Canvas、SVG等。PhantomJS可用于：</li>
+<li>iOS。</li>
 </ol>
-</li>
+<h3 id="PhantomJS"><a href="#PhantomJS" class="headerlink" title="PhantomJS"></a>PhantomJS</h3><p><a href="http://phantomjs.org/" target="_blank" rel="noopener">PhantomJS</a> 是一个基于WebKit的JavaScript API，它原生支持各种Web标准，例如DOM解析、CSS选择器、JSON、Canvas、SVG等。PhantomJS可用于：</p>
+<ol>
 <li>无GUI浏览器下的Web站点测试；</li>
 <li>网页截屏；</li>
 <li>基于DOM API访问和操作网页；</li>
-<li>监控网页加载。<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="Selenium-1"><a href="#Selenium-1" class="headerlink" title="Selenium"></a>Selenium</h3>Selenium支持的语言有：</li>
+<li>监控网页加载。</li>
+</ol>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="Selenium-1"><a href="#Selenium-1" class="headerlink" title="Selenium"></a>Selenium</h3><p>Selenium支持的语言有：</p>
+<ol>
 <li>Java；</li>
 <li>C#；</li>
 <li>Python；</li>
 <li>Ruby；</li>
 <li>PHP；</li>
 <li>Perl；</li>
-<li>JavaScript。<br>这里介绍Python Selenium包的安装。操作系统为Linux，并已安装Python 2.7.5和pip，直接使用pip安装Selenium：<blockquote>
+<li>JavaScript。</li>
+</ol>
+<p>这里介绍Python Selenium包的安装。操作系统为Linux，并已安装Python 2.7.5和pip，直接使用pip安装Selenium：</p>
+<blockquote>
 <p>pip install selenium</p>
 </blockquote>
-</li>
-</ol>
 <h3 id="PhantomJS-1"><a href="#PhantomJS-1" class="headerlink" title="PhantomJS"></a>PhantomJS</h3><p>下载PhantomJS的可执行包phantomjs-1.9.8-linux-x86_64.bz2，解压后将bin/phantomjs拷贝至/bin下即可。Shell中输入phantomjs可打开REPL，也可以使用phantomjs执行代码文件：</p>
 <blockquote>
 <p>phantomjs hello.js</p>
