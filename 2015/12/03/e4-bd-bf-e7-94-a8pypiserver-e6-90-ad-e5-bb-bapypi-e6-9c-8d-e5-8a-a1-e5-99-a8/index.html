@@ -79,21 +79,21 @@
 
 
 
-<meta name="description" content="使用Python开发时，经常需要用到“pip install”安装依赖，但是“pip install”需要访问外网，并且默认源https://pypi.python.org/ 在国内访问并不是很稳定。为了便于在公司内网服务器上安装依赖，我们使用pypiserver搭建pypi服务器。">
+<meta name="description" content="使用Python开发时，经常需要用到“pip install”安装依赖，但是“pip install”需要访问外网，并且默认源pypi在国内访问并不是很稳定。为了便于在公司内网服务器上安装依赖，我们使用pypiserver搭建pypi服务器。">
 <meta name="keywords" content="pypiserver">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用pypiserver搭建pypi服务器">
 <meta property="og:url" content="http://yoursite.com/2015/12/03/e4-bd-bf-e7-94-a8pypiserver-e6-90-ad-e5-bb-bapypi-e6-9c-8d-e5-8a-a1-e5-99-a8/index.html">
 <meta property="og:site_name" content="不积跬步，无以至千里">
-<meta property="og:description" content="使用Python开发时，经常需要用到“pip install”安装依赖，但是“pip install”需要访问外网，并且默认源https://pypi.python.org/ 在国内访问并不是很稳定。为了便于在公司内网服务器上安装依赖，我们使用pypiserver搭建pypi服务器。">
+<meta property="og:description" content="使用Python开发时，经常需要用到“pip install”安装依赖，但是“pip install”需要访问外网，并且默认源pypi在国内访问并不是很稳定。为了便于在公司内网服务器上安装依赖，我们使用pypiserver搭建pypi服务器。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/12/1-300x103.png">
-<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/12/11-300x300.png">
-<meta property="og:updated_time" content="2018-12-04T12:50:43.431Z">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/12/1.png">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/12/11.png">
+<meta property="og:updated_time" content="2018-12-06T13:01:35.730Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用pypiserver搭建pypi服务器">
-<meta name="twitter:description" content="使用Python开发时，经常需要用到“pip install”安装依赖，但是“pip install”需要访问外网，并且默认源https://pypi.python.org/ 在国内访问并不是很稳定。为了便于在公司内网服务器上安装依赖，我们使用pypiserver搭建pypi服务器。">
-<meta name="twitter:image" content="http://magicwt.com/wp-content/uploads/2015/12/1-300x103.png">
+<meta name="twitter:description" content="使用Python开发时，经常需要用到“pip install”安装依赖，但是“pip install”需要访问外网，并且默认源pypi在国内访问并不是很稳定。为了便于在公司内网服务器上安装依赖，我们使用pypiserver搭建pypi服务器。">
+<meta name="twitter:image" content="http://magicwt.com/wp-content/uploads/2015/12/1.png">
 
 
 
@@ -398,8 +398,8 @@
       
 
       
-        <p>使用Python开发时，经常需要用到“pip install”安装依赖，但是“pip install”需要访问外网，并且默认源<a href="https://pypi.python.org/" target="_blank" rel="noopener">https://pypi.python.org/</a> 在国内访问并不是很稳定。为了便于在公司内网服务器上安装依赖，我们使用pypiserver搭建pypi服务器。<br><a id="more"></a></p>
-<h2 id="安装pypiserver"><a href="#安装pypiserver" class="headerlink" title="安装pypiserver"></a>安装pypiserver</h2><p>从<a href="https://pypi.python.org/pypi/pypiserver" target="_blank" rel="noopener">https://pypi.python.org/pypi/pypiserver</a> 下载pypiserver-1.1.7.zip，解压后进入目录，执行：</p>
+        <p>使用Python开发时，经常需要用到“pip install”安装依赖，但是“pip install”需要访问外网，并且默认源<a href="https://pypi.python.org/" target="_blank" rel="noopener">pypi</a>在国内访问并不是很稳定。为了便于在公司内网服务器上安装依赖，我们使用pypiserver搭建pypi服务器。<br><a id="more"></a></p>
+<h2 id="安装pypiserver"><a href="#安装pypiserver" class="headerlink" title="安装pypiserver"></a>安装pypiserver</h2><p>从<a href="https://pypi.python.org/pypi/pypiserver" target="_blank" rel="noopener">pypiserver</a>下载pypiserver-1.1.7.zip，解压后进入目录，执行：</p>
 <blockquote>
 <p>python setup.py install</p>
 </blockquote>
@@ -411,11 +411,13 @@
 <p>其中：</p>
 <ol>
 <li>“-p 8082”，表示使用端口8082；</li>
-<li>“/opt/python-packages”，表示依赖包的存储目录。<br>/opt/python-packages目录下的依赖包如图所示：<br><a href="http://magicwt.com/wp-content/uploads/2015/12/1.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/12/1-300x103.png" alt="1"></a><br>在浏览器下访问如图所示：<br><a href="http://magicwt.com/wp-content/uploads/2015/12/11.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/12/11-300x300.png" alt="1"></a><h2 id="使用pypiserver"><a href="#使用pypiserver" class="headerlink" title="使用pypiserver"></a>使用pypiserver</h2>若使用搭建的pypiserver作为源安装依赖BeautifulSoup，命令如下：<blockquote>
+<li>“/opt/python-packages”，表示依赖包的存储目录。</li>
+</ol>
+<p>/opt/python-packages目录下的依赖包如图所示：<br><img src="http://magicwt.com/wp-content/uploads/2015/12/1.png" alt="1"><br>在浏览器下访问如图所示：<br><img src="http://magicwt.com/wp-content/uploads/2015/12/11.png" alt="1"></p>
+<h2 id="使用pypiserver"><a href="#使用pypiserver" class="headerlink" title="使用pypiserver"></a>使用pypiserver</h2><p>若使用搭建的pypiserver作为源安装依赖BeautifulSoup，命令如下：</p>
+<blockquote>
 <p>pip install BeautifulSoup -i <a href="http://ip:port/simple/" target="_blank" rel="noopener">http://ip:port/simple/</a></p>
 </blockquote>
-</li>
-</ol>
 
       
     </div>

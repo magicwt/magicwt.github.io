@@ -79,24 +79,24 @@
 
 
 
-<meta name="description" content="Storm集群如图所示：其中包含一个nimbus节点和多个supervisor节点：  nimbus，负责在集群中分发代码，分配计算任务，监控失败等； supervisor，负责在集群中按照nimbus的分配，启动和停止计算任务； worker，实际执行spout和bolt任务的进程；在Storm安装目录下，可通过执行以下命令启动nimbus和supervisor进程（需先安装Python）： b">
+<meta name="description" content="Storm集群如图所示：其中包含一个nimbus节点和多个supervisor节点：  nimbus，负责在集群中分发代码，分配计算任务，监控失败等； supervisor，负责在集群中按照nimbus的分配，启动和停止计算任务； worker，实际执行spout和bolt任务的进程。">
 <meta name="keywords" content="daemontools,Storm">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用daemontools实现Storm进程监控">
 <meta property="og:url" content="http://yoursite.com/2015/10/01/e4-bd-bf-e7-94-a8daemontools-e5-ae-9e-e7-8e-b0storm-e8-bf-9b-e7-a8-8b-e7-9b-91-e6-8e-a7/index.html">
 <meta property="og:site_name" content="不积跬步，无以至千里">
-<meta property="og:description" content="Storm集群如图所示：其中包含一个nimbus节点和多个supervisor节点：  nimbus，负责在集群中分发代码，分配计算任务，监控失败等； supervisor，负责在集群中按照nimbus的分配，启动和停止计算任务； worker，实际执行spout和bolt任务的进程；在Storm安装目录下，可通过执行以下命令启动nimbus和supervisor进程（需先安装Python）： b">
+<meta property="og:description" content="Storm集群如图所示：其中包含一个nimbus节点和多个supervisor节点：  nimbus，负责在集群中分发代码，分配计算任务，监控失败等； supervisor，负责在集群中按照nimbus的分配，启动和停止计算任务； worker，实际执行spout和bolt任务的进程。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/10/图片1-300x148.png">
-<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/10/1-300x15.png">
-<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/10/11-300x17.png">
-<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/10/12-300x127.png">
-<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/10/3_副本-300x178.png">
-<meta property="og:updated_time" content="2018-12-04T12:34:44.635Z">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/10/图片1.png">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/10/1.png">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/10/11.png">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/10/12.png">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/10/3_副本.png">
+<meta property="og:updated_time" content="2018-12-06T13:33:28.169Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用daemontools实现Storm进程监控">
-<meta name="twitter:description" content="Storm集群如图所示：其中包含一个nimbus节点和多个supervisor节点：  nimbus，负责在集群中分发代码，分配计算任务，监控失败等； supervisor，负责在集群中按照nimbus的分配，启动和停止计算任务； worker，实际执行spout和bolt任务的进程；在Storm安装目录下，可通过执行以下命令启动nimbus和supervisor进程（需先安装Python）： b">
-<meta name="twitter:image" content="http://magicwt.com/wp-content/uploads/2015/10/图片1-300x148.png">
+<meta name="twitter:description" content="Storm集群如图所示：其中包含一个nimbus节点和多个supervisor节点：  nimbus，负责在集群中分发代码，分配计算任务，监控失败等； supervisor，负责在集群中按照nimbus的分配，启动和停止计算任务； worker，实际执行spout和bolt任务的进程。">
+<meta name="twitter:image" content="http://magicwt.com/wp-content/uploads/2015/10/图片1.png">
 
 
 
@@ -401,16 +401,18 @@
       
 
       
-        <p>Storm集群如图所示：<br><a href="http://magicwt.com/wp-content/uploads/2015/10/图片1.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/10/图片1-300x148.png" alt="图片1"></a><br>其中包含一个nimbus节点和多个supervisor节点：</p>
+        <p>Storm集群如图所示：<br><img src="http://magicwt.com/wp-content/uploads/2015/10/图片1.png" alt="图片1"><br>其中包含一个nimbus节点和多个supervisor节点：</p>
 <ol>
 <li>nimbus，负责在集群中分发代码，分配计算任务，监控失败等；</li>
 <li>supervisor，负责在集群中按照nimbus的分配，启动和停止计算任务；</li>
-<li>worker，实际执行spout和bolt任务的进程；<br>在Storm安装目录下，可通过执行以下命令启动nimbus和supervisor进程（需先安装Python）：<blockquote>
+<li>worker，实际执行spout和bolt任务的进程。</li>
+</ol>
+<a id="more"></a>
+<p>在Storm安装目录下，可通过执行以下命令启动nimbus和supervisor进程（需先安装Python）：</p>
+<blockquote>
 <p>bin/storm nimbus|supervisor</p>
 </blockquote>
-</li>
-</ol>
-<p>nimbus和supervisor进程都是无状态和fail-fast的，状态保存在zookeeper和本地磁盘，当任何一个进程失败时，通过重启进程，可以快速恢复。Storm官方建议使用daemontools（<a href="http://cr.yp.to/daemontools.html）" target="_blank" rel="noopener">http://cr.yp.to/daemontools.html）</a> 监控nimbus和supervisor进程，当有进程失败时，daemontools可以重启进程。</p>
+<p>nimbus和supervisor进程都是无状态和fail-fast的，状态保存在zookeeper和本地磁盘，当任何一个进程失败时，通过重启进程，可以快速恢复。Storm官方建议使用<a href="http://cr.yp.to/daemontools.html" target="_blank" rel="noopener">daemontools</a> 监控nimbus和supervisor进程，当有进程失败时，daemontools可以重启进程。</p>
 <h2 id="安装daemontools"><a href="#安装daemontools" class="headerlink" title="安装daemontools"></a>安装daemontools</h2><p>摘自<a href="http://cr.yp.to/daemontools/install.html" target="_blank" rel="noopener">http://cr.yp.to/daemontools/install.html</a> 。</p>
 <ol>
 <li><p>创建/package目录:</p>
@@ -429,12 +431,12 @@
 </blockquote>
 </li>
 </ol>
-<p>daemontools会启动2个进程：<br><a href="http://magicwt.com/wp-content/uploads/2015/10/1.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/10/1-300x15.png" alt="1"></a><br>其中svscan默认扫描/service目录，可以在/service中配置需要监控的进程。daemontools使用supervise命令启动需要监控的进程，并在进程失败时，重启进程。</p>
+<p>daemontools会启动2个进程：<br><img src="http://magicwt.com/wp-content/uploads/2015/10/1.png" alt="1"><br>其中svscan默认扫描/service目录，可以在/service中配置需要监控的进程。daemontools使用supervise命令启动需要监控的进程，并在进程失败时，重启进程。</p>
 <h2 id="启动nimbus和supervisor进程"><a href="#启动nimbus和supervisor进程" class="headerlink" title="启动nimbus和supervisor进程"></a>启动nimbus和supervisor进程</h2><h3 id="启动nimbus进程"><a href="#启动nimbus进程" class="headerlink" title="启动nimbus进程"></a>启动nimbus进程</h3><p>在nimbus节点的/service目录，创建nimbus和ui子目录，并在nimbus和ui目录中分别创建名称为run的脚本。<br>nimbus目录中的run脚本为：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/sh</span><br><span class="line">. /etc/profile</span><br><span class="line">/usr/local/bin/python2.7 /opt/software/storm/bin/storm nimbus</span><br></pre></td></tr></table></figure></p>
 <p>ui目录中的run脚本为：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/sh</span><br><span class="line">. /etc/profile</span><br><span class="line">/usr/local/bin/python2.7 /opt/software/storm/bin/storm ui</span><br></pre></td></tr></table></figure></p>
-<p>run脚本其实就是使用storm命令启动nimbus和ui进程。<br>daemontools扫描到上述配置后，使用supervise命令执行run脚本，启动nimbus和ui进程：<br><a href="http://magicwt.com/wp-content/uploads/2015/10/11.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/10/11-300x17.png" alt="1"></a><br><a href="http://magicwt.com/wp-content/uploads/2015/10/12.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/10/12-300x127.png" alt="1"></a></p>
+<p>run脚本其实就是使用storm命令启动nimbus和ui进程。<br>daemontools扫描到上述配置后，使用supervise命令执行run脚本，启动nimbus和ui进程：<br><img src="http://magicwt.com/wp-content/uploads/2015/10/11.png" alt="1"><br><img src="http://magicwt.com/wp-content/uploads/2015/10/12.png" alt="1"></p>
 <h3 id="启动supervisor进程"><a href="#启动supervisor进程" class="headerlink" title="启动supervisor进程"></a>启动supervisor进程</h3><p>与nimbus节点类似，在supervisor节点的/service目录，创建supervisor子目录，并在supervisor目录中创建名称为run的脚本：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/sh</span><br><span class="line">. /etc/profile</span><br><span class="line">/usr/local/bin/python2.7 /opt/software/storm/bin/storm supervisor</span><br></pre></td></tr></table></figure></p>
-<p>配置完成后，可以通过ui看到所有节点已启动：<br><a href="http://magicwt.com/wp-content/uploads/2015/10/3_副本.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/10/3_副本-300x178.png" alt="3_副本"></a></p>
+<p>配置完成后，可以通过ui看到所有节点已启动：<br><img src="http://magicwt.com/wp-content/uploads/2015/10/3_副本.png" alt="3_副本"></p>
 
       
     </div>

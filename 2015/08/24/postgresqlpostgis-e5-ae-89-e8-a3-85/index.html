@@ -79,20 +79,20 @@
 
 
 
-<meta name="description" content="PostgreSQL(http://www.postgresql.org/)与MySQL类似，也是一款开源、免费数据库。PostGIS(http://www.postgis.org/)是一款PostgreSQL插件，为PostgreSQL提供GIS支持。在开发页面点击热力图时，需要以(x,y)坐标方式存储点击位置，所以使用PostgreSQL+PostGIS存储点击数据。 安装PostgreSQL">
+<meta name="description" content="PostgreSQL与MySQL类似，也是一款开源、免费数据库。PostGIS是一款PostgreSQL插件，为PostgreSQL提供GIS支持。在开发页面点击热力图时，需要以(x,y)坐标方式存储点击位置，所以使用PostgreSQL+PostGIS存储点击数据。">
 <meta name="keywords" content="PostGIS,PostgreSQL">
 <meta property="og:type" content="article">
 <meta property="og:title" content="PostgreSQL+PostGIS安装">
 <meta property="og:url" content="http://yoursite.com/2015/08/24/postgresqlpostgis-e5-ae-89-e8-a3-85/index.html">
 <meta property="og:site_name" content="不积跬步，无以至千里">
-<meta property="og:description" content="PostgreSQL(http://www.postgresql.org/)与MySQL类似，也是一款开源、免费数据库。PostGIS(http://www.postgis.org/)是一款PostgreSQL插件，为PostgreSQL提供GIS支持。在开发页面点击热力图时，需要以(x,y)坐标方式存储点击位置，所以使用PostgreSQL+PostGIS存储点击数据。 安装PostgreSQL">
+<meta property="og:description" content="PostgreSQL与MySQL类似，也是一款开源、免费数据库。PostGIS是一款PostgreSQL插件，为PostgreSQL提供GIS支持。在开发页面点击热力图时，需要以(x,y)坐标方式存储点击位置，所以使用PostgreSQL+PostGIS存储点击数据。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/11/110-300x31.png">
-<meta property="og:updated_time" content="2018-12-04T10:47:42.323Z">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/11/110.png">
+<meta property="og:updated_time" content="2018-12-06T13:38:21.209Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="PostgreSQL+PostGIS安装">
-<meta name="twitter:description" content="PostgreSQL(http://www.postgresql.org/)与MySQL类似，也是一款开源、免费数据库。PostGIS(http://www.postgis.org/)是一款PostgreSQL插件，为PostgreSQL提供GIS支持。在开发页面点击热力图时，需要以(x,y)坐标方式存储点击位置，所以使用PostgreSQL+PostGIS存储点击数据。 安装PostgreSQL">
-<meta name="twitter:image" content="http://magicwt.com/wp-content/uploads/2015/11/110-300x31.png">
+<meta name="twitter:description" content="PostgreSQL与MySQL类似，也是一款开源、免费数据库。PostGIS是一款PostgreSQL插件，为PostgreSQL提供GIS支持。在开发页面点击热力图时，需要以(x,y)坐标方式存储点击位置，所以使用PostgreSQL+PostGIS存储点击数据。">
+<meta name="twitter:image" content="http://magicwt.com/wp-content/uploads/2015/11/110.png">
 
 
 
@@ -397,10 +397,30 @@
       
 
       
-        <p>PostgreSQL(<a href="http://www.postgresql.org/)与MySQL类似，也是一款开源、免费数据库。PostGIS(http://www.postgis.org/)是一款PostgreSQL插件，为PostgreSQL提供GIS支持。在开发页面点击热力图时，需要以(x,y)坐标方式存储点击位置，所以使用PostgreSQL+PostGIS存储点击数据。" target="_blank" rel="noopener">http://www.postgresql.org/)与MySQL类似，也是一款开源、免费数据库。PostGIS(http://www.postgis.org/)是一款PostgreSQL插件，为PostgreSQL提供GIS支持。在开发页面点击热力图时，需要以(x,y)坐标方式存储点击位置，所以使用PostgreSQL+PostGIS存储点击数据。</a></p>
-<h2 id="安装PostgreSQL"><a href="#安装PostgreSQL" class="headerlink" title="安装PostgreSQL"></a>安装PostgreSQL</h2><p>[blockquote]groupadd postgres<br>useradd -g postgres postgres<br>passwd postgres<br>tar -zxvf postgresql-9.5alpha2.tar.gz<br>cd postgresql-9.5alpha2<br>./configure –prefix=/opt/postgresql<br>make<br>make install<br>cd /opt/<br>chown -R postgres:postgres postgresql<br>su - postgres<br>/opt/postgresql/bin/initdb -D /opt/postgresql/data<br>/opt/postgresql/bin/pg_ctl -D /opt/postgresql/data -l /opt/postgresql/logfile start[/blockquote]<br><a href="http://magicwt.com/wp-content/uploads/2015/11/110.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/11/110-300x31.png" alt="1"></a><br>使用“/opt/postgresql/bin/psql -U postgres”可以登录数据库，执行相关操作。</p>
-<h2 id="安装PostGIS"><a href="#安装PostGIS" class="headerlink" title="安装PostGIS"></a>安装PostGIS</h2><p>从源码安装，需要先安装GEOS，Proj.4，GDAL，LibXML2和JSON-C(<a href="http://postgis.net/source/)。" target="_blank" rel="noopener">http://postgis.net/source/)。</a><br>[blockquote]tar -jxvf geos-3.5.0.tar.bz2<br>cd geos-3.5.0<br>./configure<br>make<br>make install<br>tar -zxvf proj.4-4.9.1.tar.gz<br>cd proj.4-4.9.1<br>./configure<br>make<br>make install<br>tar -zxvf gdal-1.10.0.tar.gz<br>cd gdal-1.10.0<br>./configure<br>make<br>make install<br>tar -zxvf libxml2-2.9.2.tar.gz<br>cd libxml2-2.9.2<br>./configure<br>make<br>make install<br>tar -zxvf json-c-json-c-0.11-20130402.tar.gz<br>cd json-c-json-c-0.11-20130402<br>./configure<br>make<br>make install<br>tar -zxvf postgis-2.1.8.tar.gz<br>cd postgis-2.1.8<br>./configure –with-pgconfig=/opt/postgresql/bin/pg_config<br>make<br>make install<br>su - postgres<br>/opt/postgresql/bin/createdb postgis<br>/opt/postgresql/bin/psql -d postgis -U postgres -f /opt/postgresql/share/contrib/postgis-2.1/postgis.sql[/blockquote]<br>执行上述语句有可能报错，打开日志文件/opt/postgresql/logfile，会有如下错误：<br>[blockquote]ERROR: could not load library “/opt/postgresql/lib/postgis-2.1.so”: libgeos_c.so.1: cannot open shared object file: No such file or directory[/blockquote]<br>执行“ldd /opt/postgresql/lib/postgis-2.1.so”，缺少两个so文件：<br>[blockquote]linux-vdso.so.1 =&gt; (0x00007fff3d1fe000)<br>libgeos_c.so.1 =&gt; not found<br>libproj.so.9 =&gt; not found<br>libjson-c.so.2 =&gt; /lib64/libjson-c.so.2 (0x00007fb8f08f1000)<br>libxml2.so.2 =&gt; /lib64/libxml2.so.2 (0x00007fb8f0588000)<br>libm.so.6 =&gt; /lib64/libm.so.6 (0x00007fb8f0285000)<br>libc.so.6 =&gt; /lib64/libc.so.6 (0x00007fb8efec4000)<br>libdl.so.2 =&gt; /lib64/libdl.so.2 (0x00007fb8efcc0000)<br>libz.so.1 =&gt; /lib64/libz.so.1 (0x00007fb8efaa9000)<br>liblzma.so.5 =&gt; /lib64/liblzma.so.5 (0x00007fb8ef884000)<br>/lib64/ld-linux-x86-64.so.2 (0x00007fb8f0dac000)<br>libpthread.so.0 =&gt; /lib64/libpthread.so.0 (0x00007fb8ef668000)[/blockquote]<br>执行以下语句可解决：<br>[blockquote]ln -s /usr/local/lib/libgeos_c.so.1 /lib64/libgeos_c.so.1<br>ln -s /usr/local/lib/libproj.so.9 /lib64/libproj.so.9[/blockquote]</p>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>[blockquote]postgis=# CREATE TABLE IF NOT EXISTS click (id int primary key,pt geometry);<br>postgis=# insert into click values (1,’POINT(30 40)’);<br>postgis=# select * from click;<br> id |                     pt<br>—-+——————————————–<br>  1 | 01010000000000000000003E400000000000004440 [/blockquote]</p>
+        <p><a href="http://www.postgresql.org/" target="_blank" rel="noopener">PostgreSQL</a>与MySQL类似，也是一款开源、免费数据库。<a href="http://www.postgis.org/" target="_blank" rel="noopener">PostGIS</a>是一款PostgreSQL插件，为PostgreSQL提供GIS支持。在开发页面点击热力图时，需要以(x,y)坐标方式存储点击位置，所以使用PostgreSQL+PostGIS存储点击数据。<br><a id="more"></a></p>
+<h2 id="安装PostgreSQL"><a href="#安装PostgreSQL" class="headerlink" title="安装PostgreSQL"></a>安装PostgreSQL</h2><blockquote>
+<p>groupadd postgres<br>useradd -g postgres postgres<br>passwd postgres<br>tar -zxvf postgresql-9.5alpha2.tar.gz<br>cd postgresql-9.5alpha2<br>./configure –prefix=/opt/postgresql<br>make<br>make install<br>cd /opt/<br>chown -R postgres:postgres postgresql<br>su - postgres<br>/opt/postgresql/bin/initdb -D /opt/postgresql/data<br>/opt/postgresql/bin/pg_ctl -D /opt/postgresql/data -l /opt/postgresql/logfile start</p>
+</blockquote>
+<p><img src="http://magicwt.com/wp-content/uploads/2015/11/110.png" alt="1"><br>使用“/opt/postgresql/bin/psql -U postgres”可以登录数据库，执行相关操作。</p>
+<h2 id="安装PostGIS"><a href="#安装PostGIS" class="headerlink" title="安装PostGIS"></a>安装PostGIS</h2><p>从源码安装，需要先安装GEOS，Proj.4，GDAL，LibXML2和JSON-C(<a href="http://postgis.net/source/)。" target="_blank" rel="noopener">http://postgis.net/source/)。</a></p>
+<blockquote>
+<p>tar -jxvf geos-3.5.0.tar.bz2<br>cd geos-3.5.0<br>./configure<br>make<br>make install<br>tar -zxvf proj.4-4.9.1.tar.gz<br>cd proj.4-4.9.1<br>./configure<br>make<br>make install<br>tar -zxvf gdal-1.10.0.tar.gz<br>cd gdal-1.10.0<br>./configure<br>make<br>make install<br>tar -zxvf libxml2-2.9.2.tar.gz<br>cd libxml2-2.9.2<br>./configure<br>make<br>make install<br>tar -zxvf json-c-json-c-0.11-20130402.tar.gz<br>cd json-c-json-c-0.11-20130402<br>./configure<br>make<br>make install<br>tar -zxvf postgis-2.1.8.tar.gz<br>cd postgis-2.1.8<br>./configure –with-pgconfig=/opt/postgresql/bin/pg_config<br>make<br>make install<br>su - postgres<br>/opt/postgresql/bin/createdb postgis<br>/opt/postgresql/bin/psql -d postgis -U postgres -f /opt/postgresql/share/contrib/postgis-2.1/postgis.sql</p>
+</blockquote>
+<p>执行上述语句有可能报错，打开日志文件/opt/postgresql/logfile，会有如下错误：</p>
+<blockquote>
+<p>ERROR: could not load library “/opt/postgresql/lib/postgis-2.1.so”: libgeos_c.so.1: cannot open shared object file: No such file or directory</p>
+</blockquote>
+<p>执行“ldd /opt/postgresql/lib/postgis-2.1.so”，缺少两个so文件：</p>
+<blockquote>
+<p>linux-vdso.so.1 =&gt; (0x00007fff3d1fe000)<br>libgeos_c.so.1 =&gt; not found<br>libproj.so.9 =&gt; not found<br>libjson-c.so.2 =&gt; /lib64/libjson-c.so.2 (0x00007fb8f08f1000)<br>libxml2.so.2 =&gt; /lib64/libxml2.so.2 (0x00007fb8f0588000)<br>libm.so.6 =&gt; /lib64/libm.so.6 (0x00007fb8f0285000)<br>libc.so.6 =&gt; /lib64/libc.so.6 (0x00007fb8efec4000)<br>libdl.so.2 =&gt; /lib64/libdl.so.2 (0x00007fb8efcc0000)<br>libz.so.1 =&gt; /lib64/libz.so.1 (0x00007fb8efaa9000)<br>liblzma.so.5 =&gt; /lib64/liblzma.so.5 (0x00007fb8ef884000)<br>/lib64/ld-linux-x86-64.so.2 (0x00007fb8f0dac000)<br>libpthread.so.0 =&gt; /lib64/libpthread.so.0 (0x00007fb8ef668000)</p>
+</blockquote>
+<p>执行以下语句可解决：</p>
+<blockquote>
+<p>ln -s /usr/local/lib/libgeos_c.so.1 /lib64/libgeos_c.so.1<br>ln -s /usr/local/lib/libproj.so.9 /lib64/libproj.so.9</p>
+</blockquote>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><blockquote>
+<p>postgis=# CREATE TABLE IF NOT EXISTS click (id int primary key,pt geometry);<br>postgis=# insert into click values (1,’POINT(30 40)’);<br>postgis=# select * from click;<br>id |                     pt<br>—-+——————————————–<br> 1 | 01010000000000000000003E400000000000004440</p>
+</blockquote>
 
       
     </div>
