@@ -79,19 +79,19 @@
 
 
 
-<meta name="description" content="Elasticsearch是一个基于Lucene的开源搜索引擎，使用Elasticsearch可以搭建分布式、可扩展、高可用的搜索集群，并提供RESTful API。Elasticsearch包含的数据结构及其与关系数据库的类比如下所示：| Elasticsearch | 关系数据库 || —— | —— || index | database || mapping | table || docu">
+<meta name="description" content="Elasticsearch是一个基于Lucene的开源搜索引擎，使用Elasticsearch可以搭建分布式、可扩展、高可用的搜索集群，并提供RESTful API。Elasticsearch包含的数据结构及其与关系数据库的类比如下所示：| Elasticsearch | 关系数据库 || - | - || index | database || mapping | table || docume">
 <meta name="keywords" content="Elasticsearch">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Elasticsearch简介与实践">
 <meta property="og:url" content="http://yoursite.com/2014/10/16/elasticsearch-e7-ae-80-e4-bb-8b-e4-b8-8e-e5-ae-9e-e8-b7-b5/index.html">
 <meta property="og:site_name" content="不积跬步，无以至千里">
-<meta property="og:description" content="Elasticsearch是一个基于Lucene的开源搜索引擎，使用Elasticsearch可以搭建分布式、可扩展、高可用的搜索集群，并提供RESTful API。Elasticsearch包含的数据结构及其与关系数据库的类比如下所示：| Elasticsearch | 关系数据库 || —— | —— || index | database || mapping | table || docu">
+<meta property="og:description" content="Elasticsearch是一个基于Lucene的开源搜索引擎，使用Elasticsearch可以搭建分布式、可扩展、高可用的搜索集群，并提供RESTful API。Elasticsearch包含的数据结构及其与关系数据库的类比如下所示：| Elasticsearch | 关系数据库 || - | - || index | database || mapping | table || docume">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://magicwt.com/wp-content/uploads/2014/10/1.png">
-<meta property="og:updated_time" content="2018-12-07T17:23:56.077Z">
+<meta property="og:updated_time" content="2018-12-07T17:28:21.255Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Elasticsearch简介与实践">
-<meta name="twitter:description" content="Elasticsearch是一个基于Lucene的开源搜索引擎，使用Elasticsearch可以搭建分布式、可扩展、高可用的搜索集群，并提供RESTful API。Elasticsearch包含的数据结构及其与关系数据库的类比如下所示：| Elasticsearch | 关系数据库 || —— | —— || index | database || mapping | table || docu">
+<meta name="twitter:description" content="Elasticsearch是一个基于Lucene的开源搜索引擎，使用Elasticsearch可以搭建分布式、可扩展、高可用的搜索集群，并提供RESTful API。Elasticsearch包含的数据结构及其与关系数据库的类比如下所示：| Elasticsearch | 关系数据库 || - | - || index | database || mapping | table || docume">
 <meta name="twitter:image" content="http://magicwt.com/wp-content/uploads/2014/10/1.png">
 
 
@@ -397,7 +397,8 @@
       
 
       
-        <p><a href="https://www.elastic.co/products/elasticsearch/" target="_blank" rel="noopener">Elasticsearch</a>是一个基于Lucene的开源搜索引擎，使用Elasticsearch可以搭建分布式、可扩展、高可用的搜索集群，并提供RESTful API。Elasticsearch包含的数据结构及其与关系数据库的类比如下所示：<br>| Elasticsearch | 关系数据库 |<br>| —— | —— |<br>| index | database |<br>| mapping | table |<br>| document | row |<br>| field | field |<br>工作中，我们使用Elasticsearch搭建搜索集群，对文章构建索引并提供文章搜索接口。使用了Elasticsearch中文发行版<a href="https://github.com/medcl/elasticsearch-rtf" target="_blank" rel="noopener">elasticsearch-rtf</a>，该版本针对中文集成了相关插件。从Github上下载压缩包<a href="https://github.com/medcl/elasticsearch-rtf/archive/1.0.0.tar.gz" target="_blank" rel="noopener">https://github.com/medcl/elasticsearch-rtf/archive/1.0.0.tar.gz</a> 并解压。<br><a id="more"></a></p>
+        <p><a href="https://www.elastic.co/products/elasticsearch/" target="_blank" rel="noopener">Elasticsearch</a>是一个基于Lucene的开源搜索引擎，使用Elasticsearch可以搭建分布式、可扩展、高可用的搜索集群，并提供RESTful API。Elasticsearch包含的数据结构及其与关系数据库的类比如下所示：<br>| Elasticsearch | 关系数据库 |<br>| - | - |<br>| index | database |<br>| mapping | table |<br>| document | row |<br>| field | field |</p>
+<p>工作中，我们使用Elasticsearch搭建搜索集群，对文章构建索引并提供文章搜索接口。使用了Elasticsearch中文发行版<a href="https://github.com/medcl/elasticsearch-rtf" target="_blank" rel="noopener">elasticsearch-rtf</a>，该版本针对中文集成了相关插件。从Github上下载压缩包<a href="https://github.com/medcl/elasticsearch-rtf/archive/1.0.0.tar.gz" target="_blank" rel="noopener">https://github.com/medcl/elasticsearch-rtf/archive/1.0.0.tar.gz</a> 并解压。<br><a id="more"></a></p>
 <h2 id="部署集群"><a href="#部署集群" class="headerlink" title="部署集群"></a>部署集群</h2><h3 id="集群配置"><a href="#集群配置" class="headerlink" title="集群配置"></a>集群配置</h3><p>修改config/elasticsearch.yml，设置集群名称：</p>
 <blockquote>
 <p>cluster.name: mp_production_es</p>
