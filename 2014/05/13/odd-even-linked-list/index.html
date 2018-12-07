@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="不积跬步，无以至千里">
 <meta property="og:description" content="Given a singly linked list, group all odd nodes together followed by the even nodes. Please note here we are talking about the node number and not the value in the nodes. You should try to do it in pl">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-12-04T10:47:42.322Z">
+<meta property="og:updated_time" content="2018-12-07T11:55:19.961Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Odd Even Linked List">
 <meta name="twitter:description" content="Given a singly linked list, group all odd nodes together followed by the even nodes. Please note here we are talking about the node number and not the value in the nodes. You should try to do it in pl">
@@ -398,35 +398,8 @@
         <p>Given a singly linked list, group all odd nodes together followed by the even nodes. Please note here we are talking about the node number and not the value in the nodes.</p>
 <p>You should try to do it in place. The program should run in O(1) space complexity and O(nodes) time complexity.</p>
 <p><strong>Example:</strong><br>Given <code>1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;NULL</code>,<br>return <code>1-&gt;3-&gt;5-&gt;2-&gt;4-&gt;NULL</code>.</p>
-<p><strong>Note:</strong><br>The relative order inside both the even and odd groups should remain as it was in the input.<br>The first node is considered odd, the second node even and so on …</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>给定一个单向链表，将奇数节点放在前面，偶数节点放在后面。所有奇数节点或偶数节点的相对位置保持不变。空间复杂度O(1)，时间复杂度O(n)。所有奇数节点或偶数节点的相对位置保持不变。</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p><pre title="Odd Even Linked List" class="lang:java decode:true ">/**</pre></p>
-<ul>
-<li>Definition for singly-linked list.</li>
-<li>public class ListNode {</li>
-<li>int val;</li>
-<li>ListNode next;</li>
-<li>ListNode(int x) { val = x; }</li>
-<li>}<br>*/<br>public class Solution {<br> public ListNode oddEvenList(ListNode head) {<pre><code>ListNode n1 = head;
-if (n1 == null) return head;
-ListNode head2 = head.next;
-ListNode n2 = head.next;
-while (n2 != null &amp;&amp; n2.next != null) {
-    n1.next = n2.next;
-    n1 = n2.next;
-    n2.next = n1.next;
-    n2 = n1.next;
-}
-n1.next = head2;
-return head;
-</code></pre> }<br>}<code>`</code><br>&nbsp;</li>
-</ul>
-<p>&nbsp;</p>
+<p><strong>Note:</strong><br>The relative order inside both the even and odd groups should remain as it was in the input.<br>The first node is considered odd, the second node even and so on …<br><a id="more"></a></p>
+<p>给定一个单向链表，将奇数节点放在前面，偶数节点放在后面。所有奇数节点或偶数节点的相对位置保持不变。空间复杂度O(1)，时间复杂度O(n)。所有奇数节点或偶数节点的相对位置保持不变。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * public class ListNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     ListNode next;</span></span><br><span class="line"><span class="comment"> *     ListNode(int x) &#123; val = x; &#125;</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">oddEvenList</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">        ListNode n1 = head;</span><br><span class="line">        <span class="keyword">if</span> (n1 == <span class="keyword">null</span>) <span class="keyword">return</span> head;</span><br><span class="line">        ListNode head2 = head.next;</span><br><span class="line">        ListNode n2 = head.next;</span><br><span class="line">        <span class="keyword">while</span> (n2 != <span class="keyword">null</span> &amp;&amp; n2.next != <span class="keyword">null</span>) &#123;</span><br><span class="line">            n1.next = n2.next;</span><br><span class="line">            n1 = n2.next;</span><br><span class="line">            n2.next = n1.next;</span><br><span class="line">            n2 = n1.next;</span><br><span class="line">        &#125;</span><br><span class="line">        n1.next = head2;</span><br><span class="line">        <span class="keyword">return</span> head;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
