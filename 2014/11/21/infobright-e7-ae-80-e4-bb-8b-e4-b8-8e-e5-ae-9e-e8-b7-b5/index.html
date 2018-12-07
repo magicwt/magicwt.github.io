@@ -79,24 +79,24 @@
 
 
 
-<meta name="description" content="infobright（https://www.infobright.org/）是一款基于MySQL的数据仓库，它采用列式存储，压缩比高，查询速度快。infobright提供社区（ICE）和商业(IEE)两个版本，ICE版本不支持DML，无法执行insert、update、delete和alter操作。在工作中，我们每天会通过hadoop统计出前一天全站每个页面的PV和UV，约有数几千万条记录。我们">
+<meta name="description" content="infobright是一款基于MySQL的数据仓库，它采用列式存储，压缩比高，查询速度快。infobright提供社区（ICE）和商业（IEE）两个版本，ICE版本不支持DML，无法执行insert、update、delete和alter操作。在工作中，我们每天会通过hadoop统计出前一天全站每个页面的PV和UV，约有数几千万条记录。我们使用infobright来存储这些数据并提供快速查询。">
 <meta name="keywords" content="MySQL,Infobright">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Infobright简介与实践">
 <meta property="og:url" content="http://yoursite.com/2014/11/21/infobright-e7-ae-80-e4-bb-8b-e4-b8-8e-e5-ae-9e-e8-b7-b5/index.html">
 <meta property="og:site_name" content="不积跬步，无以至千里">
-<meta property="og:description" content="infobright（https://www.infobright.org/）是一款基于MySQL的数据仓库，它采用列式存储，压缩比高，查询速度快。infobright提供社区（ICE）和商业(IEE)两个版本，ICE版本不支持DML，无法执行insert、update、delete和alter操作。在工作中，我们每天会通过hadoop统计出前一天全站每个页面的PV和UV，约有数几千万条记录。我们">
+<meta property="og:description" content="infobright是一款基于MySQL的数据仓库，它采用列式存储，压缩比高，查询速度快。infobright提供社区（ICE）和商业（IEE）两个版本，ICE版本不支持DML，无法执行insert、update、delete和alter操作。在工作中，我们每天会通过hadoop统计出前一天全站每个页面的PV和UV，约有数几千万条记录。我们使用infobright来存储这些数据并提供快速查询。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2014/12/1-300x76.png">
-<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2014/12/11-300x10.png">
-<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2014/12/12-300x22.png">
-<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2014/11/1-300x280.png">
-<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2014/12/14-300x83.png">
-<meta property="og:updated_time" content="2018-12-04T10:47:42.322Z">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2014/12/1.png">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2014/12/11.png">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2014/12/12.png">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2014/11/1.png">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2014/12/14.png">
+<meta property="og:updated_time" content="2018-12-07T11:24:05.090Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Infobright简介与实践">
-<meta name="twitter:description" content="infobright（https://www.infobright.org/）是一款基于MySQL的数据仓库，它采用列式存储，压缩比高，查询速度快。infobright提供社区（ICE）和商业(IEE)两个版本，ICE版本不支持DML，无法执行insert、update、delete和alter操作。在工作中，我们每天会通过hadoop统计出前一天全站每个页面的PV和UV，约有数几千万条记录。我们">
-<meta name="twitter:image" content="http://magicwt.com/wp-content/uploads/2014/12/1-300x76.png">
+<meta name="twitter:description" content="infobright是一款基于MySQL的数据仓库，它采用列式存储，压缩比高，查询速度快。infobright提供社区（ICE）和商业（IEE）两个版本，ICE版本不支持DML，无法执行insert、update、delete和alter操作。在工作中，我们每天会通过hadoop统计出前一天全站每个页面的PV和UV，约有数几千万条记录。我们使用infobright来存储这些数据并提供快速查询。">
+<meta name="twitter:image" content="http://magicwt.com/wp-content/uploads/2014/12/1.png">
 
 
 
@@ -401,12 +401,23 @@
       
 
       
-        <p>infobright（<a href="https://www.infobright.org/）是一款基于MySQL的数据仓库，它采用列式存储，压缩比高，查询速度快。" target="_blank" rel="noopener">https://www.infobright.org/）是一款基于MySQL的数据仓库，它采用列式存储，压缩比高，查询速度快。</a><br>infobright提供社区（ICE）和商业(IEE)两个版本，ICE版本不支持DML，无法执行insert、update、delete和alter操作。<br>在工作中，我们每天会通过hadoop统计出前一天全站每个页面的PV和UV，约有数几千万条记录。我们使用infobright来存储这些数据并提供快速查询。</p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>在Linux 64位系统中，下载infobright-4.0.7-0-x86_64-ice.rpm，执行以下语句进行安装：<br>[blockquote]rpm -ivh infobright-4.0.7-0-x86_64-ice.rpm[/blockquote]<br>infobright默认安装在/usr/local/infobright-4.0.7-x86_64，执行该目录下的postconfig.sh可以修改相关配置，默认配置如下所示：<br>[blockquote]Current config file: [/etc/my-ib.cnf]<br>Current brighthouse.ini file: [/usr/local/infobright-4.0.7-x86_64/data/brighthouse.ini]<br>Current datadir: [/usr/local/infobright-4.0.7-x86_64/data]<br>Current CacheFolder in brighthouse.ini file: [/usr/local/infobright-4.0.7-x86_64/cache]<br>Current socket: [/tmp/mysql-ib.sock]<br>Current port: [5029][/blockquote]<br>修改相关配置后，执行以下语句启动服务：<br>[blockquote]/usr/local/infobright-4.0.7-x86_64/bin/mysqld_safe &amp;[/blockquote]</p>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="创建表"><a href="#创建表" class="headerlink" title="创建表"></a>创建表</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">create table if not exists  url_stat_20141117 (  </span><br><span class="line">    refer_type int ,</span><br><span class="line">    id int ,  </span><br><span class="line">    id_type int ,</span><br><span class="line">    url_type int , </span><br><span class="line">    url text ,     </span><br><span class="line">    uv int ,  </span><br><span class="line">    pv int  </span><br><span class="line">);</span><br></pre></td></tr></table></figure>
-<p><a href="http://magicwt.com/wp-content/uploads/2014/12/1.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2014/12/1-300x76.png" alt="1"></a><br>infobright的存储引擎为BRIGHTHOUSE。</p>
-<h3 id="装载数据"><a href="#装载数据" class="headerlink" title="装载数据"></a>装载数据</h3><p>hadoop统计前一天全站每个页面的PV和UV，统计结果存储在文件中，每行包含7列，每列使用“\t”分隔，并且与表字段一一对应。<br><a href="http://magicwt.com/wp-content/uploads/2014/12/11.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2014/12/11-300x10.png" alt="1"></a><br><a href="http://magicwt.com/wp-content/uploads/2014/12/12.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2014/12/12-300x22.png" alt="1"></a><br>原始文件大小一般接近10G，使用以下语句加载数据至infobright：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">load data infile &apos;/opt/data/url_stat_20141117.txt&apos;  into table url_stat_20141117 fields terminated by &apos;\t&apos; enclosed by &apos;NULL&apos;  lines terminated by &apos;\n&apos;;</span><br></pre></td></tr></table></figure></p>
-<p>对于表url_stat_20141117，infobright在data目录下使用文件url_stat_20141117.frm保存schema信息，使用目录url_stat_20141117.bht保存数据。装载数据后，url_stat_20141117.bht中的文件总大小约为1.3G，与原始文件相比，压缩比接近10:1。表中记录约有7000多万条。<br><a href="http://magicwt.com/wp-content/uploads/2014/11/1.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2014/11/1-300x280.png" alt="1"></a><br><a href="http://magicwt.com/wp-content/uploads/2014/12/14.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2014/12/14-300x83.png" alt="1"></a></p>
+        <p><a href="https://www.infobright.org/" target="_blank" rel="noopener">infobright</a>是一款基于MySQL的数据仓库，它采用列式存储，压缩比高，查询速度快。<br>infobright提供社区（ICE）和商业（IEE）两个版本，ICE版本不支持DML，无法执行insert、update、delete和alter操作。<br>在工作中，我们每天会通过hadoop统计出前一天全站每个页面的PV和UV，约有数几千万条记录。我们使用infobright来存储这些数据并提供快速查询。<br><a id="more"></a></p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>在Linux 64位系统中，下载infobright-4.0.7-0-x86_64-ice.rpm，执行以下语句进行安装：</p>
+<blockquote>
+<p>rpm -ivh infobright-4.0.7-0-x86_64-ice.rpm</p>
+</blockquote>
+<p>infobright默认安装在/usr/local/infobright-4.0.7-x86_64，执行该目录下的postconfig.sh可以修改相关配置，默认配置如下所示：</p>
+<blockquote>
+<p>Current config file: [/etc/my-ib.cnf]<br>Current brighthouse.ini file: [/usr/local/infobright-4.0.7-x86_64/data/brighthouse.ini]<br>Current datadir: [/usr/local/infobright-4.0.7-x86_64/data]<br>Current CacheFolder in brighthouse.ini file: [/usr/local/infobright-4.0.7-x86_64/cache]<br>Current socket: [/tmp/mysql-ib.sock]<br>Current port: [5029]</p>
+</blockquote>
+<p>修改相关配置后，执行以下语句启动服务：</p>
+<blockquote>
+<p>/usr/local/infobright-4.0.7-x86_64/bin/mysqld_safe &amp;</p>
+</blockquote>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="创建表"><a href="#创建表" class="headerlink" title="创建表"></a>创建表</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> <span class="keyword">if</span> <span class="keyword">not</span> <span class="keyword">exists</span>  url_stat_20141117 (  </span><br><span class="line">    refer_type <span class="built_in">int</span> ,</span><br><span class="line">    <span class="keyword">id</span> <span class="built_in">int</span> ,  </span><br><span class="line">    id_type <span class="built_in">int</span> ,</span><br><span class="line">    url_type <span class="built_in">int</span> , </span><br><span class="line">    <span class="keyword">url</span> <span class="built_in">text</span> ,     </span><br><span class="line">    uv <span class="built_in">int</span> ,  </span><br><span class="line">    pv <span class="built_in">int</span>  </span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p><img src="http://magicwt.com/wp-content/uploads/2014/12/1.png" alt="1"><br>infobright的存储引擎为BRIGHTHOUSE。</p>
+<h3 id="装载数据"><a href="#装载数据" class="headerlink" title="装载数据"></a>装载数据</h3><p>hadoop统计前一天全站每个页面的PV和UV，统计结果存储在文件中，每行包含7列，每列使用“\t”分隔，并且与表字段一一对应。<br><img src="http://magicwt.com/wp-content/uploads/2014/12/11.png" alt="1"><br><img src="http://magicwt.com/wp-content/uploads/2014/12/12.png" alt="1"><br>原始文件大小一般接近10G，使用以下语句加载数据至infobright：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">load</span> <span class="keyword">data</span> <span class="keyword">infile</span> <span class="string">'/opt/data/url_stat_20141117.txt'</span>  <span class="keyword">into</span> <span class="keyword">table</span> url_stat_20141117 <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">'\t'</span> <span class="keyword">enclosed</span> <span class="keyword">by</span> <span class="string">'NULL'</span>  <span class="keyword">lines</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">'\n'</span>;</span><br></pre></td></tr></table></figure></p>
+<p>对于表url_stat_20141117，infobright在data目录下使用文件url_stat_20141117.frm保存schema信息，使用目录url_stat_20141117.bht保存数据。装载数据后，url_stat_20141117.bht中的文件总大小约为1.3G，与原始文件相比，压缩比接近10:1。表中记录约有7000多万条。<br><img src="http://magicwt.com/wp-content/uploads/2014/11/1.png" alt="1"><br><img src="http://magicwt.com/wp-content/uploads/2014/12/14.png" alt="1"></p>
 
       
     </div>

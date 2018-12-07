@@ -79,20 +79,20 @@
 
 
 
-<meta name="description" content="节选自Kafka官方文档（http://kafka.apache.org/documentation.html） 介绍Kafka是一个分布式、分区消息服务，基本概念包括：1）topic，消息流；2）producer，向topic发布消息；3）consumer，订阅topic，接收、处理消息；4）broker，Kafka集群由多个broker组成。 Topictopic包含多个分区，如图所示：每个分">
+<meta name="description" content="节选自Kafka官方文档（http://kafka.apache.org/documentation.html） 介绍Kafka是一个分布式、分区消息服务，基本概念包括：  topic，消息流； producer，向topic发布消息； consumer，订阅topic，接收、处理消息； broker，Kafka集群由多个broker组成。">
 <meta name="keywords" content="Kafka">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Kafka简介">
 <meta property="og:url" content="http://yoursite.com/2015/02/16/kafka-e7-ae-80-e4-bb-8b/index.html">
 <meta property="og:site_name" content="不积跬步，无以至千里">
-<meta property="og:description" content="节选自Kafka官方文档（http://kafka.apache.org/documentation.html） 介绍Kafka是一个分布式、分区消息服务，基本概念包括：1）topic，消息流；2）producer，向topic发布消息；3）consumer，订阅topic，接收、处理消息；4）broker，Kafka集群由多个broker组成。 Topictopic包含多个分区，如图所示：每个分">
+<meta property="og:description" content="节选自Kafka官方文档（http://kafka.apache.org/documentation.html） 介绍Kafka是一个分布式、分区消息服务，基本概念包括：  topic，消息流； producer，向topic发布消息； consumer，订阅topic，接收、处理消息； broker，Kafka集群由多个broker组成。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/02/producer_consumer.png">
-<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/02/log_anatomy-300x193.png">
-<meta property="og:updated_time" content="2018-12-04T10:47:42.322Z">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/02/log_anatomy.png">
+<meta property="og:updated_time" content="2018-12-07T11:20:41.384Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Kafka简介">
-<meta name="twitter:description" content="节选自Kafka官方文档（http://kafka.apache.org/documentation.html） 介绍Kafka是一个分布式、分区消息服务，基本概念包括：1）topic，消息流；2）producer，向topic发布消息；3）consumer，订阅topic，接收、处理消息；4）broker，Kafka集群由多个broker组成。 Topictopic包含多个分区，如图所示：每个分">
+<meta name="twitter:description" content="节选自Kafka官方文档（http://kafka.apache.org/documentation.html） 介绍Kafka是一个分布式、分区消息服务，基本概念包括：  topic，消息流； producer，向topic发布消息； consumer，订阅topic，接收、处理消息； broker，Kafka集群由多个broker组成。">
 <meta name="twitter:image" content="http://magicwt.com/wp-content/uploads/2015/02/producer_consumer.png">
 
 
@@ -399,8 +399,15 @@
 
       
         <p>节选自Kafka官方文档（<a href="http://kafka.apache.org/documentation.html）" target="_blank" rel="noopener">http://kafka.apache.org/documentation.html）</a></p>
-<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>Kafka是一个分布式、分区消息服务，基本概念包括：<br>1）topic，消息流；<br>2）producer，向topic发布消息；<br>3）consumer，订阅topic，接收、处理消息；<br>4）broker，Kafka集群由多个broker组成。<br><a href="http://magicwt.com/wp-content/uploads/2015/02/producer_consumer.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/02/producer_consumer.png" alt="producer_consumer"></a></p>
-<h3 id="Topic"><a href="#Topic" class="headerlink" title="Topic"></a>Topic</h3><p>topic包含多个分区，如图所示：<br><a href="http://magicwt.com/wp-content/uploads/2015/02/log_anatomy.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/02/log_anatomy-300x193.png" alt="log_anatomy"></a><br>每个分区是一个有序的消息队列，消息按照从旧到新的顺序排列，新的消息不断追加到尾部。每个消息使用递增的id（offset）来唯一标识。<br>消息在Kafka中会被保存一段时间，而不管它是否被消费，这个保存时间可以设置。如果保存时间设置为2天，那么在2天内，消息都可以被消费，2天后消息将被删除。<br>每个消费者需要保存当前所消费消息在分区中的位置（offset）。通常情况下，消费者在消费消息时递增offset表示消息已被消费。另外，消费者也可以灵活地设置offset，例如，设置到较旧的offset，重复消费已消费过的消息。</p>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>Kafka是一个分布式、分区消息服务，基本概念包括：</p>
+<ol>
+<li>topic，消息流；</li>
+<li>producer，向topic发布消息；</li>
+<li>consumer，订阅topic，接收、处理消息；</li>
+<li>broker，Kafka集群由多个broker组成。</li>
+</ol>
+<p><img src="http://magicwt.com/wp-content/uploads/2015/02/producer_consumer.png" alt="producer_consumer"><br><a id="more"></a></p>
+<h3 id="Topic"><a href="#Topic" class="headerlink" title="Topic"></a>Topic</h3><p>topic包含多个分区，如图所示：<br><img src="http://magicwt.com/wp-content/uploads/2015/02/log_anatomy.png" alt="log_anatomy"><br>每个分区是一个有序的消息队列，消息按照从旧到新的顺序排列，新的消息不断追加到尾部。每个消息使用递增的id（offset）来唯一标识。<br>消息在Kafka中会被保存一段时间，而不管它是否被消费，这个保存时间可以设置。如果保存时间设置为2天，那么在2天内，消息都可以被消费，2天后消息将被删除。<br>每个消费者需要保存当前所消费消息在分区中的位置（offset）。通常情况下，消费者在消费消息时递增offset表示消息已被消费。另外，消费者也可以灵活地设置offset，例如，设置到较旧的offset，重复消费已消费过的消息。</p>
 
       
     </div>

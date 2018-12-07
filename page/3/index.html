@@ -739,10 +739,7 @@
 
       
         
-          
-          在需要进行日期与字符串相互转换的类中，经常会声明一个静态的SimpleDateFormat变量，如下所示：12private static SimpleDateFormat sdf = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;)
-然后就
-          ...
+          <p>在需要进行日期与字符串相互转换的类中，经常会声明一个静态的SimpleDateFormat变量，如下所示：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> SimpleDateFormat sdf = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd HH:mm:ss"</span>)</span><br></pre></td></tr></table></figure></p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2015/08/05/simpledateformat-e7-ba-bf-e7-a8-8b-e5-ae-89-e5-85-a8-e9-97-ae-e9-a2-98/#more" rel="contents">
@@ -909,9 +906,7 @@
 
       
         
-          
-          简介OpenResty（亦称ngx_openresty，http://openresty.org/）是一个基于Nginx的 Web 应用服务器。它集成了Nginx内核、LuaJIT、Lua语言实现的库以及许多第三方的Nginx模块。开发者可以使用Lua语言对Nginx中的C模块和Lua模块进行脚本编
-          ...
+          <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><a href="http://openresty.org/" target="_blank" rel="noopener">OpenResty</a>（亦称ngx_openresty）是一个基于Nginx的 Web 应用服务器。它集成了Nginx内核、LuaJIT、Lua语言实现的库以及许多第三方的Nginx模块。开发者可以使用Lua语言对Nginx中的C模块和Lua模块进行脚本编程，从而构建高性能的Web应用。<br>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2015/04/20/openresty-e7-ae-80-e4-bb-8b-e4-b8-8e-e5-ae-9e-e8-b7-b5/#more" rel="contents">
@@ -921,7 +916,7 @@
           <!--/noindex-->
         
       
-    </div>
+    </p></div>
     
     
     
@@ -1245,11 +1240,12 @@
 
       
         
-          <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>MyBatis（前身是iBATIS）是一个基于Java的持久层框架，而MyBatis Generator (MBG，<a href="http://www.mybatis.org/generator/)是一个根据数据库表结构为MyBatis和iBATIS逆向生成相关Java代码和配置文件的工具。" target="_blank" rel="noopener">http://www.mybatis.org/generator/)是一个根据数据库表结构为MyBatis和iBATIS逆向生成相关Java代码和配置文件的工具。</a><br>MBG可以生成：</p>
+          <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>MyBatis（前身是iBATIS）是一个基于Java的持久层框架，而<a href="http://www.mybatis.org/generator/" target="_blank" rel="noopener">MyBatis Generator （MBG）</a>是一个根据数据库表结构为MyBatis和iBATIS逆向生成相关Java代码和配置文件的工具。<br>MBG可以生成：</p>
 <ol>
 <li>Java POJO，与数据库表结构对应；</li>
 <li>MyBatis和iBATIS规范的SQL映射配置文件，每个配置文件包含对一个表实现简单CRUD操作的SQL语句；</li>
-<li>MyBatis和iBATIS规范的Java客户端接口，提供对数据的增、删、查、改方法。
+<li>MyBatis和iBATIS规范的Java客户端接口，提供对数据的增、删、查、改方法。</li>
+</ol>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2015/04/12/e4-bd-bf-e7-94-a8mybatis-generator-e7-94-9f-e6-88-90-e4-bb-a3-e7-a0-81/#more" rel="contents">
@@ -1259,7 +1255,7 @@
           <!--/noindex-->
         
       
-    </li></ol></div>
+    </div>
     
     
     
@@ -1586,10 +1582,15 @@
 
       
         
-          
-          节选自Kafka官方文档（http://kafka.apache.org/documentation.html）
-介绍Kafka是一个分布式、分区消息服务，基本概念包括：1）topic，消息流；2）producer，向topic发布消息；3）consumer，订阅topic，接收、处理消息；4）br
-          ...
+          <p>节选自Kafka官方文档（<a href="http://kafka.apache.org/documentation.html）" target="_blank" rel="noopener">http://kafka.apache.org/documentation.html）</a></p>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>Kafka是一个分布式、分区消息服务，基本概念包括：</p>
+<ol>
+<li>topic，消息流；</li>
+<li>producer，向topic发布消息；</li>
+<li>consumer，订阅topic，接收、处理消息；</li>
+<li>broker，Kafka集群由多个broker组成。</li>
+</ol>
+<p><img src="http://magicwt.com/wp-content/uploads/2015/02/producer_consumer.png" alt="producer_consumer"><br>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2015/02/16/kafka-e7-ae-80-e4-bb-8b/#more" rel="contents">
@@ -1599,7 +1600,7 @@
           <!--/noindex-->
         
       
-    </div>
+    </p></div>
     
     
     
@@ -1756,9 +1757,7 @@
 
       
         
-          
-          infobright（https://www.infobright.org/）是一款基于MySQL的数据仓库，它采用列式存储，压缩比高，查询速度快。infobright提供社区（ICE）和商业(IEE)两个版本，ICE版本不支持DML，无法执行insert、update、delete和alter操作
-          ...
+          <p><a href="https://www.infobright.org/" target="_blank" rel="noopener">infobright</a>是一款基于MySQL的数据仓库，它采用列式存储，压缩比高，查询速度快。<br>infobright提供社区（ICE）和商业（IEE）两个版本，ICE版本不支持DML，无法执行insert、update、delete和alter操作。<br>在工作中，我们每天会通过hadoop统计出前一天全站每个页面的PV和UV，约有数几千万条记录。我们使用infobright来存储这些数据并提供快速查询。<br>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2014/11/21/infobright-e7-ae-80-e4-bb-8b-e4-b8-8e-e5-ae-9e-e8-b7-b5/#more" rel="contents">
@@ -1768,7 +1767,7 @@
           <!--/noindex-->
         
       
-    </div>
+    </p></div>
     
     
     
@@ -1925,7 +1924,7 @@
 
       
         
-          <p>GraphicsMagick(<a href="http://www.graphicsmagick.org/)被称为图片处理的瑞士军刀，它的功能包括：" target="_blank" rel="noopener">http://www.graphicsmagick.org/)被称为图片处理的瑞士军刀，它的功能包括：</a></p>
+          <p><a href="http://www.graphicsmagick.org/" target="_blank" rel="noopener">GraphicsMagick</a>被称为图片处理的瑞士军刀，它的功能包括：</p>
 <ul>
 <li>Convert an image from one format to another (e.g. TIFF to JPEG)</li>
 <li>Resize, rotate, sharpen, color reduce, or add special effects to an image</li>
@@ -1936,7 +1935,8 @@
 <li>Create a composite image by combining several separate images</li>
 <li>Draw shapes or text on an image</li>
 <li>Decorate an image with a border or frame</li>
-<li>Describe the format and characteristics of an image
+<li>Describe the format and characteristics of an image</li>
+</ul>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2014/11/10/e4-bd-bf-e7-94-a8graphicsmagickim4java-e5-a4-84-e7-90-86-e5-9b-be-e7-89-87/#more" rel="contents">
@@ -1946,7 +1946,7 @@
           <!--/noindex-->
         
       
-    </li></ul></div>
+    </div>
     
     
     
