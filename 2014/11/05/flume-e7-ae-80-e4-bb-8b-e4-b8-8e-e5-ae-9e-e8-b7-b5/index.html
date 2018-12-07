@@ -79,20 +79,20 @@
 
 
 
-<meta name="description" content="Flume是一个分布式、高可用日志收集系统，可以收集不同来源的日志并集中存储。目前Flume是Apache顶级项目。 架构数据流模型Flume Agent是一个JVM进程，包含三个基本组件：1）Source，用于从外部数据源获取数据；2）Channel，用于暂存数据；3）Sink，用于向目标发送数据。 SourceFlume支持以下Source：1）Avro Source，侦听Avro端口，接收外">
+<meta name="description" content="Flume是一个分布式、高可用日志收集系统，可以收集不同来源的日志并集中存储。目前Flume是Apache顶级项目。 架构数据流模型Flume Agent是一个JVM进程，包含三个基本组件：  Source，用于从外部数据源获取数据； Channel，用于暂存数据； Sink，用于向目标发送数据。">
 <meta name="keywords" content="Flume">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Flume简介与实践">
 <meta property="og:url" content="http://yoursite.com/2014/11/05/flume-e7-ae-80-e4-bb-8b-e4-b8-8e-e5-ae-9e-e8-b7-b5/index.html">
 <meta property="og:site_name" content="不积跬步，无以至千里">
-<meta property="og:description" content="Flume是一个分布式、高可用日志收集系统，可以收集不同来源的日志并集中存储。目前Flume是Apache顶级项目。 架构数据流模型Flume Agent是一个JVM进程，包含三个基本组件：1）Source，用于从外部数据源获取数据；2）Channel，用于暂存数据；3）Sink，用于向目标发送数据。 SourceFlume支持以下Source：1）Avro Source，侦听Avro端口，接收外">
+<meta property="og:description" content="Flume是一个分布式、高可用日志收集系统，可以收集不同来源的日志并集中存储。目前Flume是Apache顶级项目。 架构数据流模型Flume Agent是一个JVM进程，包含三个基本组件：  Source，用于从外部数据源获取数据； Channel，用于暂存数据； Sink，用于向目标发送数据。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/11/UserGuide_image00-300x107.png">
-<meta property="og:updated_time" content="2018-12-04T10:47:42.322Z">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/11/UserGuide_image00.png">
+<meta property="og:updated_time" content="2018-12-07T11:34:10.556Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Flume简介与实践">
-<meta name="twitter:description" content="Flume是一个分布式、高可用日志收集系统，可以收集不同来源的日志并集中存储。目前Flume是Apache顶级项目。 架构数据流模型Flume Agent是一个JVM进程，包含三个基本组件：1）Source，用于从外部数据源获取数据；2）Channel，用于暂存数据；3）Sink，用于向目标发送数据。 SourceFlume支持以下Source：1）Avro Source，侦听Avro端口，接收外">
-<meta name="twitter:image" content="http://magicwt.com/wp-content/uploads/2015/11/UserGuide_image00-300x107.png">
+<meta name="twitter:description" content="Flume是一个分布式、高可用日志收集系统，可以收集不同来源的日志并集中存储。目前Flume是Apache顶级项目。 架构数据流模型Flume Agent是一个JVM进程，包含三个基本组件：  Source，用于从外部数据源获取数据； Channel，用于暂存数据； Sink，用于向目标发送数据。">
+<meta name="twitter:image" content="http://magicwt.com/wp-content/uploads/2015/11/UserGuide_image00.png">
 
 
 
@@ -398,17 +398,59 @@
 
       
         <p>Flume是一个分布式、高可用日志收集系统，可以收集不同来源的日志并集中存储。目前Flume是Apache顶级项目。</p>
-<h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><h3 id="数据流模型"><a href="#数据流模型" class="headerlink" title="数据流模型"></a>数据流模型</h3><p><a href="http://magicwt.com/wp-content/uploads/2015/11/UserGuide_image00.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/11/UserGuide_image00-300x107.png" alt="UserGuide_image00"></a><br>Flume Agent是一个JVM进程，包含三个基本组件：<br>1）Source，用于从外部数据源获取数据；<br>2）Channel，用于暂存数据；<br>3）Sink，用于向目标发送数据。</p>
-<h3 id="Source"><a href="#Source" class="headerlink" title="Source"></a>Source</h3><p>Flume支持以下Source：<br>1）Avro Source，侦听Avro端口，接收外部Avro客户端发送的数据；<br>2）Thrift Source，侦听Thrift端口，接收外部Thrift客户端发送的数据；<br>3）Exec Source，执行Unix命令，并将标准输出作为外部数据源，例如，可以使用“cat [named pipe]”或“tail -F [file]”命令持续地输出数据作为外部数据源；<br>4）JMS Source，从JMS消息队列或主题中读取消息作为外部数据源；<br>5）Spooling Directory Source，将目录下的文件作为外部数据源，当有新文件加入目录时，则读取文件中的数据；<br>6）Kafka Source，从Kafka topic中读取消息作为外部数据源；<br>7）NetCat Source，侦听某个端口，按行接收数据作为外部数据源；<br>8）Sequence Generator Source，产生从0开始，按1递增的序列作为外部数据源，主要用于测试；<br>9）Syslog Sources，读取syslog作为外部数据源；<br>10）HTTP Source，将HTTP GET和POST请求作为外部数据源；<br>11）Stress Source，内部产生数据用于压力测试；<br>12）Legacy Sources，接收Flume 0.9.4发送的数据并作适配，作为Flume 1.x的外部数据源；<br>13）Scribe Source，适配Scribe，将Scribe作为外部数据源。</p>
-<h3 id="Channel"><a href="#Channel" class="headerlink" title="Channel"></a>Channel</h3><p>Flume支持以下Channel：<br>1）Memory Channel，将数据暂存在内存队列中；<br>2）JDBC Channel，将数据暂存在数据库中；<br>3）Kafka Channel，将数据暂存在Kafka集群中；<br>4）File Channel，将数据暂存在文件中；<br>5）Spillable Memory Channel，同时使用内存和文件暂存数据。</p>
-<h3 id="Skin"><a href="#Skin" class="headerlink" title="Skin"></a>Skin</h3><p>Flume支持以下Sink：<br>1）HDFS Sink，将数据发送至HDFS；<br>2）Hive Sink，将数据发送至Hive；<br>3）Logger Sink，以日志方式输出数据，主要用于测试；<br>4）Avro Sink，以Avro方式将数据发送到其他的Avro服务器端；<br>5）Thrift Sink，以Thrift方式将数据发送到其他的Thrift服务器端；<br>6）File Roll Sink，将数据发送至本地文件；<br>7）Null Sink，不再发送数据；<br>8）HBaseSinks，将数据发送至HBase；<br>9）MorphlineSolrSink，将数据发送至Solr；<br>10）ElasticSearchSink，将数据发送至ElasticSearch；<br>11）Kafka Sink，将数据发送至Kafka Topic。</p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>直接下载和解压可执行包：<br>[blockquote]tar -zxvf apache-flume-1.5.0.1-bin.tar.gz<br>ln -s apache-flume-1.5.0.1-bin flume[/blockquote]</p>
-<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>以tail -F方式读取nginx日志，使用内存暂存并发送到Kafka topic，配置mp_pv_producer.properties如下：<br>[blockquote]#agent section<br>mp_pv_producer.sources=s<br>mp_pv_producer.channels=c<br>mp_pv_producer.sinks=r</p>
-<p>#source section<br>mp_pv_producer.sources.s.type=exec<br>mp_pv_producer.sources.s.channels=c<br>mp_pv_producer.sources.s.restart=true<br>mp_pv_producer.sources.s.restartThrottle=500<br>mp_pv_producer.sources.s.command=tail -f /data/logs/nginx/access.log</p>
-<h1 id="Each-sink’s-type-must-be-defined"><a href="#Each-sink’s-type-must-be-defined" class="headerlink" title="Each sink’s type must be defined"></a>Each sink’s type must be defined</h1><p>mp_pv_producer.sinks.r.type=org.apache.flume.plugins.KafkaSink<br>mp_pv_producer.sinks.r.metadata.broker.list=10.16.3.97:9092,10.16.3.172:9092<br>mp_pv_producer.sinks.r.partition.key=0<br>mp_pv_producer.sinks.r.partitioner.class=org.apache.flume.plugins.SinglePartition<br>mp_pv_producer.sinks.r.serializer.class=kafka.serializer.StringEncoder<br>mp_pv_producer.sinks.r.request.required.acks=0<br>mp_pv_producer.sinks.r.max.message.size=1000000<br>mp_pv_producer.sinks.r.producer.type=sync<br>mp_pv_producer.sinks.r.custom.encoding=UTF-8<br>mp_pv_producer.sinks.r.custom.topic.name=mp_pv</p>
-<p>#Specify the channel the sink should use<br>mp_pv_producer.sinks.r.channel=c</p>
-<h1 id="Each-channel’s-type-is-defined"><a href="#Each-channel’s-type-is-defined" class="headerlink" title="Each channel’s type is defined."></a>Each channel’s type is defined.</h1><p>mp_pv_producer.channels.c.type=memory<br>mp_pv_producer.channels.c.capacity=1000[/blockquote]</p>
-<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><p>[blockquote]nohup bin/flume-ng agent –conf conf –conf-file conf/mp_pv_producer.properties –name mp_pv_producer -Dflume.root.logger=INFO,console &amp;[/blockquote]</p>
+<h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><h3 id="数据流模型"><a href="#数据流模型" class="headerlink" title="数据流模型"></a>数据流模型</h3><p><img src="http://magicwt.com/wp-content/uploads/2015/11/UserGuide_image00.png" alt="UserGuide_image00"><br>Flume Agent是一个JVM进程，包含三个基本组件：</p>
+<ol>
+<li>Source，用于从外部数据源获取数据；</li>
+<li>Channel，用于暂存数据；</li>
+<li>Sink，用于向目标发送数据。</li>
+</ol>
+<a id="more"></a>
+<h3 id="Source"><a href="#Source" class="headerlink" title="Source"></a>Source</h3><p>Flume支持以下Source：</p>
+<ol>
+<li>Avro Source，侦听Avro端口，接收外部Avro客户端发送的数据；</li>
+<li>Thrift Source，侦听Thrift端口，接收外部Thrift客户端发送的数据；</li>
+<li>Exec Source，执行Unix命令，并将标准输出作为外部数据源，例如，可以使用“cat [named pipe]”或“tail -F [file]”命令持续地输出数据作为外部数据源；</li>
+<li>JMS Source，从JMS消息队列或主题中读取消息作为外部数据源；</li>
+<li>Spooling Directory Source，将目录下的文件作为外部数据源，当有新文件加入目录时，则读取文件中的数据；</li>
+<li>Kafka Source，从Kafka topic中读取消息作为外部数据源；</li>
+<li>NetCat Source，侦听某个端口，按行接收数据作为外部数据源；</li>
+<li>Sequence Generator Source，产生从0开始，按1递增的序列作为外部数据源，主要用于测试；</li>
+<li>Syslog Sources，读取syslog作为外部数据源；</li>
+<li>HTTP Source，将HTTP GET和POST请求作为外部数据源；</li>
+<li>Stress Source，内部产生数据用于压力测试；</li>
+<li>Legacy Sources，接收Flume 0.9.4发送的数据并作适配，作为Flume 1.x的外部数据源；</li>
+<li>Scribe Source，适配Scribe，将Scribe作为外部数据源。</li>
+</ol>
+<h3 id="Channel"><a href="#Channel" class="headerlink" title="Channel"></a>Channel</h3><p>Flume支持以下Channel：</p>
+<ol>
+<li>Memory Channel，将数据暂存在内存队列中；</li>
+<li>JDBC Channel，将数据暂存在数据库中；</li>
+<li>Kafka Channel，将数据暂存在Kafka集群中；</li>
+<li>File Channel，将数据暂存在文件中；</li>
+<li>Spillable Memory Channel，同时使用内存和文件暂存数据。</li>
+</ol>
+<h3 id="Skin"><a href="#Skin" class="headerlink" title="Skin"></a>Skin</h3><p>Flume支持以下Sink：</p>
+<ol>
+<li>HDFS Sink，将数据发送至HDFS；</li>
+<li>Hive Sink，将数据发送至Hive；</li>
+<li>Logger Sink，以日志方式输出数据，主要用于测试；</li>
+<li>Avro Sink，以Avro方式将数据发送到其他的Avro服务器端；</li>
+<li>Thrift Sink，以Thrift方式将数据发送到其他的Thrift服务器端；</li>
+<li>File Roll Sink，将数据发送至本地文件；</li>
+<li>Null Sink，不再发送数据；</li>
+<li>HBaseSinks，将数据发送至HBase；</li>
+<li>MorphlineSolrSink，将数据发送至Solr；</li>
+<li>ElasticSearchSink，将数据发送至ElasticSearch；</li>
+<li>Kafka Sink，将数据发送至Kafka Topic。</li>
+</ol>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>直接下载和解压可执行包：</p>
+<blockquote>
+<p>tar -zxvf apache-flume-1.5.0.1-bin.tar.gz<br>ln -s apache-flume-1.5.0.1-bin flume</p>
+</blockquote>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>以tail -F方式读取nginx日志，使用内存暂存并发送到Kafka topic，配置mp_pv_producer.properties如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">#agent section</span><br><span class="line">mp_pv_producer.sources=s</span><br><span class="line">mp_pv_producer.channels=c</span><br><span class="line">mp_pv_producer.sinks=r</span><br><span class="line"></span><br><span class="line">#source section</span><br><span class="line">mp_pv_producer.sources.s.type=exec</span><br><span class="line">mp_pv_producer.sources.s.channels=c</span><br><span class="line">mp_pv_producer.sources.s.restart=true</span><br><span class="line">mp_pv_producer.sources.s.restartThrottle=500</span><br><span class="line">mp_pv_producer.sources.s.command=tail -f /data/logs/nginx/access.log</span><br><span class="line"></span><br><span class="line"># Each sink&apos;s type must be defined</span><br><span class="line">mp_pv_producer.sinks.r.type=org.apache.flume.plugins.KafkaSink</span><br><span class="line">mp_pv_producer.sinks.r.metadata.broker.list=10.16.3.97:9092,10.16.3.172:9092</span><br><span class="line">mp_pv_producer.sinks.r.partition.key=0</span><br><span class="line">mp_pv_producer.sinks.r.partitioner.class=org.apache.flume.plugins.SinglePartition</span><br><span class="line">mp_pv_producer.sinks.r.serializer.class=kafka.serializer.StringEncoder</span><br><span class="line">mp_pv_producer.sinks.r.request.required.acks=0</span><br><span class="line">mp_pv_producer.sinks.r.max.message.size=1000000</span><br><span class="line">mp_pv_producer.sinks.r.producer.type=sync</span><br><span class="line">mp_pv_producer.sinks.r.custom.encoding=UTF-8</span><br><span class="line">mp_pv_producer.sinks.r.custom.topic.name=mp_pv</span><br><span class="line">#Specify the channel the sink should use</span><br><span class="line">mp_pv_producer.sinks.r.channel=c</span><br><span class="line"></span><br><span class="line"># Each channel&apos;s type is defined.</span><br><span class="line">mp_pv_producer.channels.c.type=memory</span><br><span class="line">mp_pv_producer.channels.c.capacity=1000</span><br></pre></td></tr></table></figure></p>
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><blockquote>
+<p>nohup bin/flume-ng agent –conf conf –conf-file conf/mp_pv_producer.properties –name mp_pv_producer -Dflume.root.logger=INFO,console &amp;</p>
+</blockquote>
 
       
     </div>
@@ -604,7 +646,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#架构"><span class="nav-number">1.</span> <span class="nav-text">架构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据流模型"><span class="nav-number">1.1.</span> <span class="nav-text">数据流模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Source"><span class="nav-number">1.2.</span> <span class="nav-text">Source</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Channel"><span class="nav-number">1.3.</span> <span class="nav-text">Channel</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Skin"><span class="nav-number">1.4.</span> <span class="nav-text">Skin</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">2.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置"><span class="nav-number">3.</span> <span class="nav-text">配置</span></a></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#Each-sink’s-type-must-be-defined"><span class="nav-number"></span> <span class="nav-text">Each sink’s type must be defined</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Each-channel’s-type-is-defined"><span class="nav-number"></span> <span class="nav-text">Each channel’s type is defined.</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#启动"><span class="nav-number">1.</span> <span class="nav-text">启动</span></a></li></ol></li></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#架构"><span class="nav-number">1.</span> <span class="nav-text">架构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据流模型"><span class="nav-number">1.1.</span> <span class="nav-text">数据流模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Source"><span class="nav-number">1.2.</span> <span class="nav-text">Source</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Channel"><span class="nav-number">1.3.</span> <span class="nav-text">Channel</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Skin"><span class="nav-number">1.4.</span> <span class="nav-text">Skin</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">2.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置"><span class="nav-number">3.</span> <span class="nav-text">配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动"><span class="nav-number">4.</span> <span class="nav-text">启动</span></a></li></ol></div>
             
 
           </div>
