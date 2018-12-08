@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="今天在修改系统的一个Action类时（系统架构是struts2+spring+hibernate），报了以下错误：JSONWriter can not access a member of class org.springframework.aop.TruePointcut with modifiers “public”后来发现是由于我在该Action类中新增加了一个对象属性，并添加了get和se">
+<meta name="description" content="今天在修改系统的一个Action类时（系统架构是struts2+spring+hibernate），报了以下错误：  JSONWriter can not access a member of class org.springframework.aop.TruePointcut with modifiers “public”">
 <meta name="keywords" content="Spring,Hibernate,Struts">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SSH错误解决">
 <meta property="og:url" content="http://yoursite.com/2013/08/22/ssh-e9-94-99-e8-af-af-e8-a7-a3-e5-86-b3/index.html">
 <meta property="og:site_name" content="不积跬步，无以至千里">
-<meta property="og:description" content="今天在修改系统的一个Action类时（系统架构是struts2+spring+hibernate），报了以下错误：JSONWriter can not access a member of class org.springframework.aop.TruePointcut with modifiers “public”后来发现是由于我在该Action类中新增加了一个对象属性，并添加了get和se">
+<meta property="og:description" content="今天在修改系统的一个Action类时（系统架构是struts2+spring+hibernate），报了以下错误：  JSONWriter can not access a member of class org.springframework.aop.TruePointcut with modifiers “public”">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-12-04T10:47:42.320Z">
+<meta property="og:updated_time" content="2018-12-08T06:07:05.725Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SSH错误解决">
-<meta name="twitter:description" content="今天在修改系统的一个Action类时（系统架构是struts2+spring+hibernate），报了以下错误：JSONWriter can not access a member of class org.springframework.aop.TruePointcut with modifiers “public”后来发现是由于我在该Action类中新增加了一个对象属性，并添加了get和se">
+<meta name="twitter:description" content="今天在修改系统的一个Action类时（系统架构是struts2+spring+hibernate），报了以下错误：  JSONWriter can not access a member of class org.springframework.aop.TruePointcut with modifiers “public”">
 
 
 
@@ -395,7 +395,17 @@
       
 
       
-        <p>今天在修改系统的一个Action类时（系统架构是struts2+spring+hibernate），报了以下错误：<br>JSONWriter can not access a member of class org.springframework.aop.TruePointcut with modifiers “public”<br>后来发现是由于我在该Action类中新增加了一个对象属性，并添加了get和set方法，通过spring注入，但由于该Action类使用了struts2支持的json格式字符串返回，会将我新增加的这个对象属性也添加到返回的json字符串，导致struts2报错，该错误的解决方法有2个：<br>1）在新增对象属性的get方法上添加标注“@JSON(serialize=false)”；<br>2）去掉新增对象属性的get方法；<br>这样，在返回json格式字符串时，不会再添加这个对象属性，也就不会再报错了。</p>
+        <p>今天在修改系统的一个Action类时（系统架构是struts2+spring+hibernate），报了以下错误：</p>
+<blockquote>
+<p>JSONWriter can not access a member of class org.springframework.aop.TruePointcut with modifiers “public”</p>
+</blockquote>
+<a id="more"></a>
+<p>后来发现是由于我在该Action类中新增加了一个对象属性，并添加了get和set方法，通过spring注入，但由于该Action类使用了struts2支持的json格式字符串返回，会将我新增加的这个对象属性也添加到返回的json字符串，导致struts2报错，该错误的解决方法有2个：</p>
+<ol>
+<li>在新增对象属性的get方法上添加标注“@JSON(serialize=false)”；</li>
+<li>去掉新增对象属性的get方法；</li>
+</ol>
+<p>这样，在返回json格式字符串时，不会再添加这个对象属性，也就不会再报错了。</p>
 
       
     </div>

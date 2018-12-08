@@ -394,10 +394,7 @@
 
       
         
-          
-          最近在做系统改造的时候，还遇到了一个问题是，如何集成Spring Struts2和Hessian。
-当配置Spring和Struts2的时候，在web.xml做了如下配置：12345678910&lt;context-param&gt;   &lt;param-name&gt;contextConf
-          ...
+          <p>最近在做系统改造的时候，还遇到了一个问题是，如何集成Spring Struts2和Hessian。<br>当配置Spring和Struts2的时候，在web.xml做了如下配置：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">context-param</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>contextConfigLocation<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>classpath:/spring/*.xml<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">context-param</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">listener</span>&gt;</span></span><br><span class="line">  	<span class="tag">&lt;<span class="name">listener-class</span>&gt;</span></span><br><span class="line">    org.springframework.web.context.ContextLoaderListener</span><br><span class="line">  <span class="tag">&lt;/<span class="name">listener-class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">listener</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2013/09/07/spring-struts2-hessian-e9-9b-86-e6-88-90-e7-9a-84-e4-b8-80-e4-b8-aa-e9-97-ae-e9-a2-98/#more" rel="contents">
@@ -564,9 +561,7 @@
 
       
         
-          
-          对于本地jar包，如果要添加到maven依赖中，可以使用如下方式：12345678&lt;dependency&gt;    &lt;groupId&gt;groupId&lt;/groupId&gt;    &lt;artifactId&gt;artifactId&lt;/artifactId&g
-          ...
+          <p>对于本地jar包，如果要添加到maven依赖中，可以使用如下方式：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>groupId<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>artifactId<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>version<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">scope</span>&gt;</span>system<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">systemPath</span>&gt;</span>本地jar包路径<span class="tag">&lt;/<span class="name">systemPath</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2013/09/05/e6-9c-ac-e5-9c-b0jar-e5-8c-85-e6-b7-bb-e5-8a-a0-e5-88-b0maven-e4-be-9d-e8-b5-96-e4-b8-ad/#more" rel="contents">
@@ -733,9 +728,10 @@
 
       
         
-          
-          今天在修改系统的一个Action类时（系统架构是struts2+spring+hibernate），报了以下错误：JSONWriter can not access a member of class org.springframework.aop.TruePointcut with modifie
-          ...
+          <p>今天在修改系统的一个Action类时（系统架构是struts2+spring+hibernate），报了以下错误：</p>
+<blockquote>
+<p>JSONWriter can not access a member of class org.springframework.aop.TruePointcut with modifiers “public”</p>
+</blockquote>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2013/08/22/ssh-e9-94-99-e8-af-af-e8-a7-a3-e5-86-b3/#more" rel="contents">
@@ -902,9 +898,8 @@
 
       
         
-          
-          最近需要对改造的redis缓存接口做压力测试，使用了开源压力测试工具JMeter，分享一下自己的使用经验，希望能对需要进行压力测试的开发同学有所帮助。JMeter介绍JMeter是Apache软件基金会下的一款开源压力测试工具，官方网址是：http://jmeter.apache.org/。JMet
-          ...
+          <p>最近需要对改造的redis缓存接口做压力测试，使用了开源压力测试工具JMeter，分享一下自己的使用经验，希望能对需要进行压力测试的开发同学有所帮助。</p>
+<h2 id="JMeter介绍"><a href="#JMeter介绍" class="headerlink" title="JMeter介绍"></a>JMeter介绍</h2><p>JMeter是Apache软件基金会下的一款开源压力测试工具，官方网址是：<a href="http://jmeter.apache.org/" target="_blank" rel="noopener">http://jmeter.apache.org/</a> 。JMeter可以测试静态、动态资源的性能，这些资源包括文件、Servlets 、Perl脚本、Java对象、数据库、FTP服务器等，并生成图形报告。JMeter使用Java开发，既支持可视化界面操作，也支持命令行操作。<br>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2013/08/10/e5-bc-80-e6-ba-90-e5-8e-8b-e5-8a-9b-e6-b5-8b-e8-af-95-e5-b7-a5-e5-85-b7jmeter-e4-bd-bf-e7-94-a8-e4-bb-8b-e7-bb-8d/#more" rel="contents">
@@ -914,7 +909,7 @@
           <!--/noindex-->
         
       
-    </div>
+    </p></div>
     
     
     
@@ -1071,10 +1066,8 @@
 
       
         
-          
-          原文地址：http://www.cnblogs.com/wean/archive/2012/05/16/2502724.html
-一、why（为什么要用Hibernate缓存？）Hibernate是一个持久层框架，经常访问物理数据库。为了降低应用程序对物理数据源访问的频次，从而提高应用程序的运行性能
-          ...
+          <p><a href="http://www.cnblogs.com/wean/archive/2012/05/16/2502724.html" target="_blank" rel="noopener">原文地址</a></p>
+<h2 id="why（为什么要用Hibernate缓存？）"><a href="#why（为什么要用Hibernate缓存？）" class="headerlink" title="why（为什么要用Hibernate缓存？）"></a>why（为什么要用Hibernate缓存？）</h2><p>Hibernate是一个持久层框架，经常访问物理数据库。<br>为了降低应用程序对物理数据源访问的频次，从而提高应用程序的运行性能。<br>缓存内的数据是对物理数据源中的数据的复制，应用程序在运行时从缓存读写数据，在特定的时刻或事件会同步缓存和物理数据源的数据。<br>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2013/07/10/e8-bd-achibernate-e7-bc-93-e5-ad-98-e6-9c-ba-e5-88-b6/#more" rel="contents">
@@ -1084,7 +1077,7 @@
           <!--/noindex-->
         
       
-    </div>
+    </p></div>
     
     
     
@@ -1241,10 +1234,12 @@
 
       
         
-          
-          简介Hibernate通过延迟加载在真正需要使用数据时从数据库表中加载，这样可以加快程序运行速度，减少内存开销。Hibernate在以下三种情况会默认使用延迟加载：1）load方法延迟加载；2）实体属性延迟加载；3）集合属性延迟加载。
-数据库示例示例数据库包含3张表：1）文章表（post），存储文章
-          ...
+          <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Hibernate通过延迟加载在真正需要使用数据时从数据库表中加载，这样可以加快程序运行速度，减少内存开销。Hibernate在以下三种情况会默认使用延迟加载：</p>
+<ol>
+<li>load方法延迟加载；</li>
+<li>实体属性延迟加载；</li>
+<li>集合属性延迟加载。</li>
+</ol>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2013/07/09/hibernate-e7-9a-84-e5-bb-b6-e8-bf-9f-e5-8a-a0-e8-bd-bd/#more" rel="contents">

@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="对于本地jar包，如果要添加到maven依赖中，可以使用如下方式：12345678&amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;gt;groupId&amp;lt;/groupId&amp;gt;    &amp;lt;artifactId&amp;gt;artifactId&amp;lt;/artifactId&amp;gt;    &amp;lt;version&amp;gt;version&amp;lt;/version&amp;gt;    &amp;l">
+<meta name="description" content="对于本地jar包，如果要添加到maven依赖中，可以使用如下方式：1234567&amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;gt;groupId&amp;lt;/groupId&amp;gt;    &amp;lt;artifactId&amp;gt;artifactId&amp;lt;/artifactId&amp;gt;    &amp;lt;version&amp;gt;version&amp;lt;/version&amp;gt;    &amp;lt">
 <meta name="keywords" content="Maven">
 <meta property="og:type" content="article">
 <meta property="og:title" content="本地jar包添加到maven依赖中">
 <meta property="og:url" content="http://yoursite.com/2013/09/05/e6-9c-ac-e5-9c-b0jar-e5-8c-85-e6-b7-bb-e5-8a-a0-e5-88-b0maven-e4-be-9d-e8-b5-96-e4-b8-ad/index.html">
 <meta property="og:site_name" content="不积跬步，无以至千里">
-<meta property="og:description" content="对于本地jar包，如果要添加到maven依赖中，可以使用如下方式：12345678&amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;gt;groupId&amp;lt;/groupId&amp;gt;    &amp;lt;artifactId&amp;gt;artifactId&amp;lt;/artifactId&amp;gt;    &amp;lt;version&amp;gt;version&amp;lt;/version&amp;gt;    &amp;l">
+<meta property="og:description" content="对于本地jar包，如果要添加到maven依赖中，可以使用如下方式：1234567&amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;gt;groupId&amp;lt;/groupId&amp;gt;    &amp;lt;artifactId&amp;gt;artifactId&amp;lt;/artifactId&amp;gt;    &amp;lt;version&amp;gt;version&amp;lt;/version&amp;gt;    &amp;lt">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-12-04T10:47:42.321Z">
+<meta property="og:updated_time" content="2018-12-08T05:18:34.971Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="本地jar包添加到maven依赖中">
-<meta name="twitter:description" content="对于本地jar包，如果要添加到maven依赖中，可以使用如下方式：12345678&amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;gt;groupId&amp;lt;/groupId&amp;gt;    &amp;lt;artifactId&amp;gt;artifactId&amp;lt;/artifactId&amp;gt;    &amp;lt;version&amp;gt;version&amp;lt;/version&amp;gt;    &amp;l">
+<meta name="twitter:description" content="对于本地jar包，如果要添加到maven依赖中，可以使用如下方式：1234567&amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;gt;groupId&amp;lt;/groupId&amp;gt;    &amp;lt;artifactId&amp;gt;artifactId&amp;lt;/artifactId&amp;gt;    &amp;lt;version&amp;gt;version&amp;lt;/version&amp;gt;    &amp;lt">
 
 
 
@@ -395,7 +395,8 @@
       
 
       
-        <p>对于本地jar包，如果要添加到maven依赖中，可以使用如下方式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;groupId&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;artifactId&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;version&lt;/version&gt;</span><br><span class="line">    &lt;scope&gt;system&lt;/scope&gt;</span><br><span class="line">    &lt;systemPath&gt;本地jar包路径&lt;/systemPath&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
+        <p>对于本地jar包，如果要添加到maven依赖中，可以使用如下方式：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>groupId<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>artifactId<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>version<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">scope</span>&gt;</span>system<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">systemPath</span>&gt;</span>本地jar包路径<span class="tag">&lt;/<span class="name">systemPath</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
 <p>指定scope为system，maven会直接使用systemPath指定路径下的jar包。</p>
 
       
