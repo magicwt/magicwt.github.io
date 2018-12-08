@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="求两个数的最大公因子，使用“辗转相除法”。原理如下：若r=a%b，则gcd(a,b)=gcd(b,r)。简单推导：因为r=a%b，所以a=bq+r，r=a-bq。a=bq+r，能被b,r整除的，则一定能被a整除，自然也能被a,b整除r=a-bq，能被a,b整除的，则一定可以被r整除，自然也能被b,r整除显然gcd(a,b)=gcd(b,r)。代码很简单：1234567891011121314int">
+<meta name="description" content="求两个数的最大公因子，使用“辗转相除法”。 原理 若r=a%b，则gcd(a,b)=gcd(b,r)。  推导因为r=a%b，所以a=bq+r，r=a-bq。a=bq+r，能被b,r整除的，则一定能被a整除，自然也能被a,b整除r=a-bq，能被a,b整除的，则一定可以被r整除，自然也能被b,r整除显然gcd(a,b)=gcd(b,r)。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="最大公因子-辗转相除法">
 <meta property="og:url" content="http://yoursite.com/2012/06/01/e6-9c-80-e5-a4-a7-e5-85-ac-e5-9b-a0-e5-ad-90-e8-be-97-e8-bd-ac-e7-9b-b8-e9-99-a4-e6-b3-95/index.html">
 <meta property="og:site_name" content="不积跬步，无以至千里">
-<meta property="og:description" content="求两个数的最大公因子，使用“辗转相除法”。原理如下：若r=a%b，则gcd(a,b)=gcd(b,r)。简单推导：因为r=a%b，所以a=bq+r，r=a-bq。a=bq+r，能被b,r整除的，则一定能被a整除，自然也能被a,b整除r=a-bq，能被a,b整除的，则一定可以被r整除，自然也能被b,r整除显然gcd(a,b)=gcd(b,r)。代码很简单：1234567891011121314int">
+<meta property="og:description" content="求两个数的最大公因子，使用“辗转相除法”。 原理 若r=a%b，则gcd(a,b)=gcd(b,r)。  推导因为r=a%b，所以a=bq+r，r=a-bq。a=bq+r，能被b,r整除的，则一定能被a整除，自然也能被a,b整除r=a-bq，能被a,b整除的，则一定可以被r整除，自然也能被b,r整除显然gcd(a,b)=gcd(b,r)。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-12-04T10:47:42.319Z">
+<meta property="og:updated_time" content="2018-12-08T14:19:24.027Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="最大公因子-辗转相除法">
-<meta name="twitter:description" content="求两个数的最大公因子，使用“辗转相除法”。原理如下：若r=a%b，则gcd(a,b)=gcd(b,r)。简单推导：因为r=a%b，所以a=bq+r，r=a-bq。a=bq+r，能被b,r整除的，则一定能被a整除，自然也能被a,b整除r=a-bq，能被a,b整除的，则一定可以被r整除，自然也能被b,r整除显然gcd(a,b)=gcd(b,r)。代码很简单：1234567891011121314int">
+<meta name="twitter:description" content="求两个数的最大公因子，使用“辗转相除法”。 原理 若r=a%b，则gcd(a,b)=gcd(b,r)。  推导因为r=a%b，所以a=bq+r，r=a-bq。a=bq+r，能被b,r整除的，则一定能被a整除，自然也能被a,b整除r=a-bq，能被a,b整除的，则一定可以被r整除，自然也能被b,r整除显然gcd(a,b)=gcd(b,r)。">
 
 
 
@@ -394,7 +394,12 @@
       
 
       
-        <p>求两个数的最大公因子，使用“辗转相除法”。<br><strong>原理如下</strong>：若r=a%b，则gcd(a,b)=gcd(b,r)。<br><strong>简单推导</strong>：<br>因为r=a%b，所以a=bq+r，r=a-bq。<br>a=bq+r，能被b,r整除的，则一定能被a整除，自然也能被a,b整除<br>r=a-bq，能被a,b整除的，则一定可以被r整除，自然也能被b,r整除<br>显然gcd(a,b)=gcd(b,r)。<br>代码很简单：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">int gcd(int a,int b)  </span><br><span class="line">&#123;  </span><br><span class="line">    int m=a,n=b;  </span><br><span class="line">    if (a &lt; b)  </span><br><span class="line">    &#123;  </span><br><span class="line">        m=b;  </span><br><span class="line">        n=a;  </span><br><span class="line">    &#125;   </span><br><span class="line">    if(m%n==0)  </span><br><span class="line">        return b;  </span><br><span class="line">    else </span><br><span class="line">        return gcd(n,r);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+        <p>求两个数的最大公因子，使用“辗转相除法”。</p>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><blockquote>
+<p>若r=a%b，则gcd(a,b)=gcd(b,r)。</p>
+</blockquote>
+<h2 id="推导"><a href="#推导" class="headerlink" title="推导"></a>推导</h2><p>因为r=a%b，所以a=bq+r，r=a-bq。<br>a=bq+r，能被b,r整除的，则一定能被a整除，自然也能被a,b整除<br>r=a-bq，能被a,b整除的，则一定可以被r整除，自然也能被b,r整除<br>显然gcd(a,b)=gcd(b,r)。<br><a id="more"></a></p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>代码很简单：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">gcd</span><span class="params">(<span class="keyword">int</span> a,<span class="keyword">int</span> b)</span>  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    <span class="keyword">int</span> m=a,n=b;  </span><br><span class="line">    <span class="keyword">if</span> (a &lt; b)  </span><br><span class="line">    &#123;  </span><br><span class="line">        m=b;  </span><br><span class="line">        n=a;  </span><br><span class="line">    &#125;   </span><br><span class="line">    <span class="keyword">if</span>(m%n==<span class="number">0</span>)  </span><br><span class="line">        <span class="keyword">return</span> b;  </span><br><span class="line">    <span class="keyword">else</span> </span><br><span class="line">        <span class="keyword">return</span> gcd(n,r);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -429,8 +434,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2012/06/01/e9-93-be-e8-a1-a8-e5-8f-8d-e8-bd-ac-e7-9a-84-e9-80-92-e5-bd-92-e5-92-8c-e9-9d-9e-e9-80-92-e5-bd-92/" rel="prev" title="链表反转的递归和非递归">
-                链表反转的递归和非递归 <i class="fa fa-chevron-right"></i>
+              <a href="/2012/06/01/e5-a4-9a-e5-8f-89-e6-a0-91-e7-9a-84-e5-ae-bd-e5-ba-a6-e4-bc-98-e5-85-88-e6-90-9c-e7-b4-a2bfs/" rel="prev" title="多叉树的宽度优先搜索BFS">
+                多叉树的宽度优先搜索BFS <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -486,8 +491,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -565,6 +579,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#原理"><span class="nav-number">1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#推导"><span class="nav-number">2.</span> <span class="nav-text">推导</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码"><span class="nav-number">3.</span> <span class="nav-text">代码</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
