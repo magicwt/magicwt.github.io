@@ -79,19 +79,19 @@
 
 
 
-<meta name="description" content="Thrift（http://thrift.apache.org/）是一个支持多种语言的远程服务调用框架，最初由Facebook开发，目前由Apache基金会负责维护。 安装[blockquote]tar -zxvf thrift-0.9.1.tar.gzcd thrift-0.9.1/./configuremakemake install[/blockquote]安装成功后，可以使用“thrift">
+<meta name="description" content="Thrift是一个支持多种语言的远程服务调用框架，最初由Facebook开发，目前由Apache基金会负责维护。 安装 tar -zxvf thrift-0.9.1.tar.gzcd thrift-0.9.1/./configuremakemake install  安装成功后，可以使用“thrift”命令。">
 <meta name="keywords" content="Thrift">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Thrift简介与实践">
 <meta property="og:url" content="http://yoursite.com/2014/03/11/thrift-e7-ae-80-e4-bb-8b-e4-b8-8e-e5-ae-9e-e8-b7-b5/index.html">
 <meta property="og:site_name" content="不积跬步，无以至千里">
-<meta property="og:description" content="Thrift（http://thrift.apache.org/）是一个支持多种语言的远程服务调用框架，最初由Facebook开发，目前由Apache基金会负责维护。 安装[blockquote]tar -zxvf thrift-0.9.1.tar.gzcd thrift-0.9.1/./configuremakemake install[/blockquote]安装成功后，可以使用“thrift">
+<meta property="og:description" content="Thrift是一个支持多种语言的远程服务调用框架，最初由Facebook开发，目前由Apache基金会负责维护。 安装 tar -zxvf thrift-0.9.1.tar.gzcd thrift-0.9.1/./configuremakemake install  安装成功后，可以使用“thrift”命令。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://magicwt.com/wp-content/uploads/2014/03/1.png">
-<meta property="og:updated_time" content="2018-12-04T10:47:42.322Z">
+<meta property="og:updated_time" content="2018-12-07T17:43:32.829Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Thrift简介与实践">
-<meta name="twitter:description" content="Thrift（http://thrift.apache.org/）是一个支持多种语言的远程服务调用框架，最初由Facebook开发，目前由Apache基金会负责维护。 安装[blockquote]tar -zxvf thrift-0.9.1.tar.gzcd thrift-0.9.1/./configuremakemake install[/blockquote]安装成功后，可以使用“thrift">
+<meta name="twitter:description" content="Thrift是一个支持多种语言的远程服务调用框架，最初由Facebook开发，目前由Apache基金会负责维护。 安装 tar -zxvf thrift-0.9.1.tar.gzcd thrift-0.9.1/./configuremakemake install  安装成功后，可以使用“thrift”命令。">
 <meta name="twitter:image" content="http://magicwt.com/wp-content/uploads/2014/03/1.png">
 
 
@@ -397,44 +397,29 @@
       
 
       
-        <p>Thrift（<a href="http://thrift.apache.org/）是一个支持多种语言的远程服务调用框架，最初由Facebook开发，目前由Apache基金会负责维护。" target="_blank" rel="noopener">http://thrift.apache.org/）是一个支持多种语言的远程服务调用框架，最初由Facebook开发，目前由Apache基金会负责维护。</a></p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>[blockquote]tar -zxvf thrift-0.9.1.tar.gz<br>cd thrift-0.9.1/<br>./configure<br>make<br>make install[/blockquote]<br>安装成功后，可以使用“thrift”命令。</p>
-<h2 id="定义远程服务接口"><a href="#定义远程服务接口" class="headerlink" title="定义远程服务接口"></a>定义远程服务接口</h2><p>Thrift提供了接口描述语言，用于定义远程服务接口，例如，“TestService.thrift”中定义了“greet”方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">namespace java com.magicwt.service</span><br><span class="line">service TestService &#123;</span><br><span class="line">    string greet(1:string name)</span><br><span class="line">&#125;</span><br><span class="line">``` </span><br><span class="line">使用“thrift”命令根据“TestService.thrift”生成相应的Java代码文件：</span><br><span class="line">[blockquote]thrift -r -gen java TestService.thrift[/blockquote]</span><br><span class="line">执行成功后，会在gen-java/com/magicwt/service目录下生成TestService.java。</span><br><span class="line"></span><br><span class="line">## 远程服务调用测试</span><br><span class="line"></span><br><span class="line">创建Maven工程，增加对Thrift的依赖：</span><br></pre></td></tr></table></figure></p>
-<p><dependency><br>    <groupid>org.apache.thrift</groupid><br>    <artifactid>libthrift</artifactid><br>    <version>0.9.1</version><br></dependency><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">导入TestService.java，创建TestServiceImpl类实现TestService中的Iface接口，实现其中的greet方法：</span><br></pre></td></tr></table></figure></p>
-<p>package com.magicwt.service.impl;</p>
-<p>import com.magicwt.service.TestService;<br>import org.apache.thrift.TException;</p>
-<p>public class TestServiceImpl implements TestService.Iface {</p>
-<pre><code>@Override
-public String greet(String name) throws TException {
-    return &quot;hi, &quot; + name;
-}
-</code></pre><p>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">创建TestServer和TestClient类分别作为测试服务端和测试客户端。</span><br><span class="line">TestServer：</span><br></pre></td></tr></table></figure></p>
-<p>package com.magicwt;</p>
-<p>import com.magicwt.service.TestService;<br>import com.magicwt.service.impl.TestServiceImpl;<br>import org.apache.thrift.TProcessor;<br>import org.apache.thrift.protocol.TBinaryProtocol;<br>import org.apache.thrift.server.TServer;<br>import org.apache.thrift.server.TThreadPoolServer;<br>import org.apache.thrift.server.TThreadPoolServer.Args;<br>import org.apache.thrift.transport.TServerSocket;<br>import org.apache.thrift.transport.TServerTransport;</p>
-<p>import java.net.InetSocketAddress;</p>
-<p>public class TestServer {</p>
-<pre><code>public static void main(String[] array) throws Exception {
-    TProcessor processor = new TestService.Processor(new TestServiceImpl());
-    TServerTransport transport = new TServerSocket(new InetSocketAddress(&quot;127.0.0.1&quot;, 9001));
-    Args args = new Args(transport);
-    args.processor(processor);
-    args.protocolFactory(new TBinaryProtocol.Factory());
-    TServer server = new TThreadPoolServer(args);
-    server.serve();
-}
-</code></pre><p>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TestClient：</span><br></pre></td></tr></table></figure></p>
-<p>package com.magicwt;</p>
-<p>import com.magicwt.service.TestService.Client;<br>import org.apache.thrift.protocol.TBinaryProtocol;<br>import org.apache.thrift.protocol.TProtocol;<br>import org.apache.thrift.transport.TSocket;<br>import org.apache.thrift.transport.TTransport;</p>
-<p>public class TestClient {</p>
-<pre><code>public static void main(String[] args) throws Exception {
-    TTransport transport = new TSocket(&quot;127.0.0.1&quot;, 9001);
-    TProtocol protocol = new TBinaryProtocol(transport);
-    Client client = new Client(protocol);
-    transport.open();
-    System.out.println(client.greet(&quot;admin&quot;));
-    transport.close();
-}
-</code></pre><p>}<br><code>`</code><br>先后启动TestServer和TestClient，TestClient的控制台输出如下：<br><a href="http://magicwt.com/wp-content/uploads/2014/03/1.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2014/03/1.png" alt="1"></a><br>说明远程服务调用成功。</p>
+        <p><a href="http://thrift.apache.org/" target="_blank" rel="noopener">Thrift</a>是一个支持多种语言的远程服务调用框架，最初由Facebook开发，目前由Apache基金会负责维护。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><blockquote>
+<p>tar -zxvf thrift-0.9.1.tar.gz<br>cd thrift-0.9.1/<br>./configure<br>make<br>make install</p>
+</blockquote>
+<p>安装成功后，可以使用“thrift”命令。<br><a id="more"></a></p>
+<h2 id="定义远程服务接口"><a href="#定义远程服务接口" class="headerlink" title="定义远程服务接口"></a>定义远程服务接口</h2><p>Thrift提供了接口描述语言，用于定义远程服务接口，例如，“TestService.thrift”中定义了“greet”方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">namespace java com.magicwt.service</span><br><span class="line">service TestService &#123;</span><br><span class="line">    string greet(1:string name)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>使用“thrift”命令根据“TestService.thrift”生成相应的Java代码文件：</p>
+<blockquote>
+<p>thrift -r -gen java TestService.thrift</p>
+</blockquote>
+<p>执行成功后，会在gen-java/com/magicwt/service目录下生成TestService.java。</p>
+<h2 id="远程服务调用测试"><a href="#远程服务调用测试" class="headerlink" title="远程服务调用测试"></a>远程服务调用测试</h2><p>创建Maven工程，增加对Thrift的依赖：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.thrift<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>libthrift<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>0.9.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>导入TestService.java，创建TestServiceImpl类实现TestService中的Iface接口，实现其中的greet方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.magicwt.service.impl;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.magicwt.service.TestService;</span><br><span class="line"><span class="keyword">import</span> org.apache.thrift.TException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestServiceImpl</span> <span class="keyword">implements</span> <span class="title">TestService</span>.<span class="title">Iface</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">greet</span><span class="params">(String name)</span> <span class="keyword">throws</span> TException </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"hi, "</span> + name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>创建TestServer和TestClient类分别作为测试服务端和测试客户端。</p>
+<ul>
+<li><p>TestServer：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.magicwt;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.magicwt.service.TestService;</span><br><span class="line"><span class="keyword">import</span> com.magicwt.service.impl.TestServiceImpl;</span><br><span class="line"><span class="keyword">import</span> org.apache.thrift.TProcessor;</span><br><span class="line"><span class="keyword">import</span> org.apache.thrift.protocol.TBinaryProtocol;</span><br><span class="line"><span class="keyword">import</span> org.apache.thrift.server.TServer;</span><br><span class="line"><span class="keyword">import</span> org.apache.thrift.server.TThreadPoolServer;</span><br><span class="line"><span class="keyword">import</span> org.apache.thrift.server.TThreadPoolServer.Args;</span><br><span class="line"><span class="keyword">import</span> org.apache.thrift.transport.TServerSocket;</span><br><span class="line"><span class="keyword">import</span> org.apache.thrift.transport.TServerTransport;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.net.InetSocketAddress;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestServer</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] array)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        TProcessor processor = <span class="keyword">new</span> TestService.Processor(<span class="keyword">new</span> TestServiceImpl());</span><br><span class="line">        TServerTransport transport = <span class="keyword">new</span> TServerSocket(<span class="keyword">new</span> InetSocketAddress(<span class="string">"127.0.0.1"</span>, <span class="number">9001</span>));</span><br><span class="line">        Args args = <span class="keyword">new</span> Args(transport);</span><br><span class="line">        args.processor(processor);</span><br><span class="line">        args.protocolFactory(<span class="keyword">new</span> TBinaryProtocol.Factory());</span><br><span class="line">        TServer server = <span class="keyword">new</span> TThreadPoolServer(args);</span><br><span class="line">        server.serve();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>TestClient：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.magicwt;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.magicwt.service.TestService.Client;</span><br><span class="line"><span class="keyword">import</span> org.apache.thrift.protocol.TBinaryProtocol;</span><br><span class="line"><span class="keyword">import</span> org.apache.thrift.protocol.TProtocol;</span><br><span class="line"><span class="keyword">import</span> org.apache.thrift.transport.TSocket;</span><br><span class="line"><span class="keyword">import</span> org.apache.thrift.transport.TTransport;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestClient</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        TTransport transport = <span class="keyword">new</span> TSocket(<span class="string">"127.0.0.1"</span>, <span class="number">9001</span>);</span><br><span class="line">        TProtocol protocol = <span class="keyword">new</span> TBinaryProtocol(transport);</span><br><span class="line">        Client client = <span class="keyword">new</span> Client(protocol);</span><br><span class="line">        transport.open();</span><br><span class="line">        System.out.println(client.greet(<span class="string">"admin"</span>));</span><br><span class="line">        transport.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>先后启动TestServer和TestClient，TestClient的控制台输出如下：<br><img src="http://magicwt.com/wp-content/uploads/2014/03/1.png" alt="1"><br>说明远程服务调用成功。</p>
 
       
     </div>
@@ -630,7 +615,7 @@ public String greet(String name) throws TException {
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定义远程服务接口"><span class="nav-number">2.</span> <span class="nav-text">定义远程服务接口</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定义远程服务接口"><span class="nav-number">2.</span> <span class="nav-text">定义远程服务接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#远程服务调用测试"><span class="nav-number">3.</span> <span class="nav-text">远程服务调用测试</span></a></li></ol></div>
             
 
           </div>

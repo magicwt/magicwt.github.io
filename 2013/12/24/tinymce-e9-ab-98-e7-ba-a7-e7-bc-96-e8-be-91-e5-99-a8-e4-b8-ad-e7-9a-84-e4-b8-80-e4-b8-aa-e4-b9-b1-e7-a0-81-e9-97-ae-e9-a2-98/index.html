@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="系统使用了TinyMCE，最近修改了前端的一个功能，即在提交前，取出TinyMCE编辑器中的内容，使用Ajax方式传入后台，修改内容，再传回前台填入TincyMCE编辑器中。测试时发现内容传回前台后，会经常在有些地方多个“？”号，感觉是内容在传入后台、传回前台时发生了乱码问题，但排查了一下，系统的编码并没有问题，后来再排查并通过从网上查找资料，找到了原因。 原因是在向TinyMCE编辑器中填入内容">
+<meta name="description" content="系统使用了TinyMCE，最近修改了前端的一个功能，即在提交前，取出TinyMCE编辑器中的内容，使用Ajax方式传入后台，修改内容，再传回前台填入TincyMCE编辑器中。测试时发现内容传回前台后，会经常在有些地方多个“？”号，感觉是内容在传入后台、传回前台时发生了乱码问题，但排查了一下，系统的编码并没有问题，后来再排查并通过从网上查找资料，找到了原因。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="TinyMCE高级编辑器中的一个乱码问题">
 <meta property="og:url" content="http://yoursite.com/2013/12/24/tinymce-e9-ab-98-e7-ba-a7-e7-bc-96-e8-be-91-e5-99-a8-e4-b8-ad-e7-9a-84-e4-b8-80-e4-b8-aa-e4-b9-b1-e7-a0-81-e9-97-ae-e9-a2-98/index.html">
 <meta property="og:site_name" content="不积跬步，无以至千里">
-<meta property="og:description" content="系统使用了TinyMCE，最近修改了前端的一个功能，即在提交前，取出TinyMCE编辑器中的内容，使用Ajax方式传入后台，修改内容，再传回前台填入TincyMCE编辑器中。测试时发现内容传回前台后，会经常在有些地方多个“？”号，感觉是内容在传入后台、传回前台时发生了乱码问题，但排查了一下，系统的编码并没有问题，后来再排查并通过从网上查找资料，找到了原因。 原因是在向TinyMCE编辑器中填入内容">
+<meta property="og:description" content="系统使用了TinyMCE，最近修改了前端的一个功能，即在提交前，取出TinyMCE编辑器中的内容，使用Ajax方式传入后台，修改内容，再传回前台填入TincyMCE编辑器中。测试时发现内容传回前台后，会经常在有些地方多个“？”号，感觉是内容在传入后台、传回前台时发生了乱码问题，但排查了一下，系统的编码并没有问题，后来再排查并通过从网上查找资料，找到了原因。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-12-04T10:47:42.321Z">
+<meta property="og:updated_time" content="2018-12-08T03:30:43.006Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="TinyMCE高级编辑器中的一个乱码问题">
-<meta name="twitter:description" content="系统使用了TinyMCE，最近修改了前端的一个功能，即在提交前，取出TinyMCE编辑器中的内容，使用Ajax方式传入后台，修改内容，再传回前台填入TincyMCE编辑器中。测试时发现内容传回前台后，会经常在有些地方多个“？”号，感觉是内容在传入后台、传回前台时发生了乱码问题，但排查了一下，系统的编码并没有问题，后来再排查并通过从网上查找资料，找到了原因。 原因是在向TinyMCE编辑器中填入内容">
+<meta name="twitter:description" content="系统使用了TinyMCE，最近修改了前端的一个功能，即在提交前，取出TinyMCE编辑器中的内容，使用Ajax方式传入后台，修改内容，再传回前台填入TincyMCE编辑器中。测试时发现内容传回前台后，会经常在有些地方多个“？”号，感觉是内容在传入后台、传回前台时发生了乱码问题，但排查了一下，系统的编码并没有问题，后来再排查并通过从网上查找资料，找到了原因。">
 
 
 
@@ -394,9 +394,9 @@
       
 
       
-        <p>系统使用了TinyMCE，最近修改了前端的一个功能，即在提交前，取出TinyMCE编辑器中的内容，使用Ajax方式传入后台，修改内容，再传回前台填入TincyMCE编辑器中。测试时发现内容传回前台后，会经常在有些地方多个“？”号，感觉是内容在传入后台、传回前台时发生了乱码问题，但排查了一下，系统的编码并没有问题，后来再排查并通过从网上查找资料，找到了原因。</p>
-<p>原因是在向TinyMCE编辑器中填入内容时，直接拷贝了一段网页上的内容，而这段内容中包含空格符号“&nbsp;”，填入内容后，这个字符为<span class="sourceRowText">\u00A0</span>，在使用Ajax将内容传回后台时，对这段内容按照UTF-8作URL编码，而这个符号被编码成%C2%A0，在后台解码时，由于后台程序为GBK编码，而\u00A0已经超出了GBK的编码范围，所以解码后这个字符就变为了“？”号。</p>
-<p>既然\u00A0在后台不能正常表示，为什么系统之前没有出现“？”号的问题呢？原因是当表单向后台提交内容时，浏览器会自动对\u00A0这个字符进行转化处理，IE浏览器会自动转化为“&nbsp;”，FireFox浏览器会自动转化为“&#160;”。</p>
+        <p>系统使用了TinyMCE，最近修改了前端的一个功能，即在提交前，取出TinyMCE编辑器中的内容，使用Ajax方式传入后台，修改内容，再传回前台填入TincyMCE编辑器中。测试时发现内容传回前台后，会经常在有些地方多个“？”号，感觉是内容在传入后台、传回前台时发生了乱码问题，但排查了一下，系统的编码并没有问题，后来再排查并通过从网上查找资料，找到了原因。<br><a id="more"></a></p>
+<p>原因是在向TinyMCE编辑器中填入内容时，直接拷贝了一段网页上的内容，而这段内容中包含空格符号“&nbsp; ”（<code>&amp;nbsp;</code>），填入内容后，这个字符为<code>\u00A0</code>，在使用Ajax将内容传回后台时，对这段内容按照UTF-8作URL编码，而这个符号被编码成<code>%C2%A0</code>，在后台解码时，由于后台程序为GBK编码，而<code>\u00A0</code>已经超出了GBK的编码范围，所以解码后这个字符就变为了“？”号。</p>
+<p>既然<code>\u00A0</code>在后台不能正常表示，为什么系统之前没有出现“？”号的问题呢？原因是当表单向后台提交内容时，浏览器会自动对<code>\u00A0</code>这个字符进行转化处理，IE浏览器会自动转化为“&nbsp;”（<code>&amp;nbsp;</code>），FireFox浏览器会自动转化为“&#160;”（<code>&amp;#160;</code>）。</p>
 
       
     </div>

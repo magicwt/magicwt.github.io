@@ -79,20 +79,20 @@
 
 
 
-<meta name="description" content="redis默认端口是6379，使用iptables限制该端口访问。 设置规则链 新建规则链：  iptables -N RH-Firewall-1-INPUT   在规则链中添加可以访问6379端口的规则：  iptables -A RH-Firewall-1-INPUT -p tcp –dport 6379 -s XXX.XXX.XXX.XXX -j ACCEPT    表示ip XXX.XXX">
+<meta name="description" content="redis默认端口是6379，使用iptables限制该端口访问。 设置规则链 新建规则链：  iptables -N RH-Firewall-1-INPUT   在规则链中添加可以访问6379端口的规则，表示ip XXX.XXX.XXX.XXX可以访问redis端口，可以多次添加，为不同的ip设置访问权限：  iptables -A RH-Firewall-1-INPUT -p tcp –dpo">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用iptables限制redis端口的访问">
 <meta property="og:url" content="http://yoursite.com/2014/02/14/e4-bd-bf-e7-94-a8iptables-e9-99-90-e5-88-b6redis-e7-ab-af-e5-8f-a3-e7-9a-84-e8-ae-bf-e9-97-ae/index.html">
 <meta property="og:site_name" content="不积跬步，无以至千里">
-<meta property="og:description" content="redis默认端口是6379，使用iptables限制该端口访问。 设置规则链 新建规则链：  iptables -N RH-Firewall-1-INPUT   在规则链中添加可以访问6379端口的规则：  iptables -A RH-Firewall-1-INPUT -p tcp –dport 6379 -s XXX.XXX.XXX.XXX -j ACCEPT    表示ip XXX.XXX">
+<meta property="og:description" content="redis默认端口是6379，使用iptables限制该端口访问。 设置规则链 新建规则链：  iptables -N RH-Firewall-1-INPUT   在规则链中添加可以访问6379端口的规则，表示ip XXX.XXX.XXX.XXX可以访问redis端口，可以多次添加，为不同的ip设置访问权限：  iptables -A RH-Firewall-1-INPUT -p tcp –dpo">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/11/18-300x51.png">
-<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/11/19-300x68.png">
-<meta property="og:updated_time" content="2018-12-04T12:45:25.614Z">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/11/18.png">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/11/19.png">
+<meta property="og:updated_time" content="2018-12-08T03:24:06.952Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用iptables限制redis端口的访问">
-<meta name="twitter:description" content="redis默认端口是6379，使用iptables限制该端口访问。 设置规则链 新建规则链：  iptables -N RH-Firewall-1-INPUT   在规则链中添加可以访问6379端口的规则：  iptables -A RH-Firewall-1-INPUT -p tcp –dport 6379 -s XXX.XXX.XXX.XXX -j ACCEPT    表示ip XXX.XXX">
-<meta name="twitter:image" content="http://magicwt.com/wp-content/uploads/2015/11/18-300x51.png">
+<meta name="twitter:description" content="redis默认端口是6379，使用iptables限制该端口访问。 设置规则链 新建规则链：  iptables -N RH-Firewall-1-INPUT   在规则链中添加可以访问6379端口的规则，表示ip XXX.XXX.XXX.XXX可以访问redis端口，可以多次添加，为不同的ip设置访问权限：  iptables -A RH-Firewall-1-INPUT -p tcp –dpo">
+<meta name="twitter:image" content="http://magicwt.com/wp-content/uploads/2015/11/18.png">
 
 
 
@@ -404,23 +404,26 @@
 <p>iptables -N RH-Firewall-1-INPUT</p>
 </blockquote>
 </li>
-<li><p>在规则链中添加可以访问6379端口的规则：</p>
+<li><p>在规则链中添加可以访问6379端口的规则，表示ip XXX.XXX.XXX.XXX可以访问redis端口，可以多次添加，为不同的ip设置访问权限：</p>
 <blockquote>
 <p>iptables -A RH-Firewall-1-INPUT -p tcp –dport 6379 -s XXX.XXX.XXX.XXX -j ACCEPT</p>
 </blockquote>
 </li>
-</ol>
-<p>表示ip XXX.XXX.XXX.XXX可以访问redis端口。可以多次添加，为不同的ip设置访问权限。</p>
-<ol start="3">
-<li>在规则链中添加禁止访问6379端口的规则：<br>iptables -A RH-Firewall-1-INPUT -p tcp –dport 6379 -s 0.0.0.0/0 -j DROP<br>表示任意ip都禁止访问redis端口。<br>规则链设置完成后，如下所示:<br><a href="http://magicwt.com/wp-content/uploads/2015/11/18.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/11/18-300x51.png" alt="1"></a><br>对于该规则链，若ip在前面4条规则中，则允许访问，否则禁止访问。<h2 id="在INPUT中增加规则链"><a href="#在INPUT中增加规则链" class="headerlink" title="在INPUT中增加规则链"></a>在INPUT中增加规则链</h2><blockquote>
-<p>iptables -A INPUT -j RH-Firewall-1-INPUT</p>
+<li><p>在规则链中添加禁止访问6379端口的规则，表示任意ip都禁止访问redis端口：</p>
+<blockquote>
+<p>iptables -A RH-Firewall-1-INPUT -p tcp –dport 6379 -s 0.0.0.0/0 -j DROP</p>
 </blockquote>
 </li>
 </ol>
+<a id="more"></a>
+<p>规则链设置完成后，如下所示:<br><img src="http://magicwt.com/wp-content/uploads/2015/11/18.png" alt="1"><br>对于该规则链，若ip在前面4条规则中，则允许访问，否则禁止访问。</p>
+<h2 id="在INPUT中增加规则链"><a href="#在INPUT中增加规则链" class="headerlink" title="在INPUT中增加规则链"></a>在INPUT中增加规则链</h2><blockquote>
+<p>iptables -A INPUT -j RH-Firewall-1-INPUT</p>
+</blockquote>
 <h2 id="在FORWARD中增加规则链"><a href="#在FORWARD中增加规则链" class="headerlink" title="在FORWARD中增加规则链"></a>在FORWARD中增加规则链</h2><blockquote>
 <p>iptables -A FORWARD -j RH-Firewall-1-INPUT</p>
 </blockquote>
-<p><a href="http://magicwt.com/wp-content/uploads/2015/11/19.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/11/19-300x68.png" alt="1"></a></p>
+<p><img src="http://magicwt.com/wp-content/uploads/2015/11/19.png" alt="1"></p>
 
       
     </div>

@@ -1098,9 +1098,11 @@
 
       
         
-          
-          今天在开发时遇到了如下错误：[blockquote]Caused by: java.lang.NoClassDefFoundError: Could not initialize class net.sf.json.JsonConfig[/blockquote]NoClassDefFoundErro
-          ...
+          <p>今天在开发时遇到了如下错误：</p>
+<blockquote>
+<p>Caused by: java.lang.NoClassDefFoundError: Could not initialize class net.sf.json.JsonConfig</p>
+</blockquote>
+<p>NoClassDefFoundError不同于ClassNotFoundException，而且在pom.xml里面已经加上了net.sf.json.JsonConfig的jar包依赖，所以不是缺少该类，而是在类加载时发生了错误，进一步看JsonConfig的源码，发现import了以下两个类：<br>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2014/04/01/e8-a7-a3-e5-86-b3noclassdeffounderror-could-not-initialize-class-net-sf-json-jsonconfig/#more" rel="contents">
@@ -1110,7 +1112,7 @@
           <!--/noindex-->
         
       
-    </div>
+    </p></div>
     
     
     
@@ -1267,10 +1269,10 @@
 
       
         
-          
-          Given a sorted array, remove the duplicates in place such that each element appear only once and return the new length.
-Do not allocate extra space fo
-          ...
+          <p>Given a sorted array, remove the duplicates in place such that each element appear only once and return the new length.</p>
+<p>Do not allocate extra space for another array, you must do this in place with constant memory.</p>
+<p>For example,<br>Given input array nums = [1,1,2],</p>
+<p>Your function should return length = 2, with the first two elements of nums being 1 and 2 respectively. It doesn’t matter what you leave beyond the new length.</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2014/03/13/remove-duplicates-from-sorted-array/#more" rel="contents">
@@ -1437,10 +1439,11 @@ Do not allocate extra space fo
 
       
         
-          
-          Thrift（http://thrift.apache.org/）是一个支持多种语言的远程服务调用框架，最初由Facebook开发，目前由Apache基金会负责维护。
-安装[blockquote]tar -zxvf thrift-0.9.1.tar.gzcd thrift-0.9.1/./confi
-          ...
+          <p><a href="http://thrift.apache.org/" target="_blank" rel="noopener">Thrift</a>是一个支持多种语言的远程服务调用框架，最初由Facebook开发，目前由Apache基金会负责维护。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><blockquote>
+<p>tar -zxvf thrift-0.9.1.tar.gz<br>cd thrift-0.9.1/<br>./configure<br>make<br>make install</p>
+</blockquote>
+<p>安装成功后，可以使用“thrift”命令。<br>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2014/03/11/thrift-e7-ae-80-e4-bb-8b-e4-b8-8e-e5-ae-9e-e8-b7-b5/#more" rel="contents">
@@ -1450,7 +1453,7 @@ Do not allocate extra space fo
           <!--/noindex-->
         
       
-    </div>
+    </p></div>
     
     
     
@@ -1607,18 +1610,24 @@ Do not allocate extra space fo
 
       
         
-          
-          redis默认端口是6379，使用iptables限制该端口访问。
-设置规则链
-新建规则链：
-
-iptables -N RH-Firewall-1-INPUT
-
-
-在规则链中添加可以访问6379端口的规则：
-
-iptables -A RH-Firewall-1-INPUT -p tcp –dport
-          ...
+          <p>redis默认端口是6379，使用iptables限制该端口访问。</p>
+<h2 id="设置规则链"><a href="#设置规则链" class="headerlink" title="设置规则链"></a>设置规则链</h2><ol>
+<li><p>新建规则链：</p>
+<blockquote>
+<p>iptables -N RH-Firewall-1-INPUT</p>
+</blockquote>
+</li>
+<li><p>在规则链中添加可以访问6379端口的规则，表示ip XXX.XXX.XXX.XXX可以访问redis端口，可以多次添加，为不同的ip设置访问权限：</p>
+<blockquote>
+<p>iptables -A RH-Firewall-1-INPUT -p tcp –dport 6379 -s XXX.XXX.XXX.XXX -j ACCEPT</p>
+</blockquote>
+</li>
+<li><p>在规则链中添加禁止访问6379端口的规则，表示任意ip都禁止访问redis端口：</p>
+<blockquote>
+<p>iptables -A RH-Firewall-1-INPUT -p tcp –dport 6379 -s 0.0.0.0/0 -j DROP</p>
+</blockquote>
+</li>
+</ol>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2014/02/14/e4-bd-bf-e7-94-a8iptables-e9-99-90-e5-88-b6redis-e7-ab-af-e5-8f-a3-e7-9a-84-e8-ae-bf-e9-97-ae/#more" rel="contents">
@@ -1785,9 +1794,10 @@ iptables -A RH-Firewall-1-INPUT -p tcp –dport
 
       
         
-          
-          在一个系统中程序每隔5分钟会通过ProcessBuilder创建进程执行shell脚本。系统运行一段时间后，会报以下错误：[blockquote]java.io.IOException: Cannot run program “ssh”: java.io.IOException: error=24,
-          ...
+          <p>在一个系统中程序每隔5分钟会通过ProcessBuilder创建进程执行shell脚本。系统运行一段时间后，会报以下错误：</p>
+<blockquote>
+<p>java.io.IOException: Cannot run program “ssh”: java.io.IOException: error=24, Too many open files at java.lang.ProcessBuilder.start(ProcessBuilder.java:460)</p>
+</blockquote>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2014/01/10/processbuilder-e4-b8-adtoo-many-open-files-e9-94-99-e8-af-af-e7-9a-84-e8-a7-a3-e5-86-b3/#more" rel="contents">
@@ -1954,9 +1964,7 @@ iptables -A RH-Firewall-1-INPUT -p tcp –dport
 
       
         
-          
-          系统使用了TinyMCE，最近修改了前端的一个功能，即在提交前，取出TinyMCE编辑器中的内容，使用Ajax方式传入后台，修改内容，再传回前台填入TincyMCE编辑器中。测试时发现内容传回前台后，会经常在有些地方多个“？”号，感觉是内容在传入后台、传回前台时发生了乱码问题，但排查了一下，系统的编
-          ...
+          <p>系统使用了TinyMCE，最近修改了前端的一个功能，即在提交前，取出TinyMCE编辑器中的内容，使用Ajax方式传入后台，修改内容，再传回前台填入TincyMCE编辑器中。测试时发现内容传回前台后，会经常在有些地方多个“？”号，感觉是内容在传入后台、传回前台时发生了乱码问题，但排查了一下，系统的编码并没有问题，后来再排查并通过从网上查找资料，找到了原因。<br>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2013/12/24/tinymce-e9-ab-98-e7-ba-a7-e7-bc-96-e8-be-91-e5-99-a8-e4-b8-ad-e7-9a-84-e4-b8-80-e4-b8-aa-e4-b9-b1-e7-a0-81-e9-97-ae-e9-a2-98/#more" rel="contents">
@@ -1966,7 +1974,7 @@ iptables -A RH-Firewall-1-INPUT -p tcp –dport
           <!--/noindex-->
         
       
-    </div>
+    </p></div>
     
     
     

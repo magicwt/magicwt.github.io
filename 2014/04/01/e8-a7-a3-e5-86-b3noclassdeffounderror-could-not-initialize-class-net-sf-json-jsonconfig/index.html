@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="今天在开发时遇到了如下错误：[blockquote]Caused by: java.lang.NoClassDefFoundError: Could not initialize class net.sf.json.JsonConfig[/blockquote]NoClassDefFoundError不同于ClassNotFoundException，而且在pom.xml里面已经加上了net.sf">
+<meta name="description" content="今天在开发时遇到了如下错误：  Caused by: java.lang.NoClassDefFoundError: Could not initialize class net.sf.json.JsonConfig  NoClassDefFoundError不同于ClassNotFoundException，而且在pom.xml里面已经加上了net.sf.json.JsonConfig的jar包">
 <meta property="og:type" content="article">
 <meta property="og:title" content="解决NoClassDefFoundError: Could not initialize class net.sf.json.JsonConfig">
 <meta property="og:url" content="http://yoursite.com/2014/04/01/e8-a7-a3-e5-86-b3noclassdeffounderror-could-not-initialize-class-net-sf-json-jsonconfig/index.html">
 <meta property="og:site_name" content="不积跬步，无以至千里">
-<meta property="og:description" content="今天在开发时遇到了如下错误：[blockquote]Caused by: java.lang.NoClassDefFoundError: Could not initialize class net.sf.json.JsonConfig[/blockquote]NoClassDefFoundError不同于ClassNotFoundException，而且在pom.xml里面已经加上了net.sf">
+<meta property="og:description" content="今天在开发时遇到了如下错误：  Caused by: java.lang.NoClassDefFoundError: Could not initialize class net.sf.json.JsonConfig  NoClassDefFoundError不同于ClassNotFoundException，而且在pom.xml里面已经加上了net.sf.json.JsonConfig的jar包">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-12-04T10:47:42.322Z">
+<meta property="og:updated_time" content="2018-12-07T17:37:30.653Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="解决NoClassDefFoundError: Could not initialize class net.sf.json.JsonConfig">
-<meta name="twitter:description" content="今天在开发时遇到了如下错误：[blockquote]Caused by: java.lang.NoClassDefFoundError: Could not initialize class net.sf.json.JsonConfig[/blockquote]NoClassDefFoundError不同于ClassNotFoundException，而且在pom.xml里面已经加上了net.sf">
+<meta name="twitter:description" content="今天在开发时遇到了如下错误：  Caused by: java.lang.NoClassDefFoundError: Could not initialize class net.sf.json.JsonConfig  NoClassDefFoundError不同于ClassNotFoundException，而且在pom.xml里面已经加上了net.sf.json.JsonConfig的jar包">
 
 
 
@@ -394,7 +394,12 @@
       
 
       
-        <p>今天在开发时遇到了如下错误：<br>[blockquote]Caused by: java.lang.NoClassDefFoundError: Could not initialize class net.sf.json.JsonConfig[/blockquote]<br>NoClassDefFoundError不同于ClassNotFoundException，而且在pom.xml里面已经加上了net.sf.json.JsonConfig的jar包依赖，所以不是缺少该类，而是在类加载时发生了错误，进一步看JsonConfig的源码，发现import了以下两个类：<br>[blockquote]import org.apache.commons.collections.map.MultiKeyMap;<br>import org.apache.commons.lang.StringUtils;[/blockquote]<br>查看pom.xml中的依赖，发现commons-collections包的版本是2.1.1，里面并没有org.apache.commons.collections.map.MultiKeyMap这个类，于是在pom.xml里面修改了commons-collections的依赖，使用版本3.2.1，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;commons-collections&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;commons-collections&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;3.2.1&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
+        <p>今天在开发时遇到了如下错误：</p>
+<blockquote>
+<p>Caused by: java.lang.NoClassDefFoundError: Could not initialize class net.sf.json.JsonConfig</p>
+</blockquote>
+<p>NoClassDefFoundError不同于ClassNotFoundException，而且在pom.xml里面已经加上了net.sf.json.JsonConfig的jar包依赖，所以不是缺少该类，而是在类加载时发生了错误，进一步看JsonConfig的源码，发现import了以下两个类：<br><a id="more"></a><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.commons.collections.map.MultiKeyMap;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.lang.StringUtils;</span><br></pre></td></tr></table></figure></p>
+<p>查看pom.xml中的依赖，发现commons-collections包的版本是2.1.1，里面并没有org.apache.commons.collections.map.MultiKeyMap这个类，于是在pom.xml里面修改了commons-collections的依赖，使用版本3.2.1，如下：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>commons-collections<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>commons-collections<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.2.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
 <p>重新编译部署后，不再报错。</p>
 
       
