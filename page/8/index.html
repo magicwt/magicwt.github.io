@@ -1805,7 +1805,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2012/06/01/e9-93-be-e8-a1-a8-e5-8f-8d-e8-bd-ac-e7-9a-84-e9-80-92-e5-bd-92-e5-92-8c-e9-9d-9e-e9-80-92-e5-bd-92/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2012/06/01/e5-a4-9a-e5-8f-89-e6-a0-91-e7-9a-84-e5-ae-bd-e5-ba-a6-e4-bc-98-e5-85-88-e6-90-9c-e7-b4-a2bfs/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="magicwt">
@@ -1824,7 +1824,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2012/06/01/e9-93-be-e8-a1-a8-e5-8f-8d-e8-bd-ac-e7-9a-84-e9-80-92-e5-bd-92-e5-92-8c-e9-9d-9e-e9-80-92-e5-bd-92/" itemprop="url">链表反转的递归和非递归</a></h1>
+                <a class="post-title-link" href="/2012/06/01/e5-a4-9a-e5-8f-89-e6-a0-91-e7-9a-84-e5-ae-bd-e5-ba-a6-e4-bc-98-e5-85-88-e6-90-9c-e7-b4-a2bfs/" itemprop="url">多叉树的宽度优先搜索BFS</a></h1>
         
 
         <div class="post-meta">
@@ -1877,8 +1877,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2012/06/01/e9-93-be-e8-a1-a8-e5-8f-8d-e8-bd-ac-e7-9a-84-e9-80-92-e5-bd-92-e5-92-8c-e9-9d-9e-e9-80-92-e5-bd-92/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2012/06/01/e9-93-be-e8-a1-a8-e5-8f-8d-e8-bd-ac-e7-9a-84-e9-80-92-e5-bd-92-e5-92-8c-e9-9d-9e-e9-80-92-e5-bd-92/" itemprop="commentCount"></span>
+                <a href="/2012/06/01/e5-a4-9a-e5-8f-89-e6-a0-91-e7-9a-84-e5-ae-bd-e5-ba-a6-e4-bc-98-e5-85-88-e6-90-9c-e7-b4-a2bfs/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2012/06/01/e5-a4-9a-e5-8f-89-e6-a0-91-e7-9a-84-e5-ae-bd-e5-ba-a6-e4-bc-98-e5-85-88-e6-90-9c-e7-b4-a2bfs/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1886,7 +1886,7 @@
 
           
           
-             <span id="/2012/06/01/e9-93-be-e8-a1-a8-e5-8f-8d-e8-bd-ac-e7-9a-84-e9-80-92-e5-bd-92-e5-92-8c-e9-9d-9e-e9-80-92-e5-bd-92/" class="leancloud_visitors" data-flag-title="链表反转的递归和非递归">
+             <span id="/2012/06/01/e5-a4-9a-e5-8f-89-e6-a0-91-e7-9a-84-e5-ae-bd-e5-ba-a6-e4-bc-98-e5-85-88-e6-90-9c-e7-b4-a2bfs/" class="leancloud_visitors" data-flag-title="多叉树的宽度优先搜索BFS">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -1919,12 +1919,11 @@
       
         
           
-          如题，给出链表反转的递归和非递归算法：
-123456789101112131415161718Node *reverse (Node *head)&#123;    Node *p1=NULL,*p2=NULL,*p3=NULL;    if(NULL == head || NULL == head
+          首先，选择一个合适的数据结构存储多叉树，我使用了“左孩子右兄弟”的方法，使用二叉树来存储多叉树，便于实现和遍历。其次，宽度优先搜索时：1.用队列（先进先出）保存遍历路径。2.搜索顺序：对节点A，先访问节点的左节点（第一个孩子节点），从该左节点开始一直向右遍历直到最右叶子节点（所有兄弟节点），此时遍历
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2012/06/01/e9-93-be-e8-a1-a8-e5-8f-8d-e8-bd-ac-e7-9a-84-e9-80-92-e5-bd-92-e5-92-8c-e9-9d-9e-e9-80-92-e5-bd-92/#more" rel="contents">
+            <a class="btn" href="/2012/06/01/e5-a4-9a-e5-8f-89-e6-a0-91-e7-9a-84-e5-ae-bd-e5-ba-a6-e4-bc-98-e5-85-88-e6-90-9c-e7-b4-a2bfs/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>

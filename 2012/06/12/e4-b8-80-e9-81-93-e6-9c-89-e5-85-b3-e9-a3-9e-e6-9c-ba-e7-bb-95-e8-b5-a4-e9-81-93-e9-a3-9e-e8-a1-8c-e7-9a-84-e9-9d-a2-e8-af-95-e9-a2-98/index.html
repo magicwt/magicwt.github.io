@@ -86,16 +86,16 @@
 <meta property="og:site_name" content="不积跬步，无以至千里">
 <meta property="og:description" content="假设赤道上有且仅有一座机场，并有若干架飞机，每架飞机的油量可保证飞半个赤道的距离。现在要求一架飞机从机场起飞，绕赤道一圈后，返回机场。在该飞机飞行过程中，不能中途降落、返回。其他飞机可返回，也可在空中给飞机加油，但不能降落，且必须返回机场。求飞机飞行和加油策略。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/11/220439818-300x213.jpg">
-<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/11/221936254-300x95.jpg">
-<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/11/222029678-300x99.jpg">
-<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/11/223535930-300x105.jpg">
-<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/11/223422555-300x99.jpg">
-<meta property="og:updated_time" content="2018-12-04T12:28:33.603Z">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/11/220439818.jpg">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/11/221936254.jpg">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/11/222029678.jpg">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/11/223535930.jpg">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/11/223422555.jpg">
+<meta property="og:updated_time" content="2018-12-08T14:10:52.929Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一道有关飞机绕赤道飞行的面试题">
 <meta name="twitter:description" content="假设赤道上有且仅有一座机场，并有若干架飞机，每架飞机的油量可保证飞半个赤道的距离。现在要求一架飞机从机场起飞，绕赤道一圈后，返回机场。在该飞机飞行过程中，不能中途降落、返回。其他飞机可返回，也可在空中给飞机加油，但不能降落，且必须返回机场。求飞机飞行和加油策略。">
-<meta name="twitter:image" content="http://magicwt.com/wp-content/uploads/2015/11/220439818-300x213.jpg">
+<meta name="twitter:image" content="http://magicwt.com/wp-content/uploads/2015/11/220439818.jpg">
 
 
 
@@ -401,12 +401,15 @@
 
       
         <p>假设赤道上有且仅有一座机场，并有若干架飞机，每架飞机的油量可保证飞半个赤道的距离。现在要求一架飞机从机场起飞，绕赤道一圈后，返回机场。在该飞机飞行过程中，不能中途降落、返回。其他飞机可返回，也可在空中给飞机加油，但不能降落，且必须返回机场。求飞机飞行和加油策略。<br><a id="more"></a></p>
-<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>假设完成环球飞行的飞机为A，由于A的油量仅满足飞行赤道半圈，所以必须通过其他飞机给其加油。<br>而其他飞机给A加油时，也需要使自己剩余的油量能够保证返回机场，因此，尽量在离机场近的空中给A加油，这样的策略才较优，因此，首先初步的策略是：<br><strong>A飞行至1/4圈处，其他同向飞行的飞机给A加满油返回，A独自飞行1/2圈，至3/4圈处，从机场逆向起飞的飞机飞行至3/4圈处，给A加适量油，保证其继续飞行至机场。</strong><br><a href="http://magicwt.com/wp-content/uploads/2015/11/220439818.jpg" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/11/220439818-300x213.jpg" alt="220439818"></a><br>图中，矩形框表示A的油箱。<br>针对上述初步策略，下面需要求解的问题是：从0至1/4圈和从3/4圈至1圈，如何安排飞机给A加油并保证其他飞机返回。<br>从0至1/4圈的解决方案是：</p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>假设完成环球飞行的飞机为A，由于A的油量仅满足飞行赤道半圈，所以必须通过其他飞机给其加油。<br>而其他飞机给A加油时，也需要使自己剩余的油量能够保证返回机场，因此，尽量在离机场近的空中给A加油，这样的策略才较优，因此，首先初步的策略是：<br>A飞行至1/4圈处，其他同向飞行的飞机给A加满油返回，A独自飞行1/2圈，至3/4圈处，从机场逆向起飞的飞机飞行至3/4圈处，给A加适量油，保证其继续飞行至机场。<br><img src="http://magicwt.com/wp-content/uploads/2015/11/220439818.jpg" alt="220439818"><br>图中，矩形框表示A的油箱。<br>针对上述初步策略，下面需要求解的问题是：从0至1/4圈和从3/4圈至1圈，如何安排飞机给A加油并保证其他飞机返回。<br>从0至1/4圈的解决方案是：</p>
 <ol>
-<li>A和B1、B2从机场起飞，飞至1/8圈处，B2分别给A、B1加满油，剩下1/4的油可返回机场。<br><a href="http://magicwt.com/wp-content/uploads/2015/11/221936254.jpg" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/11/221936254-300x95.jpg" alt="221936254"></a></li>
-<li>A和B1飞至1/4圈处，B1给A加满油，剩下1/2的油可返回机场。<br><a href="http://magicwt.com/wp-content/uploads/2015/11/222029678.jpg" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/11/222029678-300x99.jpg" alt="222029678"></a><br>从3/4至1圈的解决方案是：</li>
-<li>A独自飞行至3/4圈处，迎面飞来的C1给A加1/4油，剩下1/4油。<br><a href="http://magicwt.com/wp-content/uploads/2015/11/223535930.jpg" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/11/223535930-300x105.jpg" alt="223535930"></a></li>
-<li>A、C1飞行至7/8圈处，迎面飞来的C2分别给A、C1加1/4油，剩下1/4油，从而三架飞机均可返回机场。<br><a href="http://magicwt.com/wp-content/uploads/2015/11/223422555.jpg" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/11/223422555-300x99.jpg" alt="223422555"></a></li>
+<li>A和B1、B2从机场起飞，飞至1/8圈处，B2分别给A、B1加满油，剩下1/4的油可返回机场。<br><img src="http://magicwt.com/wp-content/uploads/2015/11/221936254.jpg" alt="221936254"></li>
+<li>A和B1飞至1/4圈处，B1给A加满油，剩下1/2的油可返回机场。<br><img src="http://magicwt.com/wp-content/uploads/2015/11/222029678.jpg" alt="222029678"></li>
+</ol>
+<p>从3/4至1圈的解决方案是：</p>
+<ol>
+<li>A独自飞行至3/4圈处，迎面飞来的C1给A加1/4油，剩下1/4油。<br><img src="http://magicwt.com/wp-content/uploads/2015/11/223535930.jpg" alt="223535930"></li>
+<li>A、C1飞行至7/8圈处，迎面飞来的C2分别给A、C1加1/4油，剩下1/4油，从而三架飞机均可返回机场。<br><img src="http://magicwt.com/wp-content/uploads/2015/11/223422555.jpg" alt="223422555"></li>
 </ol>
 
       

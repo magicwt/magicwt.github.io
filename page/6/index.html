@@ -1406,9 +1406,12 @@
 
       
         
-          
-          Keepalived介绍Keepalived是一款高可用软件，它的功能主要包括两方面：1）通过IP漂移，实现服务的高可用：服务器集群共享一个虚拟IP，同一时间只有一个服务器占有虚拟IP并对外提供服务，若该服务器不可用，则虚拟IP漂移至另一台服务器并对外提供服务；2）对LVS应用服务层的应用服务器集群
-          ...
+          <h2 id="Keepalived介绍"><a href="#Keepalived介绍" class="headerlink" title="Keepalived介绍"></a>Keepalived介绍</h2><p>Keepalived是一款高可用软件，它的功能主要包括两方面：</p>
+<ol>
+<li>通过IP漂移，实现服务的高可用：服务器集群共享一个虚拟IP，同一时间只有一个服务器占有虚拟IP并对外提供服务，若该服务器不可用，则虚拟IP漂移至另一台服务器并对外提供服务；</li>
+<li>对LVS应用服务层的应用服务器集群进行状态监控：若应用服务器不可用，则keepalived将其从集群中摘除，若应用服务器恢复，则keepalived将其重新加入集群中。</li>
+</ol>
+<p>Keepalived可以单独使用，即通过IP漂移实现服务的高可用，也可以结合LVS使用，即一方面通过IP漂移实现LVS负载均衡层的高可用，另一方面实现LVS应用服务层的状态监控，如图所示：<br><img src="http://magicwt.com/wp-content/uploads/2015/11/13.png" alt="1"><br>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2013/06/30/keepalived-e4-bb-8b-e7-bb-8d/#more" rel="contents">
@@ -1418,7 +1421,7 @@
           <!--/noindex-->
         
       
-    </div>
+    </p></div>
     
     
     
@@ -1909,9 +1912,13 @@
 
       
         
-          
-          目前，SSH（Struts+Spring+Hibernate）是Web开发的一种常用框架组合，Struts实现了MVC，Hibernate实现了关系对象映射，Spring实现了基于Bean的配置管理。本文使用 MyEclipse实现Spring+Hibernate的整合。软件和框架使用版本：MyEc
-          ...
+          <p>目前，SSH（Struts+Spring+Hibernate）是Web开发的一种常用框架组合，Struts实现了MVC，Hibernate实现了关系对象映射，Spring实现了基于Bean的配置管理。本文使用 MyEclipse实现Spring+Hibernate的整合。<br>软件和框架使用版本：</p>
+<ul>
+<li>MyEclipse：8.0</li>
+<li>Spring：2.5</li>
+<li>Hibernate：3.2</li>
+<li>MySQL：5.1</li>
+</ul>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2012/07/27/myeclipse-e4-b8-8bspringhibernate-e6-95-b4-e5-90-88/#more" rel="contents">

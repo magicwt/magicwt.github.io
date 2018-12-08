@@ -79,19 +79,19 @@
 
 
 
-<meta name="description" content="Java包含两种基本的类加载器，分别是启动类加载器和用户自定义类加载器。启动类加载器负责加载核心Java API的class文件，而用户自定义类加载器负责加载其他class文件，如用于安装或下载标准扩展class文件的标准扩展类加载器，在类路径中发现类库class文件的类路径类加载器。Java中类加载机制采用委派双亲模式。启动类加载器、标准扩展类加载器、类路径类加载器等组成双亲-孩子关系链，如图所">
+<meta name="description" content="Java包含两种基本的类加载器，分别是启动类加载器和用户自定义类加载器。启动类加载器负责加载核心Java API的class文件，而用户自定义类加载器负责加载其他class文件，如用于安装或下载标准扩展class文件的标准扩展类加载器，在类路径中发现类库class文件的类路径类加载器。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java的类加载机制">
 <meta property="og:url" content="http://yoursite.com/2012/07/15/java-e7-9a-84-e7-b1-bb-e5-8a-a0-e8-bd-bd-e6-9c-ba-e5-88-b6/index.html">
 <meta property="og:site_name" content="不积跬步，无以至千里">
-<meta property="og:description" content="Java包含两种基本的类加载器，分别是启动类加载器和用户自定义类加载器。启动类加载器负责加载核心Java API的class文件，而用户自定义类加载器负责加载其他class文件，如用于安装或下载标准扩展class文件的标准扩展类加载器，在类路径中发现类库class文件的类路径类加载器。Java中类加载机制采用委派双亲模式。启动类加载器、标准扩展类加载器、类路径类加载器等组成双亲-孩子关系链，如图所">
+<meta property="og:description" content="Java包含两种基本的类加载器，分别是启动类加载器和用户自定义类加载器。启动类加载器负责加载核心Java API的class文件，而用户自定义类加载器负责加载其他class文件，如用于安装或下载标准扩展class文件的标准扩展类加载器，在类路径中发现类库class文件的类路径类加载器。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/11/22-300x194.png">
-<meta property="og:updated_time" content="2018-12-04T10:47:42.320Z">
+<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2015/11/22.png">
+<meta property="og:updated_time" content="2018-12-08T13:50:46.345Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java的类加载机制">
-<meta name="twitter:description" content="Java包含两种基本的类加载器，分别是启动类加载器和用户自定义类加载器。启动类加载器负责加载核心Java API的class文件，而用户自定义类加载器负责加载其他class文件，如用于安装或下载标准扩展class文件的标准扩展类加载器，在类路径中发现类库class文件的类路径类加载器。Java中类加载机制采用委派双亲模式。启动类加载器、标准扩展类加载器、类路径类加载器等组成双亲-孩子关系链，如图所">
-<meta name="twitter:image" content="http://magicwt.com/wp-content/uploads/2015/11/22-300x194.png">
+<meta name="twitter:description" content="Java包含两种基本的类加载器，分别是启动类加载器和用户自定义类加载器。启动类加载器负责加载核心Java API的class文件，而用户自定义类加载器负责加载其他class文件，如用于安装或下载标准扩展class文件的标准扩展类加载器，在类路径中发现类库class文件的类路径类加载器。">
+<meta name="twitter:image" content="http://magicwt.com/wp-content/uploads/2015/11/22.png">
 
 
 
@@ -396,7 +396,7 @@
       
 
       
-        <p>Java包含两种基本的类加载器，分别是启动类加载器和用户自定义类加载器。启动类加载器负责加载核心Java API的class文件，而用户自定义类加载器负责加载其他class文件，如用于安装或下载标准扩展class文件的标准扩展类加载器，在类路径中发现类库class文件的类路径类加载器。<br>Java中类加载机制采用委派双亲模式。启动类加载器、标准扩展类加载器、类路径类加载器等组成双亲-孩子关系链，如图所示。<br>在委派双亲模式下，当需要加载一个类时，类加载器首先将加载请求传递给它的双亲加载器，如此直至将加载请求向上传递给启动类加载器。若启动类加载器可以加载，则由其加载，若启动类加载器无法加载，则将加载请求传递给它的孩子加载器，如此直至将加载请求向下传递给可以加载的类加载器并实现加载。<br>例如：<br><a href="http://magicwt.com/wp-content/uploads/2015/11/22.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/11/22-300x194.png" alt="22"></a><br>当需要加载java.util.HashMap类时，首先将加载请求向上传递给启动类加载器，由于核心Java API包含java.util.HashMap，因此由启动类加载器完成加载即可。<br>而当需要加载com.wt.Test类时，首先仍将加载请求向上传递给启动类加载器，由于核心Java API不包含com.wt.Test，因此加载请求又向下传递给标准扩展类加载器，而由于属于标准扩展也不包含com.wt.Test，因此加载请求又向下传递给类路径类加载器。若com.wt.Test在类路径下，则由类路径类加载器完成加载，若com.wt.Test不在类路径下，则再由网络类加载器尝试从网络中实现加载。<br>采用委派双亲模式实现类加载有利于类安全。例如，对于java.util.HashMap，可以保证由启动类加载器加载，采用核心Java API中的类，而避免由用户自定义类加载器加载时，可能采用被恶意修改的同名类。<br>参考：《深入Java虚拟机》，Bill Venners 著</p>
+        <p>Java包含两种基本的类加载器，分别是启动类加载器和用户自定义类加载器。启动类加载器负责加载核心Java API的class文件，而用户自定义类加载器负责加载其他class文件，如用于安装或下载标准扩展class文件的标准扩展类加载器，在类路径中发现类库class文件的类路径类加载器。<br><a id="more"></a><br>Java中类加载机制采用委派双亲模式。启动类加载器、标准扩展类加载器、类路径类加载器等组成双亲-孩子关系链，如图所示。<br>在委派双亲模式下，当需要加载一个类时，类加载器首先将加载请求传递给它的双亲加载器，如此直至将加载请求向上传递给启动类加载器。若启动类加载器可以加载，则由其加载，若启动类加载器无法加载，则将加载请求传递给它的孩子加载器，如此直至将加载请求向下传递给可以加载的类加载器并实现加载。<br>例如：<br><img src="http://magicwt.com/wp-content/uploads/2015/11/22.png" alt="22"><br>当需要加载java.util.HashMap类时，首先将加载请求向上传递给启动类加载器，由于核心Java API包含java.util.HashMap，因此由启动类加载器完成加载即可。<br>而当需要加载com.wt.Test类时，首先仍将加载请求向上传递给启动类加载器，由于核心Java API不包含com.wt.Test，因此加载请求又向下传递给标准扩展类加载器，而由于属于标准扩展也不包含com.wt.Test，因此加载请求又向下传递给类路径类加载器。若com.wt.Test在类路径下，则由类路径类加载器完成加载，若com.wt.Test不在类路径下，则再由网络类加载器尝试从网络中实现加载。<br>采用委派双亲模式实现类加载有利于类安全。例如，对于java.util.HashMap，可以保证由启动类加载器加载，采用核心Java API中的类，而避免由用户自定义类加载器加载时，可能采用被恶意修改的同名类。<br>参考：《深入Java虚拟机》，Bill Venners 著</p>
 
       
     </div>

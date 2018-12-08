@@ -394,10 +394,8 @@
 
       
         
-          
-          线程的协调在Java多线程中，对于线程之间共享的实例资源，可以通过synchronized修饰符修饰其方法，实现线程之间的同步。另外，在多线程设计中，还需考虑到线程之间的协调。关于协调的一个典型设计模式便是Producer-Consumer（生产者-消费者）模式。
-Producer-Consumer
-          ...
+          <h2 id="线程的协调"><a href="#线程的协调" class="headerlink" title="线程的协调"></a>线程的协调</h2><p>在Java多线程中，对于线程之间共享的实例资源，可以通过synchronized修饰符修饰其方法，实现线程之间的同步。另外，在多线程设计中，还需考虑到线程之间的协调。关于协调的一个典型设计模式便是Producer-Consumer（生产者-消费者）模式。</p>
+<h2 id="Producer-Consumer（生产者-消费者）模式"><a href="#Producer-Consumer（生产者-消费者）模式" class="headerlink" title="Producer-Consumer（生产者-消费者）模式"></a>Producer-Consumer（生产者-消费者）模式</h2><p>在这一模式中，存在Producer和Consumer两类线程，Producer线程用于生成Data（共享数据资源），而Consumer线程用于消费Data，在Producer和Consumer之间，存在对于Data生成和消费的协调，即当不存在Data时，Consumer线程需要等待Producer线程生成新的Data，而当Data过多时，Producer线程需要等待Consumer线程消费过多的Data。在Producer-Consumer模式中，引入了Channel（管道）类，负责Data在各线程之间的协调。Producer-Consumer模式的UML类图如下所示。<br><img src="http://magicwt.com/wp-content/uploads/2015/11/152350862.jpg" alt="152350862"><br>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2012/07/21/e6-b5-85-e8-b0-88java-e5-a4-9a-e7-ba-bf-e7-a8-8b-ef-bc-88-e4-ba-8c-ef-bc-89/#more" rel="contents">
@@ -407,7 +405,7 @@ Producer-Consumer
           <!--/noindex-->
         
       
-    </div>
+    </p></div>
     
     
     
@@ -564,9 +562,7 @@ Producer-Consumer
 
       
         
-          
-          Java支持多线程，可以通过继续Thread类或实现Runnable接口定义线程类，并在该类中重写run方法。一个简单的Java线程类MyThread如下所示。1234567891011121314151617181920212223package com.wt.testThread;  publi
-          ...
+          <p>Java支持多线程，可以通过继续Thread类或实现Runnable接口定义线程类，并在该类中重写run方法。<br>一个简单的Java线程类MyThread如下所示。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.wt.testThread;  </span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyThread</span> <span class="keyword">extends</span> <span class="title">Thread</span></span>&#123;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span>  </span></span><br><span class="line"><span class="function">    </span>&#123;  </span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>;  </span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>)  </span><br><span class="line">        &#123;  </span><br><span class="line">            i++;  </span><br><span class="line">            System.out.println(<span class="string">"MyThread Processing --&gt; "</span>+i);  </span><br><span class="line">            <span class="keyword">try</span> &#123;  </span><br><span class="line">                Thread.sleep(<span class="number">500</span>);  </span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;&#125;  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span>  </span></span><br><span class="line"><span class="function">    </span>&#123;  </span><br><span class="line">        MyThread thread = <span class="keyword">new</span> MyThread();  </span><br><span class="line">        thread.start();  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2012/07/18/e6-b5-85-e8-b0-88java-e5-a4-9a-e7-ba-bf-e7-a8-8b-ef-bc-88-e4-b8-80-ef-bc-89/#more" rel="contents">
@@ -733,9 +729,7 @@ Producer-Consumer
 
       
         
-          
-          Java包含两种基本的类加载器，分别是启动类加载器和用户自定义类加载器。启动类加载器负责加载核心Java API的class文件，而用户自定义类加载器负责加载其他class文件，如用于安装或下载标准扩展class文件的标准扩展类加载器，在类路径中发现类库class文件的类路径类加载器。Java中类加
-          ...
+          <p>Java包含两种基本的类加载器，分别是启动类加载器和用户自定义类加载器。启动类加载器负责加载核心Java API的class文件，而用户自定义类加载器负责加载其他class文件，如用于安装或下载标准扩展class文件的标准扩展类加载器，在类路径中发现类库class文件的类路径类加载器。<br>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2012/07/15/java-e7-9a-84-e7-b1-bb-e5-8a-a0-e8-bd-bd-e6-9c-ba-e5-88-b6/#more" rel="contents">
@@ -745,7 +739,7 @@ Producer-Consumer
           <!--/noindex-->
         
       
-    </div>
+    </p></div>
     
     
     
@@ -902,12 +896,92 @@ Producer-Consumer
 
       
         
-          
-          八皇后问题是在8*8的棋盘上放置8枚皇后，使得棋盘中每个纵向、横向、左上至右下斜向、右上至左下斜向均只有一枚皇后。八皇后的一个可行解如图所示：
-
-
-思路对于八皇后的求解可采用回溯算法，从上至下依次在每一行放置皇后，进行搜索，若在某一行的任意一列放置皇后均不能满足要求，则不再向下搜索，而进行回溯，回溯
-          ...
+          <p>八皇后问题是在8*8的棋盘上放置8枚皇后，使得棋盘中每个纵向、横向、左上至右下斜向、右上至左下斜向均只有一枚皇后。八皇后的一个可行解如图所示：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th><img src="http://magicwt.com/wp-content/uploads/2015/11/234818981-300x281.jpg" alt="234818981"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td><img src="http://magicwt.com/wp-content/uploads/2015/11/234818981-300x281.jpg" alt="234818981"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><img src="http://magicwt.com/wp-content/uploads/2015/11/234818981-300x281.jpg" alt="234818981"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><img src="http://magicwt.com/wp-content/uploads/2015/11/234818981-300x281.jpg" alt="234818981"></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><img src="http://magicwt.com/wp-content/uploads/2015/11/234818981-300x281.jpg" alt="234818981"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><img src="http://magicwt.com/wp-content/uploads/2015/11/234818981-300x281.jpg" alt="234818981"></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><img src="http://magicwt.com/wp-content/uploads/2015/11/234818981-300x281.jpg" alt="234818981"></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td><img src="http://magicwt.com/wp-content/uploads/2015/11/234818981-300x281.jpg" alt="234818981"></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2012/07/11/e5-85-ab-e7-9a-87-e5-90-8e-e9-97-ae-e9-a2-98-e4-b8-8e-e5-9b-9e-e6-ba-af-e7-ae-97-e6-b3-95/#more" rel="contents">
@@ -1074,9 +1148,12 @@ Producer-Consumer
 
       
         
-          
-          1.OOP三特性2.Java中如何实现多继承3.Java对象生成过程4.HashTable和HashMap的区别5.接口的成员域具有什么属性6.经常使用的三种设计模式，画出UML图，并写出Java代码7.final、finally、finalize的区别8.SOAP、WSDL、UDDI的作用9.Ja
-          ...
+          <ol>
+<li>OOP三特性</li>
+<li>Java中如何实现多继承</li>
+<li>Java对象生成过程</li>
+<li>HashTable和HashMap的区别</li>
+</ol>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2012/06/23/java-e7-ac-94-e8-af-95-e9-a2-98/#more" rel="contents">
@@ -1243,9 +1320,7 @@ Producer-Consumer
 
       
         
-          
-          Java是面向对象的一种语言，在Java对象生成的过程，涉及子类和父类的加载、静态成员变量的初始化、子类和父类对象的初始化等过程，其具体过程通过下述代码来说明。1234567891011121314151617181920212223242526272829303132333435363738394
-          ...
+          <p>Java是面向对象的一种语言，在Java对象生成的过程，涉及子类和父类的加载、静态成员变量的初始化、子类和父类对象的初始化等过程，其具体过程通过下述代码来说明。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> </span></span><br><span class="line"><span class="class"></span>&#123; </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">A</span><span class="params">(String s)</span> </span></span><br><span class="line"><span class="function">    </span>&#123; </span><br><span class="line">        System.out.println(s+<span class="string">" Constructor A"</span>); </span><br><span class="line">    &#125; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> </span></span><br><span class="line"><span class="class"></span>&#123; </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">B</span><span class="params">(String s)</span> </span></span><br><span class="line"><span class="function">    </span>&#123; </span><br><span class="line">        System.out.println(s+ <span class="string">" Constructor B"</span>); </span><br><span class="line">    &#125; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">C</span> </span></span><br><span class="line"><span class="class"></span>&#123; </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">C</span><span class="params">(String s)</span> </span></span><br><span class="line"><span class="function">    </span>&#123; </span><br><span class="line">        System.out.println(s+ <span class="string">" Constructor C"</span>); </span><br><span class="line">    &#125; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Base</span> </span></span><br><span class="line"><span class="class"></span>&#123; </span><br><span class="line">    <span class="keyword">static</span> A a1 = <span class="keyword">new</span> A(<span class="string">"a1: static"</span>); </span><br><span class="line">    A a2 = <span class="keyword">new</span> A(<span class="string">"a2: normal"</span>); </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Base</span><span class="params">()</span> </span></span><br><span class="line"><span class="function">    </span>&#123; </span><br><span class="line">        A a3 = <span class="keyword">new</span> A(<span class="string">"a3: normal"</span>); </span><br><span class="line">        System.out.println(<span class="string">"Constructor Base"</span>); </span><br><span class="line">    &#125; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Derived</span> <span class="keyword">extends</span> <span class="title">Base</span> </span></span><br><span class="line"><span class="class"></span>&#123; </span><br><span class="line">    <span class="keyword">static</span> B b1 = <span class="keyword">new</span> B(<span class="string">"b1: static"</span>); </span><br><span class="line">    B b2 = <span class="keyword">new</span> B(<span class="string">"b2: normal"</span>); </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Derived</span><span class="params">()</span> </span></span><br><span class="line"><span class="function">    </span>&#123; </span><br><span class="line">        B b3 = <span class="keyword">new</span> B(<span class="string">"b3: normal"</span>); </span><br><span class="line">        System.out.println(<span class="string">"Constructor Derived"</span>); </span><br><span class="line">    &#125; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123; </span><br><span class="line">    <span class="keyword">static</span> C c1 = <span class="keyword">new</span> C(<span class="string">"c1: static"</span>); </span><br><span class="line">    C c2 = <span class="keyword">new</span> C(<span class="string">"c2: normal"</span>); </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123; </span><br><span class="line">        C c3 = <span class="keyword">new</span> C(<span class="string">"c3: normal"</span>); </span><br><span class="line">        Derived derived = <span class="keyword">new</span> Derived(); </span><br><span class="line">        System.out.println(<span class="string">"end"</span>); </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2012/06/22/java-e4-b8-ad-e5-af-b9-e8-b1-a1-e7-9a-84-e5-88-9d-e5-a7-8b-e5-8c-96-e7-94-9f-e6-88-90-e8-bf-87-e7-a8-8b/#more" rel="contents">
@@ -1913,9 +1988,7 @@ Producer-Consumer
 
       
         
-          
-          Lucene是Apache基金会下的一个开源项目，提供能够实现全文索引和检索的Java API。Lucene包含索引引擎和检索引擎两部分。对于包含多个字段（Field）的文档（Document），可以通过Lucene的索引引擎对文档字段中的文本内容进行分词处理，构建关键字索引。当索引构建完成后，可以
-          ...
+          <p>Lucene是Apache基金会下的一个开源项目，提供能够实现全文索引和检索的Java API。Lucene包含索引引擎和检索引擎两部分。对于包含多个字段（Field）的文档（Document），可以通过Lucene的索引引擎对文档字段中的文本内容进行分词处理，构建关键字索引。当索引构建完成后，可以通过Lucene的检索引擎对特定字段进行基于关键字的查询。Lucene支持多种查询方式，包括模糊检索、分组查询等。对于查询结果，Lucene使用基于向量空间模型的排名算法计算得出查询结果的排名。<br>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2012/06/09/lucene-e7-ae-80-e4-bb-8b/#more" rel="contents">
@@ -1925,7 +1998,7 @@ Producer-Consumer
           <!--/noindex-->
         
       
-    </div>
+    </p></div>
     
     
     
