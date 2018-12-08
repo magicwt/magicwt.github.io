@@ -79,15 +79,14 @@
 
 
 
-<meta name="description" content="JMSAPI可以分为3个主要部分：公共API、队列API和主题API。JMSAPI中，ConnectionFactory和Destination既可以作为受管对象，由JMS提供者创建，并使用JNDI从提供者获得，也可以直接动态创建；其他接口通过工厂方法创建，比如Session可以通过Connection创建；消息生产者和消费者一般仅创建一个连接（Connection），而可以创建多个会话（Sess">
+<meta name="description" content="JMS APIJMSAPI可以分为3个主要部分：公共API、队列API和主题API。JMSAPI中，ConnectionFactory和Destination既可以作为受管对象，由JMS提供者创建，并使用JNDI从提供者获得，也可以直接动态创建；其他接口通过工厂方法创建，比如Session可以通过Connection创建；消息生产者和消费者一般仅创建一个连接（Connection），而可以创建多个">
 <meta name="keywords" content="ActiveMQ">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JMS和ActiveMQ介绍(2)_JMS">
 <meta property="og:url" content="http://yoursite.com/2013/09/30/jms-e5-92-8cactivemq-e4-bb-8b-e7-bb-8d2-jms/index.html">
 <meta property="og:site_name" content="不积跬步，无以至千里">
-<meta property="og:description" content="JMSAPI可以分为3个主要部分：公共API、队列API和主题API。JMSAPI中，ConnectionFactory和Destination既可以作为受管对象，由JMS提供者创建，并使用JNDI从提供者获得，也可以直接动态创建；其他接口通过工厂方法创建，比如Session可以通过Connection创建；消息生产者和消费者一般仅创建一个连接（Connection），而可以创建多个会话（Sess">
+<meta property="og:description" content="JMS APIJMSAPI可以分为3个主要部分：公共API、队列API和主题API。JMSAPI中，ConnectionFactory和Destination既可以作为受管对象，由JMS提供者创建，并使用JNDI从提供者获得，也可以直接动态创建；其他接口通过工厂方法创建，比如Session可以通过Connection创建；消息生产者和消费者一般仅创建一个连接（Connection），而可以创建多个">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片7.png">
 <meta property="og:image" content="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片8.png">
 <meta property="og:image" content="http://magicwt.com/wp-content/uploads/2013/09/幻灯片9.png">
 <meta property="og:image" content="http://magicwt.com/wp-content/uploads/2013/09/幻灯片10.png">
@@ -100,11 +99,11 @@
 <meta property="og:image" content="http://magicwt.com/wp-content/uploads/2013/09/幻灯片17.png">
 <meta property="og:image" content="http://magicwt.com/wp-content/uploads/2013/09/幻灯片18.png">
 <meta property="og:image" content="http://magicwt.com/wp-content/uploads/2013/09/幻灯片19.png">
-<meta property="og:updated_time" content="2018-12-04T10:47:42.322Z">
+<meta property="og:updated_time" content="2018-12-08T04:29:05.982Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JMS和ActiveMQ介绍(2)_JMS">
-<meta name="twitter:description" content="JMSAPI可以分为3个主要部分：公共API、队列API和主题API。JMSAPI中，ConnectionFactory和Destination既可以作为受管对象，由JMS提供者创建，并使用JNDI从提供者获得，也可以直接动态创建；其他接口通过工厂方法创建，比如Session可以通过Connection创建；消息生产者和消费者一般仅创建一个连接（Connection），而可以创建多个会话（Sess">
-<meta name="twitter:image" content="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片7.png">
+<meta name="twitter:description" content="JMS APIJMSAPI可以分为3个主要部分：公共API、队列API和主题API。JMSAPI中，ConnectionFactory和Destination既可以作为受管对象，由JMS提供者创建，并使用JNDI从提供者获得，也可以直接动态创建；其他接口通过工厂方法创建，比如Session可以通过Connection创建；消息生产者和消费者一般仅创建一个连接（Connection），而可以创建多个">
+<meta name="twitter:image" content="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片8.png">
 
 
 
@@ -409,7 +408,63 @@
       
 
       
-        <p><a href="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片7.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片7.png" alt="1幻灯片7"></a><br><a href="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片8.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片8.png" alt="1幻灯片8"></a><br>JMSAPI可以分为3个主要部分：公共API、队列API和主题API。<br>JMSAPI中，ConnectionFactory和Destination既可以作为受管对象，由JMS提供者创建，并使用JNDI从提供者获得，也可以直接动态创建；<br>其他接口通过工厂方法创建，比如Session可以通过Connection创建；<br>消息生产者和消费者一般仅创建一个连接（Connection），而可以创建多个会话（Session）；<br>由Session保存用于消息发送的事务性工作单元。<br>通过Session可以创建Message,MessageProducer,MessageConsumer。<br><a href="http://magicwt.com/wp-content/uploads/2013/09/幻灯片9.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片9.png" alt="幻灯片9"></a><br>消息可分为3部分：消息头、属性和有效负载。<br>其中消息又分为自动分配消息头和开发者分配消息头。<br>自动分配的消息头：<br>1）JMSDestination，消息目的地。<br>2）JMSDeliveryMode，消息传送模式，默认设置为持久性模式。<br>3）JMSMessageID，消息ID。<br>4）JMSTimestamp，JMS提供者接收消息的时间。<br>5）JMSExpiration，消息过期时间，默认值为0，即永不过期。<br>6）JMSRedelivered，是否是重发的消息。<br>7）JMSPriority，0~4级是普通优先级，而5~9级则是加急优先级。<br>开发者分配的消息头：<br>1）JMSReplyTo，接收消息后发送响应消息的目的地。<br>2）JMSCorrelationID，与消息相关联的特定ID，在大多数情况下，用于接收消息后发送响应消息时，记录上一个消息的ID。<br>3）JMSType，消息类型。<br>属性：<br>与消息头类似，由开发者添加，支持String、Int、Boolean、Double、Float、Byte、Long、Short、Object等类型，可用于消息选择；<br>有效负载，即实际传输的消息内容。<br>根据要携带的有效负载类型，JMS定义了6种消息接口：<br>Message，不含有效负载；<br>TextMessage，携带一个String作为有效负载；<br>ObjectMessage，携带一个可序列化Java对象作为有效负载；<br>BytesMessage，携带一组原始类型字节流；<br>StreamMessage，携带一个Java原始数据类型流；<br>MapMessage，携带一组键值对作为有效负载。<br>消息持久化，通过JMSDeliveryMode设定。在持久性模式下，消息在服务器端被持久化保存，直至消费者接收到该消息，因此可以保证消息成功发送有且仅有一次，而非持久性模式只能保证消息最多发送一次，而不能保证消息被成功接收。<br><a href="http://magicwt.com/wp-content/uploads/2013/09/幻灯片10.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片10.png" alt="幻灯片10"></a><br>对于消息生产者相关API的使用，我们分队列和主题分别介绍。<br>在队列下：<br>通过ActiveMQ提供的连接工厂类创建queueConnection。<br>queueConnection调用start方法真正建立与消息服务器的长连接。<br>调用queueConnectoin的createQueueSession方法创建负责消息相关操作的会话单元。<br>调用queueSession的createQueue、createSender、createMessage方法分别创建队列、发送者和消息。<br>最后调用queueSender的send方法发送消息，消息发送是一个同步操作，在send方法中线程会被阻塞，直到接收到来自消息服务器的确认。<br>在主题下，消息生产过程中各接口的调用方法与队列下的基本类似，只是使用了与主题相关的一些接口。因此，对于消息生产，可以使用公共API中的接口来完成。<br><a href="http://magicwt.com/wp-content/uploads/2013/09/幻灯片11.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片11.png" alt="幻灯片11"></a><br>使用公共API中的接口实现消息生产者，其中使用了公共API中的接口Connection、Session、Destination和MessageProducer。<br>在创建destination时，调用createTopic方法和createQueue方法来分别创建主题和队列。<br><a href="http://magicwt.com/wp-content/uploads/2013/09/幻灯片12.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片12.png" alt="幻灯片12"></a><br>对于消息消费者相关API的使用，我们也分队列和主题分别介绍。<br>在队列下，调用queueSession的createReceiver方法创建接收者。<br>调用queueReceiver的receive方法接收消息，在receive方法中，线程将被阻塞直至接收到消息。也可以在调用receive方法时，设置最长延时，若该时间内未收到消息，receive方法将直接返回。<br>在主题下，调用topicSession的createSubscriber方法创建订阅者。<br>另外需要通过实现MessageListener接口，实现消息侦听器，并重写侦听器的onMessage方法。通过topicSubscriber的setMessageListener将侦听器注册到订阅者中。当消息服务器将一条消息推向topicSubscriber时，topicSubscriber将调用侦听器的onMessage方法对消息进行具体处理。<br><a href="http://magicwt.com/wp-content/uploads/2013/09/幻灯片13.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片13.png" alt="幻灯片13"></a><br>使用公共API中的接口实现消息消费者。<br>对于队列和主题，除了在创建destination时的方法不同外，在消息接收时，队列下的consumer是通过receive方法阻塞线程主动接收消息，主题下的comsumer是通过设置侦听器侦听推送过来的消息。<br><a href="http://magicwt.com/wp-content/uploads/2013/09/幻灯片14.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片14.png" alt="幻灯片14"></a><br>对于持久订阅者，它与普通订阅者的区别是：对于普通订阅者，在不连接时，发送的消息将被丢失，连接后这些消息不会被接收，而对于持久订阅者，在不连接时，发送的消息将被保存，连接后这些消息会被正常接收。<br>持久订阅者的创建与普通订阅者的创建有两点不同：一是在连接中需要设置ClientID，二是在创建订阅者时调用createDurableSubscriber方法创建持久订阅者，并设置订阅者名称。消息服务器将ClientID和订阅者名称作为持久订阅者的唯一标识符，在不连接时，为其保留一份消息副本，在连接时，将消息发送至该持久订阅者。<br>若要彻底关闭持久订阅者，使消息服务器不再为其保留消息副本，则需要调用unsubscribe方法。<br>持久订阅者的优点是不管订阅者是否连接，消息都能被正常接收。<br>持久订阅者的缺点是若订阅者一直不连接，消息将被一直保存，造成存储压力。<br>因此是否选用持久订阅者要根据具体应用场景来决定，若需要保证订阅者在有连接丢失的情况下仍能接收到所有消息，则采用持久订阅者，若只需要订阅者在连接时接收消息，且允许有一定的消息丢失，则采用普通订阅者。<br><a href="http://magicwt.com/wp-content/uploads/2013/09/幻灯片15.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片15.png" alt="幻灯片15"></a><br>队列中的消息只能被一个消费者消费，若查看队列中的消息，但不消费消息，可以使用QueueBrowser。<br>通过调用getEnumeration方法可以按照消息接收顺序获取到当前队列中的所有消息。<br><a href="http://magicwt.com/wp-content/uploads/2013/09/幻灯片16.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片16.png" alt="幻灯片16"></a><br>对于消费者，有时候需要处理满足特定条件的消息，一个可行的解决方案是在处理消息前，增加条件判断，对于不满足条件的消息不作处理，但这个方案存在的一个问题是由于消息已经被该消费者接收，但不会被处理，从而造成网络带宽的浪费，另外不作处理的消息也不能再被其他可能会处理这些消息的消费者接收。<br>我们可以通过消息选择器解决上述问题。使用消息选择器可以实现消息的过滤，只接收满足特定要求的消息。<br>消息选择器可以增加的条件包括消息头和消息属性。消息头中可以用作选择条件的有JMSDeliveryMode，JMSPriority，JMSMessageID，JMSTimestamp，JMSCorrelationID，JMSType，例如可以选择权重值较高的消息。在消息属性中可以设置业务属性，这样就可以选择满足特定业务需求的消息。<br>消息选择器的基本表达式由标识符、比较运算符和常量组成，例如，JMSPriority&gt; 5，即选择权重大于5的消息。<br>多个基本表达式可以由AND、OR组成复杂表达式，例如，JMSPriority&gt; 5 AND Oper= ‘Delete’，即选择权重大于5且业务上操作类型为“Delete”的消息。<br>消息选择器在创建消费者时设置，如下所示。<br><a href="http://magicwt.com/wp-content/uploads/2013/09/幻灯片17.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片17.png" alt="幻灯片17"></a><br>对于持久化消息，消息服务器会对消息进行确认，以保证消息成功发送。<br>消息确认机制有如下几种：AUTO_ACKNOWLEDGE，DUPS_OK_ACKNOWLEDGE，CLIENT_ACKNOWLEDGE，<br>消息确认机制可以在创建session时指定。<br>AUTO_ACKNOWLEDGE是由消息服务器自动完成消息确认。<br>消息的发送和接收是两个异步过程，因此分别讨论这两个过程中AUTO机制的消息确认。<br>消息发送时：<br>1）生产者发送消息，生产者阻塞线程等待消息服务器接收到消息的确认。<br>2）消息服务器接收到消息后，对消息进行持久化。<br>3）持久化成功后，消息服务器向生成者发送确认通知。<br>4）生产者接收到确认通知后，从发送方法返回。<br>消息接收时：<br>5）消费者接收消息。<br>6）消费者发送确认通知。<br>7）消息服务器从存储中删除消息。<br>DUPS_OK_ACKNOWLEDGE不同于AUTO对单条消息进行确认，是一种延时、批量确认机制，这样做的一个好处是可以减少因单条消息确认而带来的系统开销，但带来的一个问题是可能将一条消息向同一目的地发送两次以上，因此，适用于可以重复接收消息的应用场景。<br>CLIENT_ACKNOWLEDGE是由消费者通过调用消息的acknowledge方法进行确认，如果消费者使用CLIENT机制，且调用acknowledge方法，那么在上次确认之间所发的未被确认的消息都将被确认。<br>INDIVIDUAL_ACKNOWLEDGE也是由消费者通过调用消息的acknowledge方法进行确认，但不同于CLIENT机制，每条消息都需要调用acknowledge方法进行确认。<br><a href="http://magicwt.com/wp-content/uploads/2013/09/幻灯片18.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片18.png" alt="幻灯片18"></a><br>消息事务可以保证：<br>如果在一个会话中，只有消息生产者或只有消息消费者，则对于消息生产者，事务将保证其所有消息都发送至服务器或都不发送，而对于消息消费者，事务将保证其接收所有消息或都不接收。<br>如果在一个会话中，既有消息生产者，又有消息消费者，则事务将保证所有消息都发送并接收或都不发送和接收。<br>创建会话时可以设置是否使用事务。<br>多次操作后通过调用commit()提交。在出现异常时，通过调用rollback()回滚。<br><a href="http://magicwt.com/wp-content/uploads/2013/09/幻灯片19.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片19.png" alt="幻灯片19"></a><br>Spring对JMS提供支持，在客户端可以通过Spring配置连接、生产者和消费者。<br>通过spring提供的DefaultMessageListenerContainer可以设置消息的侦听，通过spring提供的JmsTemplate可以进行消息的发送和接收。</p>
+        <h2 id="JMS-API"><a href="#JMS-API" class="headerlink" title="JMS API"></a>JMS API</h2><p><img src="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片8.png" alt="1幻灯片8"><br>JMSAPI可以分为3个主要部分：公共API、队列API和主题API。<br>JMSAPI中，ConnectionFactory和Destination既可以作为受管对象，由JMS提供者创建，并使用JNDI从提供者获得，也可以直接动态创建；<br>其他接口通过工厂方法创建，比如Session可以通过Connection创建；<br>消息生产者和消费者一般仅创建一个连接（Connection），而可以创建多个会话（Session）；<br>由Session保存用于消息发送的事务性工作单元。<br>通过Session可以创建Message,MessageProducer,MessageConsumer。<br><a id="more"></a></p>
+<h2 id="JMS消息"><a href="#JMS消息" class="headerlink" title="JMS消息"></a>JMS消息</h2><p><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片9.png" alt="幻灯片9"><br>消息可分为3部分：消息头、属性和有效负载。<br>其中消息又分为自动分配消息头和开发者分配消息头。<br>自动分配的消息头：</p>
+<ol>
+<li>JMSDestination，消息目的地。</li>
+<li>JMSDeliveryMode，消息传送模式，默认设置为持久性模式。</li>
+<li>JMSMessageID，消息ID。</li>
+<li>JMSTimestamp，JMS提供者接收消息的时间。</li>
+<li>JMSExpiration，消息过期时间，默认值为0，即永不过期。</li>
+<li>JMSRedelivered，是否是重发的消息。</li>
+<li>JMSPriority，0~4级是普通优先级，而5~9级则是加急优先级。</li>
+</ol>
+<p>开发者分配的消息头：</p>
+<ol>
+<li>JMSReplyTo，接收消息后发送响应消息的目的地。</li>
+<li>JMSCorrelationID，与消息相关联的特定ID，在大多数情况下，用于接收消息后发送响应消息时，记录上一个消息的ID。</li>
+<li>JMSType，消息类型。</li>
+</ol>
+<p>属性：<br>与消息头类似，由开发者添加，支持String、Int、Boolean、Double、Float、Byte、Long、Short、Object等类型，可用于消息选择；<br>有效负载，即实际传输的消息内容。<br>根据要携带的有效负载类型，JMS定义了6种消息接口：</p>
+<ol>
+<li>Message，不含有效负载；</li>
+<li>TextMessage，携带一个String作为有效负载；</li>
+<li>ObjectMessage，携带一个可序列化Java对象作为有效负载；</li>
+<li>BytesMessage，携带一组原始类型字节流；</li>
+<li>StreamMessage，携带一个Java原始数据类型流；</li>
+<li>MapMessage，携带一组键值对作为有效负载。</li>
+</ol>
+<p>消息持久化，通过JMSDeliveryMode设定。在持久性模式下，消息在服务器端被持久化保存，直至消费者接收到该消息，因此可以保证消息成功发送有且仅有一次，而非持久性模式只能保证消息最多发送一次，而不能保证消息被成功接收。</p>
+<h2 id="生产者"><a href="#生产者" class="headerlink" title="生产者"></a>生产者</h2><p><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片10.png" alt="幻灯片10"><br>对于消息生产者相关API的使用，我们分队列和主题分别介绍。<br>在队列下：<br>通过ActiveMQ提供的连接工厂类创建queueConnection。<br>queueConnection调用start方法真正建立与消息服务器的长连接。<br>调用queueConnectoin的createQueueSession方法创建负责消息相关操作的会话单元。<br>调用queueSession的createQueue、createSender、createMessage方法分别创建队列、发送者和消息。<br>最后调用queueSender的send方法发送消息，消息发送是一个同步操作，在send方法中线程会被阻塞，直到接收到来自消息服务器的确认。<br>在主题下，消息生产过程中各接口的调用方法与队列下的基本类似，只是使用了与主题相关的一些接口。因此，对于消息生产，可以使用公共API中的接口来完成。<br><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片11.png" alt="幻灯片11"><br>使用公共API中的接口实现消息生产者，其中使用了公共API中的接口Connection、Session、Destination和MessageProducer。<br>在创建destination时，调用createTopic方法和createQueue方法来分别创建主题和队列。</p>
+<h2 id="消费者"><a href="#消费者" class="headerlink" title="消费者"></a>消费者</h2><p><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片12.png" alt="幻灯片12"><br>对于消息消费者相关API的使用，我们也分队列和主题分别介绍。<br>在队列下，调用queueSession的createReceiver方法创建接收者。<br>调用queueReceiver的receive方法接收消息，在receive方法中，线程将被阻塞直至接收到消息。也可以在调用receive方法时，设置最长延时，若该时间内未收到消息，receive方法将直接返回。<br>在主题下，调用topicSession的createSubscriber方法创建订阅者。<br>另外需要通过实现MessageListener接口，实现消息侦听器，并重写侦听器的onMessage方法。通过topicSubscriber的setMessageListener将侦听器注册到订阅者中。当消息服务器将一条消息推向topicSubscriber时，topicSubscriber将调用侦听器的onMessage方法对消息进行具体处理。<br><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片13.png" alt="幻灯片13"><br>使用公共API中的接口实现消息消费者。<br>对于队列和主题，除了在创建destination时的方法不同外，在消息接收时，队列下的consumer是通过receive方法阻塞线程主动接收消息，主题下的comsumer是通过设置侦听器侦听推送过来的消息。</p>
+<h2 id="持久订阅者"><a href="#持久订阅者" class="headerlink" title="持久订阅者"></a>持久订阅者</h2><p><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片14.png" alt="幻灯片14"><br>对于持久订阅者，它与普通订阅者的区别是：对于普通订阅者，在不连接时，发送的消息将被丢失，连接后这些消息不会被接收，而对于持久订阅者，在不连接时，发送的消息将被保存，连接后这些消息会被正常接收。<br>持久订阅者的创建与普通订阅者的创建有两点不同：一是在连接中需要设置ClientID，二是在创建订阅者时调用createDurableSubscriber方法创建持久订阅者，并设置订阅者名称。消息服务器将ClientID和订阅者名称作为持久订阅者的唯一标识符，在不连接时，为其保留一份消息副本，在连接时，将消息发送至该持久订阅者。<br>若要彻底关闭持久订阅者，使消息服务器不再为其保留消息副本，则需要调用unsubscribe方法。<br>持久订阅者的优点是不管订阅者是否连接，消息都能被正常接收。<br>持久订阅者的缺点是若订阅者一直不连接，消息将被一直保存，造成存储压力。<br>因此是否选用持久订阅者要根据具体应用场景来决定，若需要保证订阅者在有连接丢失的情况下仍能接收到所有消息，则采用持久订阅者，若只需要订阅者在连接时接收消息，且允许有一定的消息丢失，则采用普通订阅者。</p>
+<h2 id="QueueBrowser"><a href="#QueueBrowser" class="headerlink" title="QueueBrowser"></a>QueueBrowser</h2><p><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片15.png" alt="幻灯片15"><br>队列中的消息只能被一个消费者消费，若查看队列中的消息，但不消费消息，可以使用QueueBrowser。<br>通过调用getEnumeration方法可以按照消息接收顺序获取到当前队列中的所有消息。</p>
+<h2 id="消息选择器"><a href="#消息选择器" class="headerlink" title="消息选择器"></a>消息选择器</h2><p><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片16.png" alt="幻灯片16"><br>对于消费者，有时候需要处理满足特定条件的消息，一个可行的解决方案是在处理消息前，增加条件判断，对于不满足条件的消息不作处理，但这个方案存在的一个问题是由于消息已经被该消费者接收，但不会被处理，从而造成网络带宽的浪费，另外不作处理的消息也不能再被其他可能会处理这些消息的消费者接收。<br>我们可以通过消息选择器解决上述问题。使用消息选择器可以实现消息的过滤，只接收满足特定要求的消息。<br>消息选择器可以增加的条件包括消息头和消息属性。消息头中可以用作选择条件的有JMSDeliveryMode，JMSPriority，JMSMessageID，JMSTimestamp，JMSCorrelationID，JMSType，例如可以选择权重值较高的消息。在消息属性中可以设置业务属性，这样就可以选择满足特定业务需求的消息。<br>消息选择器的基本表达式由标识符、比较运算符和常量组成，例如，JMSPriority&gt; 5，即选择权重大于5的消息。<br>多个基本表达式可以由AND、OR组成复杂表达式，例如，JMSPriority&gt; 5 AND Oper= ‘Delete’，即选择权重大于5且业务上操作类型为“Delete”的消息。<br>消息选择器在创建消费者时设置，如图所示。</p>
+<h2 id="消息确认机制"><a href="#消息确认机制" class="headerlink" title="消息确认机制"></a>消息确认机制</h2><p><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片17.png" alt="幻灯片17"><br>对于持久化消息，消息服务器会对消息进行确认，以保证消息成功发送。<br>消息确认机制有如下几种：AUTO_ACKNOWLEDGE，DUPS_OK_ACKNOWLEDGE，CLIENT_ACKNOWLEDGE，<br>消息确认机制可以在创建session时指定。<br>AUTO_ACKNOWLEDGE是由消息服务器自动完成消息确认。<br>消息的发送和接收是两个异步过程，因此分别讨论这两个过程中AUTO机制的消息确认。<br>消息发送时：</p>
+<ol>
+<li>生产者发送消息，生产者阻塞线程等待消息服务器接收到消息的确认。</li>
+<li>消息服务器接收到消息后，对消息进行持久化。</li>
+<li>持久化成功后，消息服务器向生成者发送确认通知。</li>
+<li>生产者接收到确认通知后，从发送方法返回。</li>
+</ol>
+<p>消息接收时：</p>
+<ol start="5">
+<li>消费者接收消息。</li>
+<li>消费者发送确认通知。</li>
+<li>消息服务器从存储中删除消息。</li>
+</ol>
+<ul>
+<li>DUPS_OK_ACKNOWLEDGE不同于AUTO对单条消息进行确认，是一种延时、批量确认机制，这样做的一个好处是可以减少因单条消息确认而带来的系统开销，但带来的一个问题是可能将一条消息向同一目的地发送两次以上，因此，适用于可以重复接收消息的应用场景。</li>
+<li>CLIENT_ACKNOWLEDGE是由消费者通过调用消息的acknowledge方法进行确认，如果消费者使用CLIENT机制，且调用acknowledge方法，那么在上次确认之间所发的未被确认的消息都将被确认。</li>
+<li>INDIVIDUAL_ACKNOWLEDGE也是由消费者通过调用消息的acknowledge方法进行确认，但不同于CLIENT机制，每条消息都需要调用acknowledge方法进行确认。</li>
+</ul>
+<h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><p><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片18.png" alt="幻灯片18"><br>消息事务可以保证：</p>
+<ul>
+<li>如果在一个会话中，只有消息生产者或只有消息消费者，则对于消息生产者，事务将保证其所有消息都发送至服务器或都不发送，而对于消息消费者，事务将保证其接收所有消息或都不接收。</li>
+<li>如果在一个会话中，既有消息生产者，又有消息消费者，则事务将保证所有消息都发送并接收或都不发送和接收。</li>
+</ul>
+<p>创建会话时可以设置是否使用事务。<br>多次操作后通过调用commit()提交。在出现异常时，通过调用rollback()回滚。</p>
+<h2 id="JMS和Spring"><a href="#JMS和Spring" class="headerlink" title="JMS和Spring"></a>JMS和Spring</h2><p><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片19.png" alt="幻灯片19"><br>Spring对JMS提供支持，在客户端可以通过Spring配置连接、生产者和消费者。<br>通过spring提供的DefaultMessageListenerContainer可以设置消息的侦听，通过spring提供的JmsTemplate可以进行消息的发送和接收。</p>
 
       
     </div>
@@ -507,8 +562,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -586,6 +650,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JMS-API"><span class="nav-number">1.</span> <span class="nav-text">JMS API</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JMS消息"><span class="nav-number">2.</span> <span class="nav-text">JMS消息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生产者"><span class="nav-number">3.</span> <span class="nav-text">生产者</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#消费者"><span class="nav-number">4.</span> <span class="nav-text">消费者</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#持久订阅者"><span class="nav-number">5.</span> <span class="nav-text">持久订阅者</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#QueueBrowser"><span class="nav-number">6.</span> <span class="nav-text">QueueBrowser</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#消息选择器"><span class="nav-number">7.</span> <span class="nav-text">消息选择器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#消息确认机制"><span class="nav-number">8.</span> <span class="nav-text">消息确认机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事务"><span class="nav-number">9.</span> <span class="nav-text">事务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JMS和Spring"><span class="nav-number">10.</span> <span class="nav-text">JMS和Spring</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

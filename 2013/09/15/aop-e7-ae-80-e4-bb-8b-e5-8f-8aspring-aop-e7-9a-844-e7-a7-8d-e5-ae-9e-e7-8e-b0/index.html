@@ -79,19 +79,19 @@
 
 
 
-<meta name="description" content="AOPAOP（Aspect Oriented Programing，面向切面编程）用于在不侵入原有代码的基础上，为代码统一添加新功能，例如性能监控、日志记录、事务管理等。AOP的原理如图所示：其中：  连接点（Jointpoint），表示方法执行的某个位置，如方法调用前、方法调用后、方法抛出异常等； 通知（Advice），表示需要在某个连接点加入的新功能，通知包括以下5种类型：Before adv">
+<meta name="description" content="AOPAOP（Aspect Oriented Programing，面向切面编程）用于在不侵入原有代码的基础上，为代码统一添加新功能，例如性能监控、日志记录、事务管理等。AOP的原理如图所示： 其中：  连接点（Jointpoint），表示方法执行的某个位置，如方法调用前、方法调用后、方法抛出异常等； 通知（Advice），表示需要在某个连接点加入的新功能，通知包括以下5种类型：Before ad">
 <meta name="keywords" content="Spring">
 <meta property="og:type" content="article">
 <meta property="og:title" content="AOP简介及Spring AOP的4种实现">
 <meta property="og:url" content="http://yoursite.com/2013/09/15/aop-e7-ae-80-e4-bb-8b-e5-8f-8aspring-aop-e7-9a-844-e7-a7-8d-e5-ae-9e-e7-8e-b0/index.html">
 <meta property="og:site_name" content="不积跬步，无以至千里">
-<meta property="og:description" content="AOPAOP（Aspect Oriented Programing，面向切面编程）用于在不侵入原有代码的基础上，为代码统一添加新功能，例如性能监控、日志记录、事务管理等。AOP的原理如图所示：其中：  连接点（Jointpoint），表示方法执行的某个位置，如方法调用前、方法调用后、方法抛出异常等； 通知（Advice），表示需要在某个连接点加入的新功能，通知包括以下5种类型：Before adv">
+<meta property="og:description" content="AOPAOP（Aspect Oriented Programing，面向切面编程）用于在不侵入原有代码的基础上，为代码统一添加新功能，例如性能监控、日志记录、事务管理等。AOP的原理如图所示： 其中：  连接点（Jointpoint），表示方法执行的某个位置，如方法调用前、方法调用后、方法抛出异常等； 通知（Advice），表示需要在某个连接点加入的新功能，通知包括以下5种类型：Before ad">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://magicwt.com/wp-content/uploads/2013/09/aop.png">
-<meta property="og:updated_time" content="2018-12-04T11:58:12.798Z">
+<meta property="og:updated_time" content="2018-12-08T05:11:34.245Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AOP简介及Spring AOP的4种实现">
-<meta name="twitter:description" content="AOPAOP（Aspect Oriented Programing，面向切面编程）用于在不侵入原有代码的基础上，为代码统一添加新功能，例如性能监控、日志记录、事务管理等。AOP的原理如图所示：其中：  连接点（Jointpoint），表示方法执行的某个位置，如方法调用前、方法调用后、方法抛出异常等； 通知（Advice），表示需要在某个连接点加入的新功能，通知包括以下5种类型：Before adv">
+<meta name="twitter:description" content="AOPAOP（Aspect Oriented Programing，面向切面编程）用于在不侵入原有代码的基础上，为代码统一添加新功能，例如性能监控、日志记录、事务管理等。AOP的原理如图所示： 其中：  连接点（Jointpoint），表示方法执行的某个位置，如方法调用前、方法调用后、方法抛出异常等； 通知（Advice），表示需要在某个连接点加入的新功能，通知包括以下5种类型：Before ad">
 <meta name="twitter:image" content="http://magicwt.com/wp-content/uploads/2013/09/aop.png">
 
 
@@ -397,13 +397,17 @@
       
 
       
-        <h2 id="AOP"><a href="#AOP" class="headerlink" title="AOP"></a>AOP</h2><p>AOP（Aspect Oriented Programing，面向切面编程）用于在不侵入原有代码的基础上，为代码统一添加新功能，例如性能监控、日志记录、事务管理等。AOP的原理如图所示：<br><a href="http://magicwt.com/wp-content/uploads/2013/09/aop.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2013/09/aop.png" alt="aop"></a><br>其中：</p>
+        <h2 id="AOP"><a href="#AOP" class="headerlink" title="AOP"></a>AOP</h2><p>AOP（Aspect Oriented Programing，面向切面编程）用于在不侵入原有代码的基础上，为代码统一添加新功能，例如性能监控、日志记录、事务管理等。AOP的原理如图所示：</p>
+<p><img src="http://magicwt.com/wp-content/uploads/2013/09/aop.png" alt="aop"><br>其中：</p>
 <ol>
 <li>连接点（Jointpoint），表示方法执行的某个位置，如方法调用前、方法调用后、方法抛出异常等；</li>
 <li>通知（Advice），表示需要在某个连接点加入的新功能，通知包括以下5种类型：Before advice，After returning advice，After throwing advice，After (finally) advice，Around advice；</li>
 <li>切入点（Pointcut），用于描述某些类的某些方法；</li>
-<li>切面（Aspect），通知和切入点组成切面，通过切面实现在指定类的指定方法上，加入通知。<a id="more"></a>
-<h2 id="Spring-AOP的4种实现"><a href="#Spring-AOP的4种实现" class="headerlink" title="Spring AOP的4种实现"></a>Spring AOP的4种实现</h2>Spring AOP的实现基于动态代理，有以下4种实现方式：</li>
+<li>切面（Aspect），通知和切入点组成切面，通过切面实现在指定类的指定方法上，加入通知。</li>
+</ol>
+<a id="more"></a>
+<h2 id="Spring-AOP的4种实现"><a href="#Spring-AOP的4种实现" class="headerlink" title="Spring AOP的4种实现"></a>Spring AOP的4种实现</h2><p>Spring AOP的实现基于动态代理，有以下4种实现方式：</p>
+<ol>
 <li>基于Aspect注解；</li>
 <li>基于aop标签配置；</li>
 <li>基于ProxyFactoryBean；</li>

@@ -398,7 +398,9 @@
 <ol>
 <li>Channel，类似于Stream，但不同于Stream单向，Channel是双向的，从同一个Channel既可以读取数据，也可以写入数据；</li>
 <li>Buffer，向Channel写入数据或从Channel读取数据时，数据需先写入Buffer或读入Buffer；</li>
-<li>Selector，多个Channel可以注册到一个Selector中，Selector可以通过单线程侦听这些Channel，当有读、写、连接事件时（而不是阻塞等待读、写或连接），执行相应的操作。<br>基于Java NIO实现服务端与客户端的非阻塞通信如图所示：<br><a href="http://magicwt.com/wp-content/uploads/2013/10/java-nio.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2013/10/java-nio.png" alt="java nio"></a>
+<li>Selector，多个Channel可以注册到一个Selector中，Selector可以通过单线程侦听这些Channel，当有读、写、连接事件时（而不是阻塞等待读、写或连接），执行相应的操作。</li>
+</ol>
+<p>基于Java NIO实现服务端与客户端的非阻塞通信如图所示：<br><img src="http://magicwt.com/wp-content/uploads/2013/10/java-nio.png" alt="java nio"><br>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2013/10/30/e5-9f-ba-e4-ba-8ejava-nio-e5-ae-9e-e7-8e-b0-e6-9c-8d-e5-8a-a1-e7-ab-af-e4-b8-8e-e5-ae-a2-e6-88-b7-e7-ab-af-e7-9a-84-e9-9d-9e-e9-98-bb-e5-a1-9e-e9-80-9a-e4-bf-a1/#more" rel="contents">
@@ -408,7 +410,7 @@
           <!--/noindex-->
         
       
-    </li></ol></div>
+    </p></div>
     
     
     
@@ -565,12 +567,8 @@
 
       
         
-          
-          最近在做开发时，遇到了以下四个问题，总结一下。
-1.Nginx+Struts中上传文件的大小限制。
-在上传文件时，若文件太大会出现上传失败。我们的Web应用前端代理使用了Nginx，MVC使用了Struts，通过检查，发现在Nginx和Struts中对于上传文件的大小都做了限制。
-在Nginx的ht
-          ...
+          <p>最近在做开发时，遇到了以下四个问题，总结一下。</p>
+<h2 id="Nginx-Struts中上传文件的大小限制。"><a href="#Nginx-Struts中上传文件的大小限制。" class="headerlink" title="Nginx+Struts中上传文件的大小限制。"></a>Nginx+Struts中上传文件的大小限制。</h2><p>在上传文件时，若文件太大会出现上传失败。我们的Web应用前端代理使用了Nginx，MVC使用了Struts，通过检查，发现在Nginx和Struts中对于上传文件的大小都做了限制。<br>在Nginx的http模块配置中，client_max_body_size这个参数用于表示http请求body最大值，由于文件也是以二进制形式存储于body中，因此client_max_body_size也限制了上传文件的大小，当上传文件较大时，可适当调大该值。<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">http</span> &#123;</span><br><span class="line">  ...</span><br><span class="line">  <span class="attribute">client_max_body_size</span> <span class="number">20m</span>;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2013/10/12/java-e5-bc-80-e5-8f-91-e9-97-ae-e9-a2-98-e6-80-bb-e7-bb-93/#more" rel="contents">
@@ -737,9 +735,12 @@
 
       
         
-          
-          下面，我们再看看ActiveMQ是如何实现高可用的。ActiveMQ实现高可用有两类方案：第一类方案是构建服务器网络，消息在服务器网络中进行传递，客户端通过failover或discovery连接网络中的一个服务器发送或接收消息，当服务器失效时，客户端自动重连另一个服务器。第二类方案是构建服务器主从
-          ...
+          <h2 id="ActiveMQ高可用性"><a href="#ActiveMQ高可用性" class="headerlink" title="ActiveMQ高可用性"></a>ActiveMQ高可用性</h2><p><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片37.png" alt="幻灯片37"><br>下面，我们再看看ActiveMQ是如何实现高可用的。<br>ActiveMQ实现高可用有两类方案：</p>
+<ul>
+<li>第一类方案是构建服务器网络，消息在服务器网络中进行传递，客户端通过failover或discovery连接网络中的一个服务器发送或接收消息，当服务器失效时，客户端自动重连另一个服务器。</li>
+<li>第二类方案是构建服务器主从集群，在某个时间只有一个服务器作为主对外提供服务，当主服务器失效时，从服务器切换成主服务器对外提供服务，客户端自动重连至新的主服务器。</li>
+</ul>
+<p>MasterSlave有4种具体实现方案，下面将介绍一下前3种，第4种在官网上已有介绍，是基于HahaDBA和Zookeeper的，但目前还不支持该功能。<br>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2013/09/30/jms-e5-92-8cactivemq-e4-bb-8b-e7-bb-8d4-activemq/#more" rel="contents">
@@ -749,7 +750,7 @@
           <!--/noindex-->
         
       
-    </div>
+    </p></div>
     
     
     
@@ -906,9 +907,18 @@
 
       
         
-          
-          首先简单介绍一下ActiveMQ。ActiveMQ是由Apache软件基金会提供的开源免费消息服务器，目前版本是5.8.0。ActiveMQ具有以下特点：基于JMS 1.1和J2EE 1.4规范；支持多种连接协议：HTTP/S，IP组播，SSL，STOMP，TCP，UDP，XMPP等；支持多种消息持
-          ...
+          <h2 id="ActiveMQ介绍"><a href="#ActiveMQ介绍" class="headerlink" title="ActiveMQ介绍"></a>ActiveMQ介绍</h2><p><img src="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片21.png" alt="1幻灯片21"><br>首先简单介绍一下ActiveMQ。ActiveMQ是由Apache软件基金会提供的开源免费消息服务器，目前版本是5.8.0。<br>ActiveMQ具有以下特点：</p>
+<ul>
+<li>基于JMS 1.1和J2EE 1.4规范；</li>
+<li>支持多种连接协议：HTTP/S，IP组播，SSL，STOMP，TCP，UDP，XMPP等；</li>
+<li>支持多种消息持久化机制：文件形式持久化（KahaDB），关系数据库形式持久化（JDBC）；</li>
+<li>插件化的安全机制：ActiveMQ支持插件开发，并且它的安全机制就是以插件形式实现灵活配置的；</li>
+<li>支持嵌入Java应用，ActiveMQ就可以作为一个单独服务，也可以直接嵌入到其他Java应用中；</li>
+<li>支持与应用服务器进行集成：支持Apache Tomcat，Jetty，ApacheGeronimo，Jboss；</li>
+<li>多种语言的客户端API：支持C/C++，.NET，Perl，PHP，Python，Ruby等；</li>
+<li>集群；</li>
+<li>动态化的简单管理。</li>
+</ul>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2013/09/30/jms-e5-92-8cactivemq-e4-bb-8b-e7-bb-8d3-activemq/#more" rel="contents">
@@ -1075,9 +1085,7 @@
 
       
         
-          
-          JMSAPI可以分为3个主要部分：公共API、队列API和主题API。JMSAPI中，ConnectionFactory和Destination既可以作为受管对象，由JMS提供者创建，并使用JNDI从提供者获得，也可以直接动态创建；其他接口通过工厂方法创建，比如Session可以通过Connecti
-          ...
+          <h2 id="JMS-API"><a href="#JMS-API" class="headerlink" title="JMS API"></a>JMS API</h2><p><img src="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片8.png" alt="1幻灯片8"><br>JMSAPI可以分为3个主要部分：公共API、队列API和主题API。<br>JMSAPI中，ConnectionFactory和Destination既可以作为受管对象，由JMS提供者创建，并使用JNDI从提供者获得，也可以直接动态创建；<br>其他接口通过工厂方法创建，比如Session可以通过Connection创建；<br>消息生产者和消费者一般仅创建一个连接（Connection），而可以创建多个会话（Session）；<br>由Session保存用于消息发送的事务性工作单元。<br>通过Session可以创建Message,MessageProducer,MessageConsumer。<br>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2013/09/30/jms-e5-92-8cactivemq-e4-bb-8b-e7-bb-8d2-jms/#more" rel="contents">
@@ -1087,7 +1095,7 @@
           <!--/noindex-->
         
       
-    </div>
+    </p></div>
     
     
     
@@ -1244,9 +1252,13 @@
 
       
         
-          
-          前一段在组内做过一次有关《JMS和ActiveMQ介绍》的技术分享，今天把幻灯片整理了一下，希望和大家多交流。JMS，java消息服务是由Sun提出的一套消息传送API规范，而ActiveMQ是一款开源的消息服务器产品。消息传送机制是在多个系统之间引入消息服务器，由消息服务器接收来自各系统的消息并将
-          ...
+          <p>JMS，java消息服务是由Sun提出的一套消息传送API规范，而ActiveMQ是一款开源的消息服务器产品，前一段在组内做过一次有关《JMS和ActiveMQ介绍》的技术分享，今天把幻灯片整理了一下，希望和大家多交流。</p>
+<h2 id="什么是消息传送机制"><a href="#什么是消息传送机制" class="headerlink" title="什么是消息传送机制"></a>什么是消息传送机制</h2><p><img src="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片4.png" alt="1幻灯片4"><br>消息传送机制是在多个系统之间引入消息服务器，由消息服务器接收来自各系统的消息并将消息转发到相应的系统上，以实现各系统之间的通信。<br>而在每个系统中，应用程序通过调用消息传送API来进行消息的发送和接收，消息传送API再通过各消息服务器所对应的消息传送客户端将消息发送至服务器或从服务器接收消息。<br>目前，消息服务器产品中，<br>属于商业软件的有：IBM WebSphere MQ、SonicMQ、Microsoft Message Queuing（mSMQ）；<br>属于开源软件的有：ActiveMQ、OpenMQ、RabbitMQ。<br>虽然消息服务器产品较多，但基本遵循同一个消息传送API规范，即JMS（Java Message Service，Java消息服务）:</p>
+<ol>
+<li>JMS是由Sun发起创建；</li>
+<li>它与JDBC类似，只定义消息传送的相关接口，由消息服务器产品自己实现相应的接口功能；</li>
+</ol>
+<p>因此，在使用不同的消息服务器产品时，系统中的应用程序可以使用同一个消息传送API。<br>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2013/09/30/jms-e5-92-8cactivemq-e4-bb-8b-e7-bb-8d1-e6-b6-88-e6-81-af-e4-bc-a0-e9-80-81-e6-9c-ba-e5-88-b6/#more" rel="contents">
@@ -1256,7 +1268,7 @@
           <!--/noindex-->
         
       
-    </div>
+    </p></div>
     
     
     
@@ -1413,10 +1425,7 @@
 
       
         
-          
-          在使用mvn package进行编译、打包时，Maven会执行src/test/java中的JUnit测试用例，有时为了跳过测试，会使用参数-DskipTests和-Dmaven.test.skip=true，这两个参数的主要区别是：
--DskipTests，不执行测试用例，但编译测试用例类生成相应
-          ...
+          <p>在使用mvn package进行编译、打包时，Maven会执行src/test/java中的JUnit测试用例，有时为了跳过测试，会使用参数-DskipTests和-Dmaven.test.skip=true，这两个参数的主要区别是：<br>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2013/09/27/maven-e4-b8-ad-dskiptests-e5-92-8c-dmaven-test-skiptrue-e7-9a-84-e5-8c-ba-e5-88-ab/#more" rel="contents">
@@ -1426,7 +1435,7 @@
           <!--/noindex-->
         
       
-    </div>
+    </p></div>
     
     
     
@@ -1583,12 +1592,14 @@
 
       
         
-          <h2 id="AOP"><a href="#AOP" class="headerlink" title="AOP"></a>AOP</h2><p>AOP（Aspect Oriented Programing，面向切面编程）用于在不侵入原有代码的基础上，为代码统一添加新功能，例如性能监控、日志记录、事务管理等。AOP的原理如图所示：<br><a href="http://magicwt.com/wp-content/uploads/2013/09/aop.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2013/09/aop.png" alt="aop"></a><br>其中：</p>
+          <h2 id="AOP"><a href="#AOP" class="headerlink" title="AOP"></a>AOP</h2><p>AOP（Aspect Oriented Programing，面向切面编程）用于在不侵入原有代码的基础上，为代码统一添加新功能，例如性能监控、日志记录、事务管理等。AOP的原理如图所示：</p>
+<p><img src="http://magicwt.com/wp-content/uploads/2013/09/aop.png" alt="aop"><br>其中：</p>
 <ol>
 <li>连接点（Jointpoint），表示方法执行的某个位置，如方法调用前、方法调用后、方法抛出异常等；</li>
 <li>通知（Advice），表示需要在某个连接点加入的新功能，通知包括以下5种类型：Before advice，After returning advice，After throwing advice，After (finally) advice，Around advice；</li>
 <li>切入点（Pointcut），用于描述某些类的某些方法；</li>
-<li>切面（Aspect），通知和切入点组成切面，通过切面实现在指定类的指定方法上，加入通知。
+<li>切面（Aspect），通知和切入点组成切面，通过切面实现在指定类的指定方法上，加入通知。</li>
+</ol>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2013/09/15/aop-e7-ae-80-e4-bb-8b-e5-8f-8aspring-aop-e7-9a-844-e7-a7-8d-e5-ae-9e-e7-8e-b0/#more" rel="contents">
@@ -1598,7 +1609,7 @@
           <!--/noindex-->
         
       
-    </li></ol></div>
+    </div>
     
     
     
@@ -1755,7 +1766,8 @@
 
       
         
-          <p>ActiveMQ是一款基于Java的开源消息服务器产品，因此，我们可以将其集成到通过Java实现的业务系统中。下面将对集成方法做一个简单的总结。<br>首先，我们看一下ActiveMQ中的部分核心类：<br><a href="http://magicwt.com/wp-content/uploads/2015/09/195715742.jpg" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2015/09/195715742-300x217.jpg" alt="195715742"></a><br>
+          <p>ActiveMQ是一款基于Java的开源消息服务器产品，因此，我们可以将其集成到通过Java实现的业务系统中。下面将对集成方法做一个简单的总结。<br>首先，我们看一下ActiveMQ中的部分核心类：</p>
+<p><img src="http://magicwt.com/wp-content/uploads/2015/09/195715742.jpg" alt="195715742"><br>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2013/09/12/40/#more" rel="contents">
@@ -1922,9 +1934,7 @@
 
       
         
-          
-          SWFUpload是一款使用Flash和Javascript开发的文件上传工具，最近在使用其实现文件上传功能时，发现从后台返回的中文经常乱码。SWFUpload上传成功后，对后台返回结果的处理方法是：1234function uploadSuccess(file, serverData) &#123
-          ...
+          <p>SWFUpload是一款使用Flash和Javascript开发的文件上传工具，最近在使用其实现文件上传功能时，发现从后台返回的中文经常乱码。<br>SWFUpload上传成功后，对后台返回结果的处理方法是：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">uploadSuccess</span>(<span class="params">file, serverData</span>) </span>&#123;</span><br><span class="line">  ......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2013/09/11/swfupload-e6-96-87-e4-bb-b6-e4-b8-8a-e4-bc-a0-e6-97-b6-e4-bb-8e-e5-90-8e-e5-8f-b0-e8-bf-94-e5-9b-9e-e4-b8-ad-e6-96-87-e4-b9-b1-e7-a0-81-e7-9a-84-e9-97-ae-e9-a2-98/#more" rel="contents">

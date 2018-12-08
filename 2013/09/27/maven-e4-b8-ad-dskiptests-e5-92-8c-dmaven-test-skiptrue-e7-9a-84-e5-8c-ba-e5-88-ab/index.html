@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="在使用mvn package进行编译、打包时，Maven会执行src/test/java中的JUnit测试用例，有时为了跳过测试，会使用参数-DskipTests和-Dmaven.test.skip=true，这两个参数的主要区别是： -DskipTests，不执行测试用例，但编译测试用例类生成相应的class文件至target/test-classes下。 -Dmaven.test.skip=t">
+<meta name="description" content="在使用mvn package进行编译、打包时，Maven会执行src/test/java中的JUnit测试用例，有时为了跳过测试，会使用参数-DskipTests和-Dmaven.test.skip=true，这两个参数的主要区别是：">
 <meta name="keywords" content="Maven">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Maven中-DskipTests和-Dmaven.test.skip=true的区别">
 <meta property="og:url" content="http://yoursite.com/2013/09/27/maven-e4-b8-ad-dskiptests-e5-92-8c-dmaven-test-skiptrue-e7-9a-84-e5-8c-ba-e5-88-ab/index.html">
 <meta property="og:site_name" content="不积跬步，无以至千里">
-<meta property="og:description" content="在使用mvn package进行编译、打包时，Maven会执行src/test/java中的JUnit测试用例，有时为了跳过测试，会使用参数-DskipTests和-Dmaven.test.skip=true，这两个参数的主要区别是： -DskipTests，不执行测试用例，但编译测试用例类生成相应的class文件至target/test-classes下。 -Dmaven.test.skip=t">
+<meta property="og:description" content="在使用mvn package进行编译、打包时，Maven会执行src/test/java中的JUnit测试用例，有时为了跳过测试，会使用参数-DskipTests和-Dmaven.test.skip=true，这两个参数的主要区别是：">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-12-04T10:47:42.319Z">
+<meta property="og:updated_time" content="2018-12-08T05:09:46.284Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Maven中-DskipTests和-Dmaven.test.skip=true的区别">
-<meta name="twitter:description" content="在使用mvn package进行编译、打包时，Maven会执行src/test/java中的JUnit测试用例，有时为了跳过测试，会使用参数-DskipTests和-Dmaven.test.skip=true，这两个参数的主要区别是： -DskipTests，不执行测试用例，但编译测试用例类生成相应的class文件至target/test-classes下。 -Dmaven.test.skip=t">
+<meta name="twitter:description" content="在使用mvn package进行编译、打包时，Maven会执行src/test/java中的JUnit测试用例，有时为了跳过测试，会使用参数-DskipTests和-Dmaven.test.skip=true，这两个参数的主要区别是：">
 
 
 
@@ -395,9 +395,11 @@
       
 
       
-        <p>在使用mvn package进行编译、打包时，Maven会执行src/test/java中的JUnit测试用例，有时为了跳过测试，会使用参数-DskipTests和-Dmaven.test.skip=true，这两个参数的主要区别是：</p>
-<p>-DskipTests，不执行测试用例，但编译测试用例类生成相应的class文件至target/test-classes下。</p>
-<p>-Dmaven.test.skip=true，不执行测试用例，也不编译测试用例类。</p>
+        <p>在使用mvn package进行编译、打包时，Maven会执行src/test/java中的JUnit测试用例，有时为了跳过测试，会使用参数-DskipTests和-Dmaven.test.skip=true，这两个参数的主要区别是：<br><a id="more"></a></p>
+<ul>
+<li>-DskipTests，不执行测试用例，但编译测试用例类生成相应的class文件至target/test-classes下。</li>
+<li>-Dmaven.test.skip=true，不执行测试用例，也不编译测试用例类。</li>
+</ul>
 
       
     </div>

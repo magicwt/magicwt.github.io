@@ -79,13 +79,13 @@
 
 
 
-<meta name="description" content="下面，我们再看看ActiveMQ是如何实现高可用的。ActiveMQ实现高可用有两类方案：第一类方案是构建服务器网络，消息在服务器网络中进行传递，客户端通过failover或discovery连接网络中的一个服务器发送或接收消息，当服务器失效时，客户端自动重连另一个服务器。第二类方案是构建服务器主从集群，在某个时间只有一个服务器作为主对外提供服务，当主服务器失效时，从服务器切换成主服务器对外提供服">
+<meta name="description" content="ActiveMQ高可用性下面，我们再看看ActiveMQ是如何实现高可用的。ActiveMQ实现高可用有两类方案：  第一类方案是构建服务器网络，消息在服务器网络中进行传递，客户端通过failover或discovery连接网络中的一个服务器发送或接收消息，当服务器失效时，客户端自动重连另一个服务器。 第二类方案是构建服务器主从集群，在某个时间只有一个服务器作为主对外提供服务，当主服务器失效时，从">
 <meta name="keywords" content="ActiveMQ">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JMS和ActiveMQ介绍(4)_ActiveMQ">
 <meta property="og:url" content="http://yoursite.com/2013/09/30/jms-e5-92-8cactivemq-e4-bb-8b-e7-bb-8d4-activemq/index.html">
 <meta property="og:site_name" content="不积跬步，无以至千里">
-<meta property="og:description" content="下面，我们再看看ActiveMQ是如何实现高可用的。ActiveMQ实现高可用有两类方案：第一类方案是构建服务器网络，消息在服务器网络中进行传递，客户端通过failover或discovery连接网络中的一个服务器发送或接收消息，当服务器失效时，客户端自动重连另一个服务器。第二类方案是构建服务器主从集群，在某个时间只有一个服务器作为主对外提供服务，当主服务器失效时，从服务器切换成主服务器对外提供服">
+<meta property="og:description" content="ActiveMQ高可用性下面，我们再看看ActiveMQ是如何实现高可用的。ActiveMQ实现高可用有两类方案：  第一类方案是构建服务器网络，消息在服务器网络中进行传递，客户端通过failover或discovery连接网络中的一个服务器发送或接收消息，当服务器失效时，客户端自动重连另一个服务器。 第二类方案是构建服务器主从集群，在某个时间只有一个服务器作为主对外提供服务，当主服务器失效时，从">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://magicwt.com/wp-content/uploads/2013/09/幻灯片37.png">
 <meta property="og:image" content="http://magicwt.com/wp-content/uploads/2013/09/幻灯片38.png">
@@ -100,10 +100,10 @@
 <meta property="og:image" content="http://magicwt.com/wp-content/uploads/2013/09/幻灯片47.png">
 <meta property="og:image" content="http://magicwt.com/wp-content/uploads/2013/09/幻灯片48.png">
 <meta property="og:image" content="http://magicwt.com/wp-content/uploads/2013/09/幻灯片49.png">
-<meta property="og:updated_time" content="2018-12-04T10:47:42.322Z">
+<meta property="og:updated_time" content="2018-12-08T05:08:17.881Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JMS和ActiveMQ介绍(4)_ActiveMQ">
-<meta name="twitter:description" content="下面，我们再看看ActiveMQ是如何实现高可用的。ActiveMQ实现高可用有两类方案：第一类方案是构建服务器网络，消息在服务器网络中进行传递，客户端通过failover或discovery连接网络中的一个服务器发送或接收消息，当服务器失效时，客户端自动重连另一个服务器。第二类方案是构建服务器主从集群，在某个时间只有一个服务器作为主对外提供服务，当主服务器失效时，从服务器切换成主服务器对外提供服">
+<meta name="twitter:description" content="ActiveMQ高可用性下面，我们再看看ActiveMQ是如何实现高可用的。ActiveMQ实现高可用有两类方案：  第一类方案是构建服务器网络，消息在服务器网络中进行传递，客户端通过failover或discovery连接网络中的一个服务器发送或接收消息，当服务器失效时，客户端自动重连另一个服务器。 第二类方案是构建服务器主从集群，在某个时间只有一个服务器作为主对外提供服务，当主服务器失效时，从">
 <meta name="twitter:image" content="http://magicwt.com/wp-content/uploads/2013/09/幻灯片37.png">
 
 
@@ -409,7 +409,56 @@
       
 
       
-        <p><a href="http://magicwt.com/wp-content/uploads/2013/09/幻灯片37.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片37.png" alt="幻灯片37"></a><br>下面，我们再看看ActiveMQ是如何实现高可用的。<br>ActiveMQ实现高可用有两类方案：<br>第一类方案是构建服务器网络，消息在服务器网络中进行传递，客户端通过failover或discovery连接网络中的一个服务器发送或接收消息，当服务器失效时，客户端自动重连另一个服务器。<br>第二类方案是构建服务器主从集群，在某个时间只有一个服务器作为主对外提供服务，当主服务器失效时，从服务器切换成主服务器对外提供服务，客户端自动重连至新的主服务器。<br>MasterSlave有4种具体实现方案，下面将介绍一下前3种，第4种在官网上已有介绍，是基于HahaDBA和Zookeeper的，但目前还不支持该功能。<br><a href="http://magicwt.com/wp-content/uploads/2013/09/幻灯片38.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片38.png" alt="幻灯片38"></a><br>PureMaster Slave需要两个启动两个ActiveMQbroker，主broker不需要做额外配置，从broker中需要作如下配置，在其中设定主broker的连接，这样在从broker启动后，会建立与主broker的连接，并对主broker的消息进行同步。当主broker失败时，从broker自动切换成主broker。<br>另外，在使用PureMaster Slave时，需要客户端使用failover方式连接ActiveMQbroker，并设定randomize的值为false，这样，客户端在连接主broker失败后，会自动尝试连接从broker。<br>PureMaster Slave配置简单，易于实现，之前是ActiveMQ比较推荐的高可用解决方案，但在Pure Master Slave中，消息传送必须经过主、从服务器的确认，另外Pure Master Slave还存在以下不足：<br>1)主服务器只能有一个从服务器；<br>2)主服务器失败重启后，还必须重启从服务器才能恢复主服务器；<br>3) 主、从服务器之间没有自动同步机制。<br>我们在实践中也遇到过由没有自动同步机制导致的问题：有一次使用中我们创建持久订阅者连接服务器，开始时，持久订阅者的状态在主从上是同步的，均为活跃，但在做了一次重启从服务器的操作后，从服务器中原先活跃的持久订阅者变更为了非活跃，与主服务器状态不一致，所以发往主从的消息由于从服务器上订阅者为非活跃状态不消费造成消息阻塞。<br>由于PureMaster Slave具有以上不足，因此在ActiveMQ5.8.0版本中已去掉了该功能。<br><a href="http://magicwt.com/wp-content/uploads/2013/09/幻灯片39.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片39.png" alt="幻灯片39"></a><br>使用基于JDBC的Master Slave时，多个消息服务器实例尝试获取数据库排他锁（exclusive lock），只有一个成功获取锁，对外提供服务，成为主服务器，其他等待。<br>客户端连接采用failover方式，从多个地址中找到当前可用的消息服务器实例并连接。<br>当Master失去排他锁或失去数据库连接时，Master将会关闭，其他服务器实例通过竞争，由一个实例获取锁成为新Master，客户端通过failover重新连接至新Master。<br>原Master在重新启动后成为Slave等待锁。<br>SharedFile System MasterSlave的实现原理与JDBCMaster Slave类似，多个服务器共用一个存储消息的文件系统（SAN）；需要确认文件系统存在文件读写锁，获取读写锁的服务器自动成为主服务器，直至失败放弃读写锁；客户端也是使用failover进行连接。<br><a href="http://magicwt.com/wp-content/uploads/2013/09/幻灯片40.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片40.png" alt="幻灯片40"></a><br>下面是关于ActiveMQ的安全机制。<br>ActiveMQ的安全机制包括两部分：<br>验证，通过访问者的用户名和密码实现用户身份的验证；<br>授权，为消息目标（队列或主题）的读、写、管理指定具有相应权限的用户组，并为用户分配权限。<br>ActiveMQ的安全机制基于插件实现，可以灵活配置。<br>ActiveMQ提供两种验证插件，分别是：<br>1)简单验证插件；<br>2)JAAS验证插件。<br>ActiveMQ提供一种授权插件。<br><a href="http://magicwt.com/wp-content/uploads/2013/09/幻灯片41.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片41.png" alt="幻灯片41"></a><br>以上是简单验证和JAAS验证插件的配置示例，均需要配置用户名、用户组和密码。<br>设置插件后，在创建连接时，需要输入账号和密码。<br>connectionFactory.createConnection(“user”,”password”);<br><a href="http://magicwt.com/wp-content/uploads/2013/09/幻灯片42.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片42.png" alt="幻灯片42"></a><br>以上是授权插件的配置示例，可以设置某一个队列、主题或某一类队列、主题的读、写、管理权限组。<br><a href="http://magicwt.com/wp-content/uploads/2013/09/幻灯片43.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片43.png" alt="幻灯片43"></a><br>下面再通过简单验证插件源码介绍一下ActiveMQ的插件机制以及验证是如何实现的<br>ActiveMQ的插件机制如图所示，主要涉及BrokerPlugin和BrokerFilter这两个接口和类。<br>BrokerPlugin中的installPlugin方法用于安装插件，在installPlugin方法中会传入Broker对象，而BrokerFilter是Broker的实现，在BrokerFilter中包含着一个对Broker的引用next，可以在installPlugin方法中，新建BrokerFilter对象，并将installPlugin方法传入Broker对象赋值给next，这样多个BrokerFilter对象就通过next引用形成链。这与struts中Interceptor的原理是类似的。<br>对于简单验证插件，在SimpleAuthenticationBroker类中，重写了BrokerFilter的addConnnection方法，在新建连接时，若允许匿名访问，则不进行验证，若不允许匿名访问，则验证连接的用户名和密码是否与配置文件中的一致，若不一致，则抛出安全异常。<br><a href="http://magicwt.com/wp-content/uploads/2013/09/幻灯片44.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片44.png" alt="幻灯片44"></a><br>通知信息机制是ActiveMQ服务器通过发布特定的通知消息记录服务器和客户端的操作日志，便于系统监控。另外，ActiveMQ服务器网络之间的通信也是基于通知消息的。<br>发送通知消息的操作有：<br>消费者、生产者和连接的创建和关闭；<br>队列、主题的创建和销毁；<br>消息的过期；<br>消息发送至无消费者的目的地址。<br>通知消息发布至相应的主题上，通知消息的主题有两类：<br>第一类是基于客户端的主题，包括连接、生产者、消费者的创建和关闭，例如连接的创建和关闭消息发布在Connection主题上；<br>第二类是基于目的地址和消息的主题，包括队列、主题的创建和销毁，消息的过期等，例如，队列、主题的创建和销毁消息发布至Queue和Topic主题上。<br><a href="http://magicwt.com/wp-content/uploads/2013/09/幻灯片45.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片45.png" alt="幻灯片45"></a><br>这一页介绍一下有关排他消费者和消息组的相关概念。<br>对于队列，当有多个消费者时，消息服务器将把消息平均地发送给每个消费者，实现负载均衡，但是多个消费者接收、处理消息时并不会在线程上同步，这就导致消息在并发处理时，无法保证消息原有的顺序。<br>排他消费者（Exclusive Consumer）是在多消费者情况下，消息服务器指定一个消费者接收消息，这样可以保证消息的有序性。其他消费者处于等待状态。<br>当原先指定的消费者无法接收消息时，消息服务器将从等待的消费者中再指定一个消费者接收消息。<br>排他消费者可以在多个消费者的情况下，保证消息的有序性，且在单个消费者故障时，能够保证消息继续被消费，但由于每次只有一个消费者消费消息，造成吞吐量低，其他消费者的资源浪费。<br>使用消息组（message group）可以避免排他消费者的不足。<br>消息组是指通过设定消息的JMSXGroupID属性来为消息进行分组，而同一组消息将被发送至同一个消费者进行处理，因此可以保证在多消费者情况下，消息能够有序处理。<br><a href="http://magicwt.com/wp-content/uploads/2013/09/幻灯片46.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片46.png" alt="幻灯片46"></a><br>之前我们讨论过，对于主题，若订阅者不连接，则存在消息丢失，若需要保证消息全部接收，则需要创建持久订阅者，但对于持久订阅者，由于其需要指定ClientID，因此只能保证同一个ClientID只有一个消费者、一个线程访问主题，这就导致以下两个问题：<br>无法实现消息消费的负载均衡；<br>消费者失败时，不能由其他的消费者恢复。<br>如何同时既能实现主题的特性，同一个消息由多个消费者消费，也能实现队列的特性，多消费者实现负载均衡？可以通过使用虚主题解决上述问题。<br>虚主题以VirtualTopic.主题名的形式命名，当配置虚主题后，ActiveMQ可以将该主题映射到以Consumer.队列名.VirtualTopic.主题名的形式命名的队列上，消息生产者仍将消息发送至主题，而ActiveMQ会将消息再转发至队列上，消息消费者通过使用队列接收来自主题的消息，这样就可以启动多个消费者，实现负载均衡。<br>虚主题的配置如下所示。<br><a href="http://magicwt.com/wp-content/uploads/2013/09/幻灯片47.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片47.png" alt="幻灯片47"></a><br>ActiveMQ支持除Java以外的多种语言，包括C/C++，.NET，Perl，PHP，Python，Ruby等，对于脚本语言，一般采用STOMP协议连接ActiveMQ。<br>STOMP是一种类似于HTTP的协议，支持命令有：SEND，SUBSCIRBE，UNSUBSCRIBE等，在使用STOMP连接ActiveMQ时，首先需要在ActiveMQ配置STOMP连接，通常一般占用61613端口。<br>以下分别是Python和PHP使用STOMP连接消息服务器并接收主题消息的示例代码。<br>对于C，ActiveMQ提供C++ API和.NET API，对于Web编程，ActiveMQ提供RESTAPI和AjaxAPI，大家有兴趣可以去尝试一下。<br><a href="http://magicwt.com/wp-content/uploads/2013/09/幻灯片48.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片48.png" alt="幻灯片48"></a><br>在使用消息服务器时，有时候我们不希望ActiveMQ在单独的JVM中运行，而是集成在已有的Java应用中。<br>在Java应用中嵌入ActiveMQ服务器有如下几种方法：<br>创建BrokerService实例；<br>使用BrokerFactory方法创建BrokerService实例。<br><a href="http://magicwt.com/wp-content/uploads/2013/09/幻灯片49.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片49.png" alt="幻灯片49"></a></p>
+        <h2 id="ActiveMQ高可用性"><a href="#ActiveMQ高可用性" class="headerlink" title="ActiveMQ高可用性"></a>ActiveMQ高可用性</h2><p><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片37.png" alt="幻灯片37"><br>下面，我们再看看ActiveMQ是如何实现高可用的。<br>ActiveMQ实现高可用有两类方案：</p>
+<ul>
+<li>第一类方案是构建服务器网络，消息在服务器网络中进行传递，客户端通过failover或discovery连接网络中的一个服务器发送或接收消息，当服务器失效时，客户端自动重连另一个服务器。</li>
+<li>第二类方案是构建服务器主从集群，在某个时间只有一个服务器作为主对外提供服务，当主服务器失效时，从服务器切换成主服务器对外提供服务，客户端自动重连至新的主服务器。</li>
+</ul>
+<p>MasterSlave有4种具体实现方案，下面将介绍一下前3种，第4种在官网上已有介绍，是基于HahaDBA和Zookeeper的，但目前还不支持该功能。<br><a id="more"></a></p>
+<h3 id="PureMaster-Slave"><a href="#PureMaster-Slave" class="headerlink" title="PureMaster Slave"></a>PureMaster Slave</h3><p><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片38.png" alt="幻灯片38"><br>PureMaster Slave需要两个启动两个ActiveMQbroker，主broker不需要做额外配置，从broker中需要作如下配置，在其中设定主broker的连接，这样在从broker启动后，会建立与主broker的连接，并对主broker的消息进行同步。当主broker失败时，从broker自动切换成主broker。<br>另外，在使用PureMaster Slave时，需要客户端使用failover方式连接ActiveMQbroker，并设定randomize的值为false，这样，客户端在连接主broker失败后，会自动尝试连接从broker。<br>PureMaster Slave配置简单，易于实现，之前是ActiveMQ比较推荐的高可用解决方案，但在Pure Master Slave中，消息传送必须经过主、从服务器的确认，另外Pure Master Slave还存在以下不足：</p>
+<ol>
+<li>主服务器只能有一个从服务器；</li>
+<li>主服务器失败重启后，还必须重启从服务器才能恢复主服务器；</li>
+<li>主、从服务器之间没有自动同步机制。</li>
+</ol>
+<p>我们在实践中也遇到过由没有自动同步机制导致的问题：有一次使用中我们创建持久订阅者连接服务器，开始时，持久订阅者的状态在主从上是同步的，均为活跃，但在做了一次重启从服务器的操作后，从服务器中原先活跃的持久订阅者变更为了非活跃，与主服务器状态不一致，所以发往主从的消息由于从服务器上订阅者为非活跃状态不消费造成消息阻塞。<br>由于PureMaster Slave具有以上不足，因此在ActiveMQ5.8.0版本中已去掉了该功能。</p>
+<h3 id="JDBC-Master-Slave"><a href="#JDBC-Master-Slave" class="headerlink" title="JDBC Master Slave"></a>JDBC Master Slave</h3><p><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片39.png" alt="幻灯片39"><br>使用基于JDBC的Master Slave时，多个消息服务器实例尝试获取数据库排他锁（exclusive lock），只有一个成功获取锁，对外提供服务，成为主服务器，其他等待。<br>客户端连接采用failover方式，从多个地址中找到当前可用的消息服务器实例并连接。<br>当Master失去排他锁或失去数据库连接时，Master将会关闭，其他服务器实例通过竞争，由一个实例获取锁成为新Master，客户端通过failover重新连接至新Master。<br>原Master在重新启动后成为Slave等待锁。</p>
+<h3 id="SharedFile-System-Master-Slave"><a href="#SharedFile-System-Master-Slave" class="headerlink" title="SharedFile System Master Slave"></a>SharedFile System Master Slave</h3><p>SharedFile System MasterSlave的实现原理与JDBCMaster Slave类似，多个服务器共用一个存储消息的文件系统（SAN）；需要确认文件系统存在文件读写锁，获取读写锁的服务器自动成为主服务器，直至失败放弃读写锁；客户端也是使用failover进行连接。</p>
+<h2 id="ActiveMQ安全机制"><a href="#ActiveMQ安全机制" class="headerlink" title="ActiveMQ安全机制"></a>ActiveMQ安全机制</h2><p><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片40.png" alt="幻灯片40"><br>下面是关于ActiveMQ的安全机制。<br>ActiveMQ的安全机制包括两部分：</p>
+<ol>
+<li>验证，通过访问者的用户名和密码实现用户身份的验证；</li>
+<li>授权，为消息目标（队列或主题）的读、写、管理指定具有相应权限的用户组，并为用户分配权限。</li>
+</ol>
+<p>ActiveMQ的安全机制基于插件实现，可以灵活配置。<br>ActiveMQ提供两种验证插件，分别是：</p>
+<ol>
+<li>简单验证插件；</li>
+<li>JAAS验证插件。</li>
+</ol>
+<p>ActiveMQ提供一种授权插件。</p>
+<h3 id="验证插件配置"><a href="#验证插件配置" class="headerlink" title="验证插件配置"></a>验证插件配置</h3><p><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片41.png" alt="幻灯片41"><br>以上是简单验证和JAAS验证插件的配置示例，均需要配置用户名、用户组和密码。<br>设置插件后，在创建连接时，需要输入账号和密码。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">connectionFactory.createConnection(“user”,”password”);</span><br></pre></td></tr></table></figure></p>
+<h3 id="授权插件配置"><a href="#授权插件配置" class="headerlink" title="授权插件配置"></a>授权插件配置</h3><p><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片42.png" alt="幻灯片42"><br>以上是授权插件的配置示例，可以设置某一个队列、主题或某一类队列、主题的读、写、管理权限组。</p>
+<h3 id="简单验证插件源码分析"><a href="#简单验证插件源码分析" class="headerlink" title="简单验证插件源码分析"></a>简单验证插件源码分析</h3><p><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片43.png" alt="幻灯片43"><br>下面再通过简单验证插件源码介绍一下ActiveMQ的插件机制以及验证是如何实现的<br>ActiveMQ的插件机制如图所示，主要涉及BrokerPlugin和BrokerFilter这两个接口和类。<br>BrokerPlugin中的installPlugin方法用于安装插件，在installPlugin方法中会传入Broker对象，而BrokerFilter是Broker的实现，在BrokerFilter中包含着一个对Broker的引用next，可以在installPlugin方法中，新建BrokerFilter对象，并将installPlugin方法传入Broker对象赋值给next，这样多个BrokerFilter对象就通过next引用形成链。这与struts中Interceptor的原理是类似的。<br>对于简单验证插件，在SimpleAuthenticationBroker类中，重写了BrokerFilter的addConnnection方法，在新建连接时，若允许匿名访问，则不进行验证，若不允许匿名访问，则验证连接的用户名和密码是否与配置文件中的一致，若不一致，则抛出安全异常。</p>
+<h2 id="通知消息"><a href="#通知消息" class="headerlink" title="通知消息"></a>通知消息</h2><p><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片44.png" alt="幻灯片44"><br>通知信息机制是ActiveMQ服务器通过发布特定的通知消息记录服务器和客户端的操作日志，便于系统监控。另外，ActiveMQ服务器网络之间的通信也是基于通知消息的。<br>发送通知消息的操作有：</p>
+<ul>
+<li>消费者、生产者和连接的创建和关闭；</li>
+<li>队列、主题的创建和销毁；</li>
+<li>消息的过期；</li>
+<li>消息发送至无消费者的目的地址。</li>
+</ul>
+<p>通知消息发布至相应的主题上，通知消息的主题有两类：</p>
+<ul>
+<li>第一类是基于客户端的主题，包括连接、生产者、消费者的创建和关闭，例如连接的创建和关闭消息发布在Connection主题上；</li>
+<li>第二类是基于目的地址和消息的主题，包括队列、主题的创建和销毁，消息的过期等，例如，队列、主题的创建和销毁消息发布至Queue和Topic主题上。</li>
+</ul>
+<h2 id="ActiveMQ消息组"><a href="#ActiveMQ消息组" class="headerlink" title="ActiveMQ消息组"></a>ActiveMQ消息组</h2><p><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片45.png" alt="幻灯片45"><br>这一页介绍一下有关排他消费者和消息组的相关概念。<br>对于队列，当有多个消费者时，消息服务器将把消息平均地发送给每个消费者，实现负载均衡，但是多个消费者接收、处理消息时并不会在线程上同步，这就导致消息在并发处理时，无法保证消息原有的顺序。<br>排他消费者（Exclusive Consumer）是在多消费者情况下，消息服务器指定一个消费者接收消息，这样可以保证消息的有序性。其他消费者处于等待状态。<br>当原先指定的消费者无法接收消息时，消息服务器将从等待的消费者中再指定一个消费者接收消息。<br>排他消费者可以在多个消费者的情况下，保证消息的有序性，且在单个消费者故障时，能够保证消息继续被消费，但由于每次只有一个消费者消费消息，造成吞吐量低，其他消费者的资源浪费。<br>使用消息组（message group）可以避免排他消费者的不足。<br>消息组是指通过设定消息的JMSXGroupID属性来为消息进行分组，而同一组消息将被发送至同一个消费者进行处理，因此可以保证在多消费者情况下，消息能够有序处理。</p>
+<h2 id="ActiveMQ虚主题"><a href="#ActiveMQ虚主题" class="headerlink" title="ActiveMQ虚主题"></a>ActiveMQ虚主题</h2><p><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片46.png" alt="幻灯片46"><br>之前我们讨论过，对于主题，若订阅者不连接，则存在消息丢失，若需要保证消息全部接收，则需要创建持久订阅者，但对于持久订阅者，由于其需要指定ClientID，因此只能保证同一个ClientID只有一个消费者、一个线程访问主题，这就导致以下两个问题：</p>
+<ol>
+<li>无法实现消息消费的负载均衡；</li>
+<li>消费者失败时，不能由其他的消费者恢复。</li>
+</ol>
+<p>如何同时既能实现主题的特性，同一个消息由多个消费者消费，也能实现队列的特性，多消费者实现负载均衡？可以通过使用虚主题解决上述问题。<br>虚主题以VirtualTopic.主题名的形式命名，当配置虚主题后，ActiveMQ可以将该主题映射到以Consumer.队列名.VirtualTopic.主题名的形式命名的队列上，消息生产者仍将消息发送至主题，而ActiveMQ会将消息再转发至队列上，消息消费者通过使用队列接收来自主题的消息，这样就可以启动多个消费者，实现负载均衡。<br>虚主题的配置如图所示。</p>
+<h2 id="ActiveMQ多语言支持"><a href="#ActiveMQ多语言支持" class="headerlink" title="ActiveMQ多语言支持"></a>ActiveMQ多语言支持</h2><p><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片47.png" alt="幻灯片47"><br>ActiveMQ支持除Java以外的多种语言，包括C/C++，.NET，Perl，PHP，Python，Ruby等，对于脚本语言，一般采用STOMP协议连接ActiveMQ。<br>STOMP是一种类似于HTTP的协议，支持命令有：SEND，SUBSCIRBE，UNSUBSCRIBE等，在使用STOMP连接ActiveMQ时，首先需要在ActiveMQ配置STOMP连接，通常一般占用61613端口。<br>以下分别是Python和PHP使用STOMP连接消息服务器并接收主题消息的示例代码。<br>对于C，ActiveMQ提供C++ API和.NET API，对于Web编程，ActiveMQ提供RESTAPI和AjaxAPI，大家有兴趣可以去尝试一下。</p>
+<h2 id="在Java应用中嵌入ActiveMQ服务器"><a href="#在Java应用中嵌入ActiveMQ服务器" class="headerlink" title="在Java应用中嵌入ActiveMQ服务器"></a>在Java应用中嵌入ActiveMQ服务器</h2><p><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片48.png" alt="幻灯片48"><br>在使用消息服务器时，有时候我们不希望ActiveMQ在单独的JVM中运行，而是集成在已有的Java应用中。<br>在Java应用中嵌入ActiveMQ服务器有如下几种方法：<br>创建BrokerService实例；<br>使用BrokerFactory方法创建BrokerService实例。<br><img src="http://magicwt.com/wp-content/uploads/2013/09/幻灯片49.png" alt="幻灯片49"></p>
 
       
     </div>
@@ -507,8 +556,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -586,6 +644,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ActiveMQ高可用性"><span class="nav-number">1.</span> <span class="nav-text">ActiveMQ高可用性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#PureMaster-Slave"><span class="nav-number">1.1.</span> <span class="nav-text">PureMaster Slave</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JDBC-Master-Slave"><span class="nav-number">1.2.</span> <span class="nav-text">JDBC Master Slave</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SharedFile-System-Master-Slave"><span class="nav-number">1.3.</span> <span class="nav-text">SharedFile System Master Slave</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ActiveMQ安全机制"><span class="nav-number">2.</span> <span class="nav-text">ActiveMQ安全机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#验证插件配置"><span class="nav-number">2.1.</span> <span class="nav-text">验证插件配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#授权插件配置"><span class="nav-number">2.2.</span> <span class="nav-text">授权插件配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#简单验证插件源码分析"><span class="nav-number">2.3.</span> <span class="nav-text">简单验证插件源码分析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通知消息"><span class="nav-number">3.</span> <span class="nav-text">通知消息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ActiveMQ消息组"><span class="nav-number">4.</span> <span class="nav-text">ActiveMQ消息组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ActiveMQ虚主题"><span class="nav-number">5.</span> <span class="nav-text">ActiveMQ虚主题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ActiveMQ多语言支持"><span class="nav-number">6.</span> <span class="nav-text">ActiveMQ多语言支持</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在Java应用中嵌入ActiveMQ服务器"><span class="nav-number">7.</span> <span class="nav-text">在Java应用中嵌入ActiveMQ服务器</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

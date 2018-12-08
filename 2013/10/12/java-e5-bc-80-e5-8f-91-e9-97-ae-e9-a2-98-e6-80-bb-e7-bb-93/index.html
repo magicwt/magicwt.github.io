@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="最近在做开发时，遇到了以下四个问题，总结一下。 1.Nginx+Struts中上传文件的大小限制。 在上传文件时，若文件太大会出现上传失败。我们的Web应用前端代理使用了Nginx，MVC使用了Struts，通过检查，发现在Nginx和Struts中对于上传文件的大小都做了限制。 在Nginx的http模块配置中，client_max_body_size这个参数用于表示http请求body最大值，">
+<meta name="description" content="最近在做开发时，遇到了以下四个问题，总结一下。 Nginx+Struts中上传文件的大小限制。在上传文件时，若文件太大会出现上传失败。我们的Web应用前端代理使用了Nginx，MVC使用了Struts，通过检查，发现在Nginx和Struts中对于上传文件的大小都做了限制。在Nginx的http模块配置中，client_max_body_size这个参数用于表示http请求body最大值，由于文件">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java开发问题总结">
 <meta property="og:url" content="http://yoursite.com/2013/10/12/java-e5-bc-80-e5-8f-91-e9-97-ae-e9-a2-98-e6-80-bb-e7-bb-93/index.html">
 <meta property="og:site_name" content="不积跬步，无以至千里">
-<meta property="og:description" content="最近在做开发时，遇到了以下四个问题，总结一下。 1.Nginx+Struts中上传文件的大小限制。 在上传文件时，若文件太大会出现上传失败。我们的Web应用前端代理使用了Nginx，MVC使用了Struts，通过检查，发现在Nginx和Struts中对于上传文件的大小都做了限制。 在Nginx的http模块配置中，client_max_body_size这个参数用于表示http请求body最大值，">
+<meta property="og:description" content="最近在做开发时，遇到了以下四个问题，总结一下。 Nginx+Struts中上传文件的大小限制。在上传文件时，若文件太大会出现上传失败。我们的Web应用前端代理使用了Nginx，MVC使用了Struts，通过检查，发现在Nginx和Struts中对于上传文件的大小都做了限制。在Nginx的http模块配置中，client_max_body_size这个参数用于表示http请求body最大值，由于文件">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-12-04T10:47:42.321Z">
+<meta property="og:updated_time" content="2018-12-08T04:04:29.435Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java开发问题总结">
-<meta name="twitter:description" content="最近在做开发时，遇到了以下四个问题，总结一下。 1.Nginx+Struts中上传文件的大小限制。 在上传文件时，若文件太大会出现上传失败。我们的Web应用前端代理使用了Nginx，MVC使用了Struts，通过检查，发现在Nginx和Struts中对于上传文件的大小都做了限制。 在Nginx的http模块配置中，client_max_body_size这个参数用于表示http请求body最大值，">
+<meta name="twitter:description" content="最近在做开发时，遇到了以下四个问题，总结一下。 Nginx+Struts中上传文件的大小限制。在上传文件时，若文件太大会出现上传失败。我们的Web应用前端代理使用了Nginx，MVC使用了Struts，通过检查，发现在Nginx和Struts中对于上传文件的大小都做了限制。在Nginx的http模块配置中，client_max_body_size这个参数用于表示http请求body最大值，由于文件">
 
 
 
@@ -395,37 +395,25 @@
 
       
         <p>最近在做开发时，遇到了以下四个问题，总结一下。</p>
-<p>1.Nginx+Struts中上传文件的大小限制。</p>
-<p>在上传文件时，若文件太大会出现上传失败。我们的Web应用前端代理使用了Nginx，MVC使用了Struts，通过检查，发现在Nginx和Struts中对于上传文件的大小都做了限制。</p>
-<p>在Nginx的http模块配置中，client_max_body_size这个参数用于表示http请求body最大值，由于文件也是以二进制形式存储于body中，因此client_max_body_size也限制了上传文件的大小，当上传文件较大时，可适当调大该值。</p>
+<h2 id="Nginx-Struts中上传文件的大小限制。"><a href="#Nginx-Struts中上传文件的大小限制。" class="headerlink" title="Nginx+Struts中上传文件的大小限制。"></a>Nginx+Struts中上传文件的大小限制。</h2><p>在上传文件时，若文件太大会出现上传失败。我们的Web应用前端代理使用了Nginx，MVC使用了Struts，通过检查，发现在Nginx和Struts中对于上传文件的大小都做了限制。<br>在Nginx的http模块配置中，client_max_body_size这个参数用于表示http请求body最大值，由于文件也是以二进制形式存储于body中，因此client_max_body_size也限制了上传文件的大小，当上传文件较大时，可适当调大该值。<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">http</span> &#123;</span><br><span class="line">  ...</span><br><span class="line">  <span class="attribute">client_max_body_size</span> <span class="number">20m</span>;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p>在Struts中，对于上传文件大小也有限制，默认大小为2M，可以在Struts配置文件中修改该默认配置。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">constant</span> <span class="attr">name</span>=<span class="string">"struts.multipart.maxSize"</span> <span class="attr">value</span>=<span class="string">"104857600"</span>/&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="Nginx代理对于请求响应超时时间的设置。"><a href="#Nginx代理对于请求响应超时时间的设置。" class="headerlink" title="Nginx代理对于请求响应超时时间的设置。"></a>Nginx代理对于请求响应超时时间的设置。</h2><p>外部应用调用我们提供的http接口时，有时会返回504错误，但查看我们的应用日志，请求是被正确执行了，再查看Nginx配置，发现在Nginx代理配置中，proxy_read_timeout这个参数用于表示Nginx转发请求至实际应用后等待响应的时间，若超过该时间，则向客户端返回超时错误，通过适当调大该值解决问题。</p>
+<h2 id="同一个应用部署在不同服务器上导致的乱码问题。"><a href="#同一个应用部署在不同服务器上导致的乱码问题。" class="headerlink" title="同一个应用部署在不同服务器上导致的乱码问题。"></a>同一个应用部署在不同服务器上导致的乱码问题。</h2><p>为了实现高可用，我们将同一个应用部署在两台服务器上，前端通过Nginx实现负载均衡。启动后，发现应用有一个功能存在乱码问题，该功能是接收客户端传来的GBK编码字符串，并调用另一文件服务接口写到另一个服务器的磁盘中。我们发现该乱码问题只在客户端请求转发至这两台服务器上中的其中一台时存在。<br>通过检查发现，应用在接收客户端传来的GBK编码字符串时，会调用字符串的getByte()方法，进行解码，而getByte()方法在不指定编码格式时，会使用服务器的默认编码，而这两台服务器中，一台服务器的默认编码是GBK，能正确解码，另一台服务器的默认编码是UTF-8，则不能正确解码。<br>后来的解决方法是：由于应用是部署在resin容器中，因此修改resin的配置文件，在jvm参数配置中，指定服务器的默认编码为GBK。</p>
 <blockquote>
-<p>http {</p>
-<p> …</p>
-<p> client_max_body_size 20m;</p>
-<p> …</p>
-<p>}<br>在Struts中，对于上传文件大小也有限制，默认大小为2M，可以在Struts配置文件中修改该默认配置。</p>
-<p><constant name="struts.multipart.maxSize" value="104857600"><br>2.Nginx代理对于请求响应超时时间的设置。</constant></p>
+<p>\&lt;jvm-arg>-Dfile.encoding=GBK\&lt;/jvm-arg></p>
 </blockquote>
-<p>外部应用调用我们提供的http接口时，有时会返回504错误，但查看我们的应用日志，请求是被正确执行了，再查看Nginx配置，发现在Nginx代理配置中，proxy_read_timeout这个参数用于表示Nginx转发请求至实际应用后等待响应的时间，若超过该时间，则向客户端返回超时错误，通过适当调大该值解决问题。</p>
-<p>3.同一个应用部署在不同服务器上导致的乱码问题。</p>
-<p>为了实现高可用，我们将同一个应用部署在两台服务器上，前端通过Nginx实现负载均衡。启动后，发现应用有一个功能存在乱码问题，该功能是接收客户端传来的GBK编码字符串，并调用另一文件服务接口写到另一个服务器的磁盘中。我们发现该乱码问题只在客户端请求转发至这两台服务器上中的其中一台时存在。</p>
-<p>通过检查发现，应用在接收客户端传来的GBK编码字符串时，会调用字符串的getByte()方法，进行解码，而getByte()方法在不指定编码格式时，会使用服务器的默认编码，而这两台服务器中，一台服务器的默认编码是GBK，能正确解码，另一台服务器的默认编码是UTF-8，则不能正确解码。</p>
-<p>后来的解决方法是：由于应用是部署在resin容器中，因此修改resin的配置文件，在jvm参数配置中，指定服务器的默认编码为GBK。</p>
-<blockquote>
-<p><jvm-arg>-Dfile.encoding=GBK</jvm-arg><br>4.Web应用负载过高</p>
+<h2 id="Web应用负载过高"><a href="#Web应用负载过高" class="headerlink" title="Web应用负载过高"></a>Web应用负载过高</h2><p>有一个Java Web应用部署在resin容器中，每隔一端时间，会导致服务器负载过高，但查看后台并没有报错信息，因而以前每次只能通过重启应用来解决该问题。<br>后来在网上找到一个解决该类问题的方法：</p>
+<ol>
+<li>使用ps查看应用的进程id；</li>
+<li>使用“top -H -p 进程id”查看进程中的线程列表，排在前面的线程占CPU较高；</li>
+<li>使用“jstack 进程id”dump Java进程使用情况；</li>
+<li>从Java进程dump中找到在2)中排在前面占CPU较高的线程，需要注意的是2)中的线程号是十进制，而3)中的线程号是十六进制，需要做一下转换，我们找到的占CPU较高的线程在dump中如下：<blockquote>
+<p>“http–8080-37$65442827” daemon prio=10 tid=0x00002aaabc0f3000 nid=0x2c53 runnable [0x000000004517b000]<br>java.lang.Thread.State: RUNNABLE<br>at java.util.HashMap.get(HashMap.java:303)<br>at com.sohu.cms.auth.impl.AuthenticationImpl.hasAction(AuthenticationImpl.java:170)<br>at com.sohu.cms.webapp.util.AuthenticationInterceptor.intercept(AuthenticationInterceptor.java:62)</p>
 </blockquote>
-<p>有一个Java Web应用部署在resin容器中，每隔一端时间，会导致服务器负载过高，但查看后台并没有报错信息，因而以前每次只能通过重启应用来解决该问题。</p>
-<p>后来在网上找到一个解决该类问题的方法：</p>
-<p>1)使用ps查看应用的进程id；</p>
-<p>2)使用“top -H -p 进程id”查看进程中的线程列表，排在前面的线程占CPU较高；</p>
-<p>3)使用“jstack 进程id”dump Java进程使用情况；</p>
-<p>4)从Java进程dump中找到在2)中排在前面占CPU较高的线程，需要注意的是2)中的线程号是十进制，而3)中的线程号是十六进制，需要做一下转换，我们找到的占CPU较高的线程在dump中如下：</p>
-<p><table border="1" width="691"></table></p>
-<p><tbody></tbody></p>
-<p><tr></tr></p>
-<p><td valign="top" width="671">“http–8080-37$65442827” daemon prio=10 tid=0x00002aaabc0f3000 nid=0x2c53 runnable [0x000000004517b000]<br>java.lang.Thread.State: RUNNABLE<br>at java.util.HashMap.get(HashMap.java:303)<br>at com.sohu.cms.auth.impl.AuthenticationImpl.hasAction(AuthenticationImpl.java:170)<br>at com.sohu.cms.webapp.util.AuthenticationInterceptor.intercept(AuthenticationInterceptor.java:62)</td><br><br><br><br>发现问题发生在HashMap，这里我们定义了一个static HashMap对象，在多个客户端发起请求时，会并发访问该HashMap对象时，由于HashMap并不是线程安全的，因而可能会引起问题。我们在网上找到一个问题现象和原因和我们类似的例子：<a href="http://shuaijie506.iteye.com/blog/1815213，其中提到问题根本原因是HashMap在resize时会造成死循环。" target="_blank" rel="noopener">http://shuaijie506.iteye.com/blog/1815213，其中提到问题根本原因是HashMap在resize时会造成死循环。</a></p>
-<p>后来的解决方案是我们使用线程安全的ConcurrentHashMap来替代HashMap。</p>
-<p>&nbsp;</p>
+</li>
+</ol>
+<p>发现问题发生在HashMap，这里我们定义了一个static HashMap对象，在多个客户端发起请求时，会并发访问该HashMap对象时，由于HashMap并不是线程安全的，因而可能会引起问题。我们在网上找到一个问题现象和原因和我们类似的例子：<a href="http://shuaijie506.iteye.com/blog/1815213" target="_blank" rel="noopener">http://shuaijie506.iteye.com/blog/1815213</a> ，其中提到问题根本原因是HashMap在resize时会造成死循环。<br>后来的解决方案是我们使用线程安全的ConcurrentHashMap来替代HashMap。</p>
 
       
     </div>
@@ -517,8 +505,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -596,6 +593,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Nginx-Struts中上传文件的大小限制。"><span class="nav-number">1.</span> <span class="nav-text">Nginx+Struts中上传文件的大小限制。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nginx代理对于请求响应超时时间的设置。"><span class="nav-number">2.</span> <span class="nav-text">Nginx代理对于请求响应超时时间的设置。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#同一个应用部署在不同服务器上导致的乱码问题。"><span class="nav-number">3.</span> <span class="nav-text">同一个应用部署在不同服务器上导致的乱码问题。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Web应用负载过高"><span class="nav-number">4.</span> <span class="nav-text">Web应用负载过高</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

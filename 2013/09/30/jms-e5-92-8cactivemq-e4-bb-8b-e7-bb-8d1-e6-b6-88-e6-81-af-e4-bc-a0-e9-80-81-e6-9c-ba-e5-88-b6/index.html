@@ -79,25 +79,22 @@
 
 
 
-<meta name="description" content="前一段在组内做过一次有关《JMS和ActiveMQ介绍》的技术分享，今天把幻灯片整理了一下，希望和大家多交流。JMS，java消息服务是由Sun提出的一套消息传送API规范，而ActiveMQ是一款开源的消息服务器产品。消息传送机制是在多个系统之间引入消息服务器，由消息服务器接收来自各系统的消息并将消息转发到相应的系统上，以实现各系统之间的通信。而在每个系统中，应用程序通过调用消息传送API来进行">
+<meta name="description" content="JMS，java消息服务是由Sun提出的一套消息传送API规范，而ActiveMQ是一款开源的消息服务器产品，前一段在组内做过一次有关《JMS和ActiveMQ介绍》的技术分享，今天把幻灯片整理了一下，希望和大家多交流。 什么是消息传送机制消息传送机制是在多个系统之间引入消息服务器，由消息服务器接收来自各系统的消息并将消息转发到相应的系统上，以实现各系统之间的通信。而在每个系统中，应用程序通过调用">
 <meta name="keywords" content="ActiveMQ">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JMS和ActiveMQ介绍(1)_消息传送机制">
 <meta property="og:url" content="http://yoursite.com/2013/09/30/jms-e5-92-8cactivemq-e4-bb-8b-e7-bb-8d1-e6-b6-88-e6-81-af-e4-bc-a0-e9-80-81-e6-9c-ba-e5-88-b6/index.html">
 <meta property="og:site_name" content="不积跬步，无以至千里">
-<meta property="og:description" content="前一段在组内做过一次有关《JMS和ActiveMQ介绍》的技术分享，今天把幻灯片整理了一下，希望和大家多交流。JMS，java消息服务是由Sun提出的一套消息传送API规范，而ActiveMQ是一款开源的消息服务器产品。消息传送机制是在多个系统之间引入消息服务器，由消息服务器接收来自各系统的消息并将消息转发到相应的系统上，以实现各系统之间的通信。而在每个系统中，应用程序通过调用消息传送API来进行">
+<meta property="og:description" content="JMS，java消息服务是由Sun提出的一套消息传送API规范，而ActiveMQ是一款开源的消息服务器产品，前一段在组内做过一次有关《JMS和ActiveMQ介绍》的技术分享，今天把幻灯片整理了一下，希望和大家多交流。 什么是消息传送机制消息传送机制是在多个系统之间引入消息服务器，由消息服务器接收来自各系统的消息并将消息转发到相应的系统上，以实现各系统之间的通信。而在每个系统中，应用程序通过调用">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片1.png">
-<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片2.png">
-<meta property="og:image" content="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片3.png">
 <meta property="og:image" content="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片4.png">
 <meta property="og:image" content="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片5.png">
 <meta property="og:image" content="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片6.png">
-<meta property="og:updated_time" content="2018-12-04T10:47:42.321Z">
+<meta property="og:updated_time" content="2018-12-08T04:17:45.595Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JMS和ActiveMQ介绍(1)_消息传送机制">
-<meta name="twitter:description" content="前一段在组内做过一次有关《JMS和ActiveMQ介绍》的技术分享，今天把幻灯片整理了一下，希望和大家多交流。JMS，java消息服务是由Sun提出的一套消息传送API规范，而ActiveMQ是一款开源的消息服务器产品。消息传送机制是在多个系统之间引入消息服务器，由消息服务器接收来自各系统的消息并将消息转发到相应的系统上，以实现各系统之间的通信。而在每个系统中，应用程序通过调用消息传送API来进行">
-<meta name="twitter:image" content="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片1.png">
+<meta name="twitter:description" content="JMS，java消息服务是由Sun提出的一套消息传送API规范，而ActiveMQ是一款开源的消息服务器产品，前一段在组内做过一次有关《JMS和ActiveMQ介绍》的技术分享，今天把幻灯片整理了一下，希望和大家多交流。 什么是消息传送机制消息传送机制是在多个系统之间引入消息服务器，由消息服务器接收来自各系统的消息并将消息转发到相应的系统上，以实现各系统之间的通信。而在每个系统中，应用程序通过调用">
+<meta name="twitter:image" content="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片4.png">
 
 
 
@@ -402,7 +399,42 @@
       
 
       
-        <p>前一段在组内做过一次有关《JMS和ActiveMQ介绍》的技术分享，今天把幻灯片整理了一下，希望和大家多交流。<br><a href="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片1.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片1.png" alt="1幻灯片1"></a><br>JMS，java消息服务是由Sun提出的一套消息传送API规范，而ActiveMQ是一款开源的消息服务器产品。<br><a href="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片2.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片2.png" alt="1幻灯片2"></a><br><a href="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片3.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片3.png" alt="1幻灯片3"></a><br><a href="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片4.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片4.png" alt="1幻灯片4"></a><br>消息传送机制是在多个系统之间引入消息服务器，由消息服务器接收来自各系统的消息并将消息转发到相应的系统上，以实现各系统之间的通信。<br>而在每个系统中，应用程序通过调用消息传送API来进行消息的发送和接收，消息传送API再通过各消息服务器所对应的消息传送客户端将消息发送至服务器或从服务器接收消息。<br>目前，消息服务器产品中，<br>属于商业软件的有：IBM WebSphere MQ、SonicMQ、Microsoft Message Queuing（mSMQ）；<br>属于开源软件的有：ActiveMQ、OpenMQ、RabbitMQ。<br>虽然消息服务器产品较多，但基本遵循同一个消息传送API规范，即JMS（Java Message Service，Java消息服务）:<br>1）JMS是由Sun发起创建；<br>2）它与JDBC类似，只定义消息传送的相关接口，由消息服务器产品自己实现相应的接口功能；<br>因此，在使用不同的消息服务器产品时，系统中的应用程序可以使用同一个消息传送API。<br><a href="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片5.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片5.png" alt="1幻灯片5"></a><br>消息传送机制具有以下优点：<br>1）可以实现异构集成，不同平台、不同语言的系统可以通过消息进行通信，实现集成。例如，ActiveMQ支持多语言，除Java以外，还包括C、PHP、Python。<br>2）可以缓解系统瓶颈，当系统同步处理的请求数量增大时，会造成请求阻塞，如果使用消息传送机制，可以将请求以消息方式发送至消息服务器，并由多个请求处理模块接收消息进行并发处理。<br>3）可以提高可伸缩性，这个与缓解系统瓶颈类似，通过增加或减少消息接收者来控制并发处理的能力，提高可伸缩性。<br>4）可以提高最终用户生产率，这是因为使用消息传送机制时，可以对请求进行异步处理，请求以消息方式发送至消息服务器后，最终用户无需同步等待请求返回结果。<br>5）体系结构灵活性和敏捷性，我们知道系统设计的一个基本原则就是高内聚、低耦合，通过引入消息传送机制，各系统服务以消息的形式抽象出来，减少系统之间的耦合，提高系统结构灵活性和敏捷性。<br><a href="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片6.png" target="_blank" rel="noopener"><img src="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片6.png" alt="1幻灯片6"></a><br>首先，先引入以下概念：<br>JMS提供者（Provider），消息服务器；<br>目的地（Destination、Queue、Topic），消息在JMS提供者中的目的地；<br>生产者（Producer、Sender、Publisher），发送消息；<br>消费者（Consumer、Receiver、Subscriber），接收消息。<br>两种消息传送模型：<br>队列（一对一）：<br>基于拉取（Pull）或基于轮询（polling）；<br>发送到队列的消息被一个而且仅仅一个接收者所接收，即使有多个接收者在一个队列中侦听同一消息；<br>既支持异步“即发即弃”消息传送方式，又支持同步请求/应答消息传送方式；<br>支持负载均衡。<br>主题（一对多）：<br>基于推送（push）的模型，其中消息自动地向消费者广播，它们无须请求或轮询主题来获得新消息。</p>
+        <p>JMS，java消息服务是由Sun提出的一套消息传送API规范，而ActiveMQ是一款开源的消息服务器产品，前一段在组内做过一次有关《JMS和ActiveMQ介绍》的技术分享，今天把幻灯片整理了一下，希望和大家多交流。</p>
+<h2 id="什么是消息传送机制"><a href="#什么是消息传送机制" class="headerlink" title="什么是消息传送机制"></a>什么是消息传送机制</h2><p><img src="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片4.png" alt="1幻灯片4"><br>消息传送机制是在多个系统之间引入消息服务器，由消息服务器接收来自各系统的消息并将消息转发到相应的系统上，以实现各系统之间的通信。<br>而在每个系统中，应用程序通过调用消息传送API来进行消息的发送和接收，消息传送API再通过各消息服务器所对应的消息传送客户端将消息发送至服务器或从服务器接收消息。<br>目前，消息服务器产品中，<br>属于商业软件的有：IBM WebSphere MQ、SonicMQ、Microsoft Message Queuing（mSMQ）；<br>属于开源软件的有：ActiveMQ、OpenMQ、RabbitMQ。<br>虽然消息服务器产品较多，但基本遵循同一个消息传送API规范，即JMS（Java Message Service，Java消息服务）:</p>
+<ol>
+<li>JMS是由Sun发起创建；</li>
+<li>它与JDBC类似，只定义消息传送的相关接口，由消息服务器产品自己实现相应的接口功能；</li>
+</ol>
+<p>因此，在使用不同的消息服务器产品时，系统中的应用程序可以使用同一个消息传送API。<br><a id="more"></a></p>
+<h2 id="消息传送机制的优点"><a href="#消息传送机制的优点" class="headerlink" title="消息传送机制的优点"></a>消息传送机制的优点</h2><p><img src="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片5.png" alt="1幻灯片5"><br>消息传送机制具有以下优点：</p>
+<ol>
+<li>可以实现异构集成，不同平台、不同语言的系统可以通过消息进行通信，实现集成。例如，ActiveMQ支持多语言，除Java以外，还包括C、PHP、Python。</li>
+<li>可以缓解系统瓶颈，当系统同步处理的请求数量增大时，会造成请求阻塞，如果使用消息传送机制，可以将请求以消息方式发送至消息服务器，并由多个请求处理模块接收消息进行并发处理。</li>
+<li>可以提高可伸缩性，这个与缓解系统瓶颈类似，通过增加或减少消息接收者来控制并发处理的能力，提高可伸缩性。</li>
+<li>可以提高最终用户生产率，这是因为使用消息传送机制时，可以对请求进行异步处理，请求以消息方式发送至消息服务器后，最终用户无需同步等待请求返回结果。</li>
+<li>体系结构灵活性和敏捷性，我们知道系统设计的一个基本原则就是高内聚、低耦合，通过引入消息传送机制，各系统服务以消息的形式抽象出来，减少系统之间的耦合，提高系统结构灵活性和敏捷性。</li>
+</ol>
+<h2 id="消息传送模型"><a href="#消息传送模型" class="headerlink" title="消息传送模型"></a>消息传送模型</h2><p><img src="http://magicwt.com/wp-content/uploads/2013/09/1幻灯片6.png" alt="1幻灯片6"><br>首先，先引入以下概念：</p>
+<ul>
+<li>JMS提供者（Provider），消息服务器；</li>
+<li>目的地（Destination、Queue、Topic），消息在JMS提供者中的目的地；</li>
+<li>生产者（Producer、Sender、Publisher），发送消息；</li>
+<li>消费者（Consumer、Receiver、Subscriber），接收消息。</li>
+</ul>
+<p>两种消息传送模型：</p>
+<ul>
+<li>队列（一对一）：<ul>
+<li>基于拉取（Pull）或基于轮询（polling）；</li>
+<li>发送到队列的消息被一个而且仅仅一个接收者所接收，即使有多个接收者在一个队列中侦听同一消息；</li>
+<li>既支持异步“即发即弃”消息传送方式，又支持同步请求/应答消息传送方式；</li>
+<li>支持负载均衡。</li>
+</ul>
+</li>
+<li>主题（一对多）：<ul>
+<li>基于推送（push）的模型，其中消息自动地向消费者广播，它们无须请求或轮询主题来获得新消息。</li>
+</ul>
+</li>
+</ul>
 
       
     </div>
@@ -500,8 +532,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -579,6 +620,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是消息传送机制"><span class="nav-number">1.</span> <span class="nav-text">什么是消息传送机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#消息传送机制的优点"><span class="nav-number">2.</span> <span class="nav-text">消息传送机制的优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#消息传送模型"><span class="nav-number">3.</span> <span class="nav-text">消息传送模型</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
